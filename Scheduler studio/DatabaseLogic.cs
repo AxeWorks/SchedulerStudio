@@ -30,7 +30,6 @@ namespace Scheduler_studio
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
         }
