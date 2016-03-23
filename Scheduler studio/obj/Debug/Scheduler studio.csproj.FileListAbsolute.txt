@@ -13,6 +13,6 @@ Z:\Dox\Documents\GitHub\Scheduler-studio\Scheduler studio\Scheduler studio\obj\D
 Z:\Dox\Documents\GitHub\Scheduler-studio\Scheduler studio\Scheduler studio\obj\Debug\Scheduler studio.csproj.GenerateResource.Cache
 Z:\Dox\Documents\GitHub\Scheduler-studio\Scheduler studio\Scheduler studio\obj\Debug\Scheduler studio.exe
 Z:\Dox\Documents\GitHub\Scheduler-studio\Scheduler studio\Scheduler studio\obj\Debug\Scheduler studio.pdb
-Z:\Dox\Documents\GitHub\SchedulerStudio\Scheduler studio\Scheduler studio\bin\Debug\Scheduler studio.exe.config
-Z:\Dox\Documents\GitHub\SchedulerStudio\Scheduler studio\Scheduler studio\obj\Debug\Scheduler studio.exe
-Z:\Dox\Documents\GitHub\SchedulerStudio\Scheduler studio\Scheduler studio\obj\Debug\Scheduler studio.pdb
+Z:\Dox\Documents\GitHub\SchedulerStudio\Scheduler studio\bin\Debug\Scheduler studio.exe.config
+Z:\Dox\Documents\GitHub\SchedulerStudio\Scheduler studio\obj\Debug\Scheduler studio.exe
+Z:\Dox\Documents\GitHub\SchedulerStudio\Scheduler studio\obj\Debug\Scheduler studio.pdb
