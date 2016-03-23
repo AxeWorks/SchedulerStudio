@@ -92,9 +92,7 @@ namespace Scheduler_studio
         {
             try
             {
-                dt = DBWorker.GetAllWorkersData();
-                dv = dt.DefaultView;
-                dgWorkerList.DataContext = dv;
+                RefreshWorkers();
             }
             catch (Exception ex)
             {
@@ -114,6 +112,13 @@ namespace Scheduler_studio
             }
         }
 
+        private void RefreshWorkers()
+        {
+            dt = DBWorker.GetAllWorkersData();
+            dv = dt.DefaultView;
+            dgWorkerList.ItemsSource = dv;
+        }
+
         /* private void dgWorkerList_SelectionChanged(object sender, SelectionChangedEventArgs e)
          {
              try
@@ -127,20 +132,7 @@ namespace Scheduler_studio
          }
 
 
-         private void btnAddWorker_Click(object sender, RoutedEventArgs e)
-         {
-             try
-             {
-                 DBWorker.AddWorker(txtFirstName.Text, txtLastName.Text, txtAddress.Text, txtPhone.Text, dpDate.SelectedDate.Value, txtOther.Text);
-                 dt = DBWorker.GetAllWorkersData();
-                 dv = dt.DefaultView;
-                 dgWorkerList.DataContext = dv;
-             }
-             catch (Exception ex)
-             {
-                 MessageBox.Show(ex.Message);
-             }
-         }
+         
 
         private void btnDeleteWorker_Click(object sender, RoutedEventArgs e)
         {
@@ -157,30 +149,32 @@ namespace Scheduler_studio
                 MessageBox.Show(ex.Message);
             }
         }*/
+        /*
+                public string[] dates = { "RegDate", "ReservationDate" };
 
-        public string[] dates = { "RegDate", "ReservationDate" };
 
+                public void addColumnTemplates(object sender, DataGridAutoGeneratingColumnEventArgs e)
+                {
 
-        public void addColumnTemplates(object sender, DataGridAutoGeneratingColumnEventArgs e)
-        {
+                    string header = e.Column.Header.ToString();
 
-            string header = e.Column.Header.ToString();
+                    if (dates.Contains(header))
+                    {
+                        MyDataGridTemplateColumn col = new MyDataGridTemplateColumn();
+                        col.ColumnName = e.PropertyName;
+                        col.CellTemplate = (DataTemplate)FindResource("datePickerTemplate");
+                        e.Column = col;
+                        e.Column.Header = e.PropertyName;
+                    }
 
-            if (dates.Contains(header))
-            {
-                MyDataGridTemplateColumn col = new MyDataGridTemplateColumn();
-                col.ColumnName = e.PropertyName;
-                col.CellTemplate = (DataTemplate)FindResource("datePickerTemplate");
-                e.Column = col;
-                e.Column.Header = e.PropertyName;
-            }
+                }*/
 
-        }
         private void btnSaveChanges_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 DBWorker.UpdateWorker(dt);
+                RefreshWorkers();
             }
             catch (Exception ex)
             {
@@ -192,7 +186,7 @@ namespace Scheduler_studio
         {
             try
             {
-
+                spAddWorker.Visibility = Visibility.Visible;
             }
             catch (Exception ex)
             {
@@ -204,7 +198,27 @@ namespace Scheduler_studio
         {
             try
             {
-                //DataRow 
+                if (MessageBox.Show("Haluatko varmasti lisätä tämän käyttäjän?\n" + "Nimi: " + txtFname.Text + " " + txtLname.Text + "\n" + "Osoite: " + txtAddress.Text + "\n" + "Puhelinnumero: " + txtPhone.Text + "\n" + "Rekisteröintipäivä: " + dpRegDate.SelectedDate.Value.Day + "." + dpRegDate.SelectedDate.Value.Month + "." + dpRegDate.SelectedDate.Value.Year + "\n" + "Muu tieto: " + txtOther.Text, "Varmistus", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                {
+                    dr = dt.NewRow();
+                    dr["fname"] = txtFname.Text;
+                    dr["lname"] = txtLname.Text;
+                    dr["addr"] = txtAddress.Text;
+                    dr["phone"] = txtPhone.Text;
+                    dr["regdate"] = dpRegDate.SelectedDate.Value.Day + "." + dpRegDate.SelectedDate.Value.Month + "." + dpRegDate.SelectedDate.Value.Year;
+                    dr["other"] = txtOther.Text;
+                    dt.Rows.Add(dr);
+                    spAddWorker.Visibility = Visibility.Collapsed;
+                    txtFname.Text = "";
+                    txtLname.Text = "";
+                    txtAddress.Text = "";
+                    txtPhone.Text = "";
+                    dpRegDate.Text = "";
+                    txtOther.Text = "";
+
+                    DBWorker.UpdateWorker(dt);
+                    RefreshWorkers();
+                }
             }
             catch (Exception ex)
             {

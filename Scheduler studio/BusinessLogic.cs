@@ -11,9 +11,7 @@ using System.Windows.Data;
 
 namespace Scheduler_studio
 {
-
-
-
+    
     class Worker : INotifyPropertyChanged
     {
         #region PROPERTIES
@@ -91,79 +89,44 @@ namespace Scheduler_studio
         }
         #endregion
     }
-    public class MyData
-    {
-        public MyData(string name, bool data) { nameData = name; showData = data; }
-        public string nameData { get; set; }
-        public bool showData { get; set; }
-    }
-    public class MyDataGridTemplateColumn : DataGridTemplateColumn
-    {
-        public string ColumnName
-        {
-            get;
-            set;
-        }
-
-        protected override System.Windows.FrameworkElement GenerateElement(DataGridCell cell, object dataItem)
-        {
-            ContentPresenter cp = (ContentPresenter)base.GenerateElement(cell, dataItem);
-            BindingOperations.SetBinding(cp, ContentPresenter.ContentProperty, new Binding(this.ColumnName));
-            return cp;
-        }
-    }
 
     static class BLData
     {
         #region WORKER
         
-       /* public static void AddWorker(string fname, string lname, string address, string phone, DateTime regdate, string other)
+        public static void AddWorker(string fname, string lname, string address, string phone, DateTime regdate, string other)
         {
             try
             {
-                DBWorker.InsertIntoWorker(fname, lname, address, phone, regdate, other);
+                
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-
-        public static DataView GetWorkerData()
-        {
-            try
-            {
-                return DBWorker.GetWorkerData();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        public static void RemoveWorker(string fname, string lname, string address, string phone, DateTime regdate, string other)
-        {
-            try
-            {
-                DBWorker.RemoveWorker(fname, lname, address, phone, regdate, other);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        public static void UpdateWorker(DataRow dr)
-        {
-            try
-            {
-
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }*/
         #endregion
     }
+
+    /* public class MyData
+ {
+     public MyData(string name, bool data) { nameData = name; showData = data; }
+     public string nameData { get; set; }
+     public bool showData { get; set; }
+ }
+ public class MyDataGridTemplateColumn : DataGridTemplateColumn
+ {
+     public string ColumnName
+     {
+         get;
+         set;
+     }
+
+     protected override System.Windows.FrameworkElement GenerateElement(DataGridCell cell, object dataItem)
+     {
+         ContentPresenter cp = (ContentPresenter)base.GenerateElement(cell, dataItem);
+         BindingOperations.SetBinding(cp, ContentPresenter.ContentProperty, new Binding(this.ColumnName));
+         return cp;
+     }
+ }*/
 }

@@ -30,7 +30,6 @@ namespace Scheduler_studio
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
         }
@@ -99,7 +98,7 @@ namespace Scheduler_studio
             }
         }
 
-        public static int AddWorker(string Fname, string Lname, string Addr, string Phone, DateTime RegDate, string Other)
+       /* public static int AddWorker(string Fname, string Lname, string Addr, string Phone, DateTime RegDate, string Other)
         {
             try
             {
@@ -112,32 +111,6 @@ namespace Scheduler_studio
                         "INSERT INTO worker (Fname, Lname, Addr, Phone, RegDate, Other) VALUES ('"+Fname+"','"+Lname+"','"+Addr+"','"+Phone+"','"+date+"','"+Other+"')";
 
                     SQLiteCommand command = new SQLiteCommand(sqlString, conn);
-                    /*SQLiteParameter param;
-
-                    param = new SQLiteParameter("fname", SqlDbType.NVarChar);
-                    param.Value = Fname;
-                    command.Parameters.Add(param);
-
-                    param = new SQLiteParameter("lname", SqlDbType.NVarChar);
-                    param.Value = Lname;
-                    command.Parameters.Add(param);
-
-                    param = new SQLiteParameter("address", SqlDbType.NVarChar);
-                    param.Value = Addr;
-                    command.Parameters.Add(param);
-
-                    param = new SQLiteParameter("phone", SqlDbType.NVarChar);
-                    param.Value = Phone;
-                    command.Parameters.Add(param);
-
-                    param = new SQLiteParameter("date", SqlDbType.NVarChar);
-                    param.Value = date;
-                    command.Parameters.Add(param);
-
-                    param = new SQLiteParameter("other", SqlDbType.NVarChar);
-                    param.Value = Other;
-                    command.Parameters.Add(param);*/
-
                     // Tutki kannattaako käyttää .executenonqueryasync
                     count = command.ExecuteNonQuery();
                     conn.Close();
@@ -177,6 +150,6 @@ namespace Scheduler_studio
             {
                 throw ex;
             }
-        }
+        }*/
     }
 }

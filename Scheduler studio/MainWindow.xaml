@@ -5,44 +5,53 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Scheduler_studio"
         mc:Ignorable="d"
-        Title="MainWindow" Height="402.114" Width="716.069">
-    <Window.Resources>
+        Title="MainWindow" Height="500" Width="1000">
+    <!--<Window.Resources>
         <ResourceDictionary>
             <DataTemplate x:Key="datePickerTemplate">
                 <DatePicker Text="{Binding}"
                 ></DatePicker>
             </DataTemplate>
         </ResourceDictionary>
-    </Window.Resources>
+    </Window.Resources>-->
     <Grid>
-        <StackPanel Orientation="Vertical">
+        <StackPanel Orientation="Vertical" >
             <StackPanel Orientation="Horizontal" Margin="5,5,5,5">
                 <Button x:Name="btnNotes" Content="Muistio" Click="btnNotes_Click"/>
                 <Button x:Name="btnStaff" Content="Henkilökunta" Click="btnStaff_Click"/>
                 <Button x:Name="btnCustomers" Content="Asiakkaat" />
                 <Button x:Name="btnReservations" Content="Varaukset"/>
             </StackPanel>
-            <StackPanel x:Name="spWorkerView" Orientation="Vertical" Height="341">
-                <DataGrid x:Name="dgWorkerList" ColumnWidth="100" ItemsSource="{Binding}" ScrollViewer.VerticalScrollBarVisibility="Auto" Height="287" CanUserAddRows="False"  AutoGeneratingColumn="addColumnTemplates"/>
-                <StackPanel Orientation="Vertical">
-                    <StackPanel Orientation="Horizontal" Height="27">
+            <StackPanel x:Name="spWorkerView" Orientation="Vertical" Height="439">
+                <DataGrid x:Name="dgWorkerList" ColumnWidth="100" ItemsSource="{Binding}" ScrollViewer.VerticalScrollBarVisibility="Auto" CanUserAddRows="False" Height="383" AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Etunimi" Binding="{Binding Fname}" Width="100"/>
+                        <DataGridTextColumn Header="Sukunimi" Binding="{Binding Lname}" Width="100"/>
+                        <DataGridTextColumn Header="Osoite" Binding="{Binding Addr}" Width="200" />
+                        <DataGridTextColumn Header="Puh" Binding="{Binding Phone}" Width="100"/>
+                        <DataGridTextColumn Header="Rekisteröintynyt" Binding="{Binding RegDate}" IsReadOnly="True" Width="100"/>
+                        <DataGridTextColumn Header="Muuta tietoa" Binding="{Binding Other}" Width="400"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <StackPanel Orientation="Vertical" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+                    <StackPanel x:Name="spAddWorker" Visibility="Collapsed" Orientation="Horizontal" Height="27">
                         <TextBlock Text="Etunimi:"/>
-                        <TextBox x:Name="txtFname" Width="51" />
+                        <TextBox x:Name="txtFname" Width="100" />
                         <TextBlock Text="Sukunimi:"/>
-                        <TextBox x:Name="txtLname" Width="51" />
+                        <TextBox x:Name="txtLname" Width="100" />
                         <TextBlock Text="Osoite:"/>
-                        <TextBox x:Name="txtAddress" Width="51" />
+                        <TextBox x:Name="txtAddress" Width="200" />
                         <TextBlock Text="Puhelin:"/>
-                        <TextBox x:Name="txtPhone" Width="51" />
+                        <TextBox x:Name="txtPhone" Width="100" />
                         <TextBlock Text="Rekisteröintipäivä:"/>
-                        <DatePicker x:Name="dpRegDate" Width="100" />
+                        <DatePicker Language="Finnish" x:Name="dpRegDate" Width="150" />
                         <TextBlock Text="Muuta:"/>
-                        <TextBox x:Name="txtOther" Width="51" />
+                        <TextBox x:Name="txtOther" Width="300" />
                         <Button x:Name="btnSaveWorker" Content="Tallenna" Click="btnSaveWorker_Click"/>
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal" Height="26">
-                        <Button x:Name="btnSaveChanges" Content="Tallenna muutokset" Click="btnSaveChanges_Click"/>
-                        <Button x:Name="btnShowSavePanel" Content="Add user" Click="btnShowSavePanel_Click" />
+                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Bottom">
+                        <Button x:Name="btnSaveChanges" Content="Tallenna muutokset" VerticalAlignment="Bottom" Click="btnSaveChanges_Click" Height="29" Width="127"/>
+                        <Button x:Name="btnShowSavePanel" Content="Add user" VerticalAlignment="Bottom" Click="btnShowSavePanel_Click" Height="29" Width="72" />
                     </StackPanel>
                 </StackPanel>
                 
