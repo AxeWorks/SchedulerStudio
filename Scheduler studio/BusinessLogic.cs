@@ -5,6 +5,9 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace Scheduler_studio
 {
@@ -88,18 +91,32 @@ namespace Scheduler_studio
         }
         #endregion
     }
+    public class MyData
+    {
+        public MyData(string name, bool data) { nameData = name; showData = data; }
+        public string nameData { get; set; }
+        public bool showData { get; set; }
+    }
+    public class MyDataGridTemplateColumn : DataGridTemplateColumn
+    {
+        public string ColumnName
+        {
+            get;
+            set;
+        }
+
+        protected override System.Windows.FrameworkElement GenerateElement(DataGridCell cell, object dataItem)
+        {
+            ContentPresenter cp = (ContentPresenter)base.GenerateElement(cell, dataItem);
+            BindingOperations.SetBinding(cp, ContentPresenter.ContentProperty, new Binding(this.ColumnName));
+            return cp;
+        }
+    }
 
     static class BLData
     {
         #region WORKER
-
-        public static void UpdateWorker(DataTable dt)
-        {
-
-           
-
-        }
-
+        
        /* public static void AddWorker(string fname, string lname, string address, string phone, DateTime regdate, string other)
         {
             try

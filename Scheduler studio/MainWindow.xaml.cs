@@ -93,7 +93,6 @@ namespace Scheduler_studio
             try
             {
                 dt = DBWorker.GetAllWorkersData();
-               // RefreshHandlers();
                 dv = dt.DefaultView;
                 dgWorkerList.DataContext = dv;
             }
@@ -107,7 +106,7 @@ namespace Scheduler_studio
         {
             try
             {
-
+               
             }
             catch (Exception ex)
             {
@@ -158,11 +157,54 @@ namespace Scheduler_studio
                 MessageBox.Show(ex.Message);
             }
         }*/
+
+        public string[] dates = { "RegDate", "ReservationDate" };
+
+
+        public void addColumnTemplates(object sender, DataGridAutoGeneratingColumnEventArgs e)
+        {
+
+            string header = e.Column.Header.ToString();
+
+            if (dates.Contains(header))
+            {
+                MyDataGridTemplateColumn col = new MyDataGridTemplateColumn();
+                col.ColumnName = e.PropertyName;
+                col.CellTemplate = (DataTemplate)FindResource("datePickerTemplate");
+                e.Column = col;
+                e.Column.Header = e.PropertyName;
+            }
+
+        }
         private void btnSaveChanges_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 DBWorker.UpdateWorker(dt);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void btnShowSavePanel_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void btnSaveWorker_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                //DataRow 
             }
             catch (Exception ex)
             {

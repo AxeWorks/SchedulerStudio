@@ -51,8 +51,7 @@ namespace Scheduler_studio
                     da.InsertCommand.Parameters.Add("@Addr", DbType.String, 80, "Addr");
                     da.InsertCommand.Parameters.Add("@Phone", DbType.String, 20, "Phone");
                     da.InsertCommand.Parameters.Add("@RegDate", DbType.String, 10, "RegDate");
-                    da.InsertCommand.Parameters.Add("@Other", DbType.String, 40, "Other");
-
+                    da.InsertCommand.Parameters.Add("@Other", DbType.String, 100, "Other");
 
 
                     da.UpdateCommand = new SQLiteCommand("UPDATE worker SET Fname = @newFname, Lname = @newLname, Addr = @newAddr, Phone = @newPhone, Other = @newOther " +
@@ -66,7 +65,7 @@ namespace Scheduler_studio
                     param3.SourceVersion = DataRowVersion.Original;
                     SQLiteParameter param4 = da.UpdateCommand.Parameters.Add("@oldPhone", DbType.String, 20, "Phone");
                     param4.SourceVersion = DataRowVersion.Original;
-                    SQLiteParameter param5 = da.UpdateCommand.Parameters.Add("@oldOther", DbType.String, 40, "Other");
+                    SQLiteParameter param5 = da.UpdateCommand.Parameters.Add("@oldOther", DbType.String, 100, "Other");
                     param5.SourceVersion = DataRowVersion.Original;
 
                     SQLiteParameter paramA = da.UpdateCommand.Parameters.Add("@newFname", DbType.String, 20, "Fname");
@@ -77,7 +76,7 @@ namespace Scheduler_studio
                     paramC.SourceVersion = DataRowVersion.Current;
                     SQLiteParameter paramD = da.UpdateCommand.Parameters.Add("@newPhone", DbType.String, 20, "Phone");
                     paramD.SourceVersion = DataRowVersion.Current;
-                    SQLiteParameter paramE = da.UpdateCommand.Parameters.Add("@newOther", DbType.String, 40, "Other");
+                    SQLiteParameter paramE = da.UpdateCommand.Parameters.Add("@newOther", DbType.String, 100, "Other");
                     paramE.SourceVersion = DataRowVersion.Current;
 
                     da.DeleteCommand = new SQLiteCommand("DELETE FROM worker WHERE (Fname IS @Fname) AND (Lname IS @Lname) AND (Addr IS @Addr) AND (Phone IS @Phone) AND (RegDate IS @RegDate) AND (Other IS @Other)", conn);
@@ -87,7 +86,7 @@ namespace Scheduler_studio
                     da.DeleteCommand.Parameters.Add("@Addr", DbType.String, 80, "Addr");
                     da.DeleteCommand.Parameters.Add("@Phone", DbType.String, 20, "Phone");
                     da.DeleteCommand.Parameters.Add("@RegDate", DbType.String, 10, "RegDate");
-                    da.DeleteCommand.Parameters.Add("@Other", DbType.String, 40, "Other");
+                    da.DeleteCommand.Parameters.Add("@Other", DbType.String, 100, "Other");
 
                     da.Update(dt);
                     conn.Close();
