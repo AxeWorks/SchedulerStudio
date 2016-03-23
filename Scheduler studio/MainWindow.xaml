@@ -22,7 +22,7 @@
                 <Button x:Name="btnCustomers" Content="Asiakkaat" />
                 <Button x:Name="btnReservations" Content="Varaukset"/>
             </StackPanel>
-            <StackPanel x:Name="spWorkerView" Orientation="Vertical" Height="439">
+            <StackPanel x:Name="spWorkerView" Visibility="Collapsed" Orientation="Vertical" Height="439">
                 <DataGrid x:Name="dgWorkerList" ColumnWidth="100" ItemsSource="{Binding}" ScrollViewer.VerticalScrollBarVisibility="Auto" CanUserAddRows="False" Height="383" AutoGenerateColumns="False">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Etunimi" Binding="{Binding Fname}" Width="100"/>
@@ -57,10 +57,10 @@
                 
                 
             </StackPanel>
-            <StackPanel x:Name="spReservationView" Visibility="Collapsed">
+            <StackPanel x:Name="spReservationView" Height="440">
                 <TabControl  x:Name="tabReservationControl" Height="319">
                     <TabItem Header="Kaikki">
-                        <DataGrid x:Name="dgReservationList" ColumnWidth="100" ItemsSource="{Binding}" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+                        <DataGrid x:Name="dgReservationList" ColumnWidth="100" ItemsSource="{Binding}" ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="0,0,0,-119"/>
                     </TabItem>                    
                 </TabControl>
             </StackPanel>            
