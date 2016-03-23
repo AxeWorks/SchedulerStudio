@@ -5,30 +5,26 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Scheduler_studio"
         mc:Ignorable="d"
-        Title="MainWindow" Height="402.114" Width="849.353">
+        Title="MainWindow" Height="402.114" Width="600">
     <Grid>
-        <!-- Test -->
         <StackPanel Orientation="Vertical">
-            <StackPanel Orientation="Horizontal" Background="LightCyan" Height="370">
-                <StackPanel x:Name="sidePanel" Orientation="Vertical" Background="Beige" Width="179">
-                    <Button x:Name="btnNotes" Content="Muistio" Click="btnNotes_Click"/>
-                    <Button x:Name="btnStaff" Content="Henkilökunta" Click="btnStaff_Click"/>
-                    <Calendar/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" Background="Gray" Width="662">
-
-                        <StackPanel Width="662" Background="LightGray" Orientation="Vertical">
-                            <DataGrid x:Name="dgWorkerList" ItemsSource="{Binding}" ScrollViewer.VerticalScrollBarVisibility="Auto" Height="335"/>
-                        <Button x:Name="btnSaveChanges" Content="Tallenna muutokset" Click="btnSaveChanges_Click" Height="36"/>
-                    </StackPanel>
-
-                    <TabControl Visibility="Collapsed" x:Name="tabReservationControl" Height="319" Width="340">
-                        <TabItem Header="Kaikki">
-                            <ListBox x:Name="lbAll"/>
-                        </TabItem>
-                    </TabControl>
-                </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="5,5,5,5">
+                <Button x:Name="btnNotes" Content="Muistio" Click="btnNotes_Click"/>
+                <Button x:Name="btnStaff" Content="Henkilökunta" Click="btnStaff_Click"/>
+                <Button x:Name="btnCustomers" Content="Asiakkaat" />
+                <Button x:Name="btnReservations" Content="Varaukset"/>
             </StackPanel>
+            <StackPanel Background="LightGray"  x:Name="spWorkerView" Orientation="Vertical">
+                <DataGrid x:Name="dgWorkerList" ColumnWidth="100" ItemsSource="{Binding}" ScrollViewer.VerticalScrollBarVisibility="Auto" Height="314"/>
+                <Button x:Name="btnSaveChanges" Content="Tallenna muutokset" Click="btnSaveChanges_Click" Height="36"/>
+            </StackPanel>
+            <StackPanel x:Name="spReservationView" Visibility="Collapsed">
+                <TabControl  x:Name="tabReservationControl" Height="319">
+                    <TabItem Header="Kaikki">
+                        <DataGrid x:Name="dgReservationList" ColumnWidth="100" ItemsSource="{Binding}" ScrollViewer.VerticalScrollBarVisibility="Auto" Height="314"/>
+                    </TabItem>                    
+                </TabControl>
+            </StackPanel>            
         </StackPanel>
     </Grid>
 </Window>
