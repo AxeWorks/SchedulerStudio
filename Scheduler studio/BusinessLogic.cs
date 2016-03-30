@@ -15,6 +15,14 @@ namespace Scheduler_studio
     class Worker : INotifyPropertyChanged
     {
         #region PROPERTIES
+        private int pkey;
+
+        public int PKey
+        {
+            get { return pkey; }
+            set { pkey = value; }
+        }
+        
         private string firstname;
 
         public string Firstname
@@ -67,8 +75,9 @@ namespace Scheduler_studio
         #endregion
         #region CONSTRUCTORS
         public Worker() { }
-        public Worker(string fname, string lname, string addr, string phone, DateTime rdate, string other)
+        public Worker(int id, string fname, string lname, string addr, string phone, DateTime rdate, string other)
         {
+            pkey = id;
             firstname = fname;
             lastname = lname;
             address = addr;
@@ -82,29 +91,131 @@ namespace Scheduler_studio
         void Notify(string propName)
         {
             if (PropertyChanged != null)
-            {
-                
+            {                
                 PropertyChanged(this, new PropertyChangedEventArgs(propName));
             }
+        }
+
+        public override string ToString()
+        {
+            return firstname + " " + lastname;
         }
         #endregion
     }
 
-    static class BLData
+    class Note
     {
-        #region WORKER
-        
-        public static void AddWorker(string fname, string lname, string address, string phone, DateTime regdate, string other)
+        private string workerID;
+
+        public string WorkerID
+        {
+            get { return workerID; }
+            set { workerID = value; }
+        }
+
+        private int pkey;
+
+        public int PKey
+        {
+            get { return pkey; }
+            set { pkey = value; }
+        }
+
+
+        private string message;
+
+        public string Message
+        {
+            get { return message; }
+            set { message = value; }
+        }
+
+        public Note(string msg, string user, int primarykey)
+        {
+            this.pkey = primarykey;
+            this.message = msg;
+            this.workerID = user;
+        }
+
+    }
+
+    static class Studio
+    {
+
+        public static void SaveNotes(List<Note> list)
         {
             try
             {
-                
+
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
+
+        public static List<Note> GetNotesList()
+        {
+            try
+            {
+                DataTable dt;
+                dt = DBWorker.GetNotes();
+
+                List<Note> notes = new List<Note>();
+
+                foreach(DataRow row in dt.Rows)
+                {
+                    notes.Add(new Note(row["Note"].ToString(), row["Fname"].ToString() + " " + row["Lname"].ToString(), Convert.ToInt32(row["Employee"].ToString())));
+                }
+                return notes;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        #region WORKER
+
+        public static DataTable GetWorkersTable()
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                dt = DBWorker.GetAllWorkersData();
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        
+        public static List<Worker> GetWorkersList()
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                dt = DBWorker.GetAllWorkersData();
+                List<Worker> workers = new List<Worker>();
+
+                foreach(DataRow row in dt.Rows)
+                {
+                    workers.Add(new Worker(Convert.ToInt32(row["PKey"].ToString()), row["Fname"].ToString(), row["Lname"].ToString(), row["Addr"].ToString(), row["Phone"].ToString(), Convert.ToDateTime(row["RegDate"].ToString()), row["Other"].ToString()));
+                }
+
+                
+
+                return workers;
+            }
+            catch (Exception ex)
+            {
+
+
+                throw ex;
+            }
+        }
+
         #endregion
     }
 

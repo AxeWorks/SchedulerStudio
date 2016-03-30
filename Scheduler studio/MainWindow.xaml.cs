@@ -27,10 +27,12 @@ namespace Scheduler_studio
         DataView dv;
         DataTable dt;
         DataRow dr;
+        List<Note> notes;
 
         public MainWindow()
         {
-            InitializeComponent();            
+            InitializeComponent();
+            InitMyStuff();        
         }
 
         private void Row_Changed(object sender, DataRowChangeEventArgs e)
@@ -86,6 +88,36 @@ namespace Scheduler_studio
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private void InitMyStuff()
+        {
+            try
+            {
+                notes = new List<Note>();
+                notes = Studio.GetNotesList();
+
+                foreach(Note note in notes)
+                {
+                    AppendMessage(note);
+                }
+
+                List<Worker> workers = Studio.GetWorkersList();
+                cbNotesWorkerSelector.ItemsSource = workers;
+               /* foreach (Worker worker in workers)
+                {
+                    cbNotesWorkerSelector.Items.Add(worker);
+                }*/
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void AppendMessage(Note note)
+        {
+
         }
 
         private void btnStaff_Click(object sender, RoutedEventArgs e)
@@ -219,6 +251,34 @@ namespace Scheduler_studio
                     DBWorker.UpdateWorker(dt);
                     RefreshWorkers();
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void btnSaveNote_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+
+                AppendMessage(new Note(txtNote.Text, ))
+
+                TextBlock worker = new TextBlock();
+                worker.Text = cbNotesWorkerSelector.Text;
+                TextBlock Note = new TextBlock();
+                Note.Text = ;
+                
+                
+                Note.Foreground = new SolidColorBrush(Colors.Red);
+                StackPanel sp = new StackPanel();           
+                sp.CanVerticallyScroll = true;
+                sp.Orientation = Orientation.Vertical;
+                sp.Children.Add(Note);
+                sp.Children.Add(worker);
+                spSubmittedNotes.Children.Add(sp);
+
             }
             catch (Exception ex)
             {

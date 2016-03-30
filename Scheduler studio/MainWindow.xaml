@@ -22,7 +22,22 @@
                 <Button x:Name="btnCustomers" Content="Asiakkaat" />
                 <Button x:Name="btnReservations" Content="Varaukset"/>
             </StackPanel>
-            <StackPanel x:Name="spWorkerView" Orientation="Vertical" Height="439">
+            <StackPanel x:Name="spNoteView" Orientation="Vertical">
+                <StackPanel x:Name="spSubmittedNotes" Orientation="Vertical" Height="301">                    
+                </StackPanel>
+                <StackPanel Orientation="Vertical" Height="137">
+                    <StackPanel x:Name="spNoteForm" Orientation="Horizontal" Height="84">
+                        
+                        <TextBox x:Name="txtNote" Width="1042"/>
+                        <ComboBox x:Name="cbNotesWorkerSelector" Width="98"/>
+                        <Button x:Name="btnSaveNote" Content="Tallenna viesti" Click="btnSaveNote_Click"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+            <StackPanel x:Name="spWorkerView" Visibility="Collapsed" Orientation="Vertical" Height="439">
                 <DataGrid x:Name="dgWorkerList" ColumnWidth="100" ItemsSource="{Binding}" ScrollViewer.VerticalScrollBarVisibility="Auto" CanUserAddRows="False" Height="383" AutoGenerateColumns="False">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Etunimi" Binding="{Binding Fname}" Width="100"/>
@@ -54,8 +69,6 @@
                         <Button x:Name="btnShowSavePanel" Content="Add user" VerticalAlignment="Bottom" Click="btnShowSavePanel_Click" Height="29" Width="72" />
                     </StackPanel>
                 </StackPanel>
-                
-                
             </StackPanel>
             <StackPanel Visibility="Collapsed" x:Name="spReservationView" Height="440">
                 <TabControl  x:Name="tabReservationControl" Height="319">

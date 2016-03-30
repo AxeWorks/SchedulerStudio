@@ -11,6 +11,31 @@ namespace Scheduler_studio
 {
      public static class DBWorker
     {
+
+        public static DataTable GetNotes()
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                using (SQLiteConnection conn = new SQLiteConnection(Scheduler_studio.Properties.Settings.Default.ConnectionString))
+                {
+                    conn.Open();
+                    string sqlString = "SELECT notebook.Note, notebook.Employee, worker.Fname, worker.Lname FROM notebook JOIN worker ON notebook.Employee = worker.PKey";
+                    SQLiteCommand command = new SQLiteCommand(sqlString, conn);
+                    SQLiteDataAdapter da = new SQLiteDataAdapter(sqlString, conn);
+
+                    da.Fill(dt);
+                    conn.Close();
+                }
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
         public static DataTable GetAllWorkersData()
         {
             try
