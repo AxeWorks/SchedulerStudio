@@ -116,7 +116,7 @@ namespace Scheduler_studio
 
         private void RefreshWorkers()
         {
-            dt = DBWorker.GetAllWorkersData();
+            dt = DBWorker.GetAllWorkersData(1);
             dv = dt.DefaultView;
             dgWorkerList.ItemsSource = dv;
         }
@@ -175,7 +175,7 @@ namespace Scheduler_studio
         {
             try
             {
-                DBWorker.UpdateWorker(dt);
+                DBWorker.UpdateWorker(dt, 1);
                 RefreshWorkers();
             }
             catch (Exception ex)
@@ -218,7 +218,7 @@ namespace Scheduler_studio
                     dpRegDate.Text = "";
                     txtOther.Text = "";
 
-                    DBWorker.UpdateWorker(dt);
+                    DBWorker.UpdateWorker(dt, 1);
                     RefreshWorkers();
                 }
             }
@@ -228,7 +228,8 @@ namespace Scheduler_studio
             }
         }
 
-        private void btnReservations_Click(object sender, RoutedEventArgs e) {
+        private void btnReservations_Click(object sender, RoutedEventArgs e)
+        {
             spReservationView.Visibility = Visibility.Visible;
             spWorkerView.Visibility = Visibility.Collapsed;
             dt = DBWorker.GetAllWorkersData(2);
@@ -244,5 +245,7 @@ namespace Scheduler_studio
                 MessageBox.Show(ex.Message);
             }
         }
+
+
     }
 }
