@@ -90,9 +90,11 @@ namespace Scheduler_studio
 
         private void btnStaff_Click(object sender, RoutedEventArgs e)
         {
+            spReservationView.Visibility = Visibility.Collapsed;
+            spWorkerView.Visibility = Visibility.Visible;
             try
             {
-                dt = DBWorker.GetAllWorkersData();
+                dt = DBWorker.GetAllWorkersData(1);
                // RefreshHandlers();
                 dv = dt.DefaultView;
                 dgWorkerList.DataContext = dv;
@@ -162,10 +164,27 @@ namespace Scheduler_studio
         {
             try
             {
-                DBWorker.UpdateWorker(dt);
+                DBWorker.UpdateWorker(dt, 1);
             }
             catch (Exception ex)
             {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void btnReservations_Click(object sender, RoutedEventArgs e) {
+            spReservationView.Visibility = Visibility.Visible;
+            spWorkerView.Visibility = Visibility.Collapsed;
+            dt = DBWorker.GetAllWorkersData(2);
+            dv = dt.DefaultView;
+            dgReservationList.DataContext = dv;
+        }
+
+        private void btnSaveChangesReservation_Click(object sender, RoutedEventArgs e) {
+            try {
+                DBWorker.UpdateWorker(dt, 2);
+            }
+            catch (Exception ex) {
                 MessageBox.Show(ex.Message);
             }
         }
