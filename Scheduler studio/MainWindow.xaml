@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Scheduler_studio"
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="1000">
+        Title="MainWindow" Height="500" Width="1450.584">
     <!--<Window.Resources>
         <ResourceDictionary>
             <DataTemplate x:Key="datePickerTemplate">
@@ -22,7 +22,7 @@
                 <Button x:Name="btnCustomers" Content="Asiakkaat" />
                 <Button x:Name="btnReservations" Content="Varaukset"/>
             </StackPanel>
-            <StackPanel x:Name="spWorkerView" Visibility="Collapsed" Orientation="Vertical" Height="439">
+            <StackPanel x:Name="spWorkerView" Orientation="Vertical" Height="439">
                 <DataGrid x:Name="dgWorkerList" ColumnWidth="100" ItemsSource="{Binding}" ScrollViewer.VerticalScrollBarVisibility="Auto" CanUserAddRows="False" Height="383" AutoGenerateColumns="False">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Etunimi" Binding="{Binding Fname}" Width="100"/>
@@ -46,7 +46,7 @@
                         <TextBlock Text="Rekisteröintipäivä:"/>
                         <DatePicker Language="Finnish" x:Name="dpRegDate" Width="150" />
                         <TextBlock Text="Muuta:"/>
-                        <TextBox x:Name="txtOther" Width="300" />
+                        <TextBox x:Name="txtOther" Width="100" />
                         <Button x:Name="btnSaveWorker" Content="Tallenna" Click="btnSaveWorker_Click"/>
                     </StackPanel>
                     <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Bottom">
@@ -57,7 +57,7 @@
                 
                 
             </StackPanel>
-            <StackPanel x:Name="spReservationView" Height="440">
+            <StackPanel Visibility="Collapsed" x:Name="spReservationView" Height="440">
                 <TabControl  x:Name="tabReservationControl" Height="319">
                     <TabItem Header="Kaikki">
                         <DataGrid x:Name="dgReservationList" ColumnWidth="100" ItemsSource="{Binding}" ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="0,0,0,-119"/>

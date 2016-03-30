@@ -13,3 +13,18 @@ D:\Veryim\Ohjelmat\Visual Studio 2015\repositories\SchedulerStudio\Scheduler stu
 D:\Veryim\Ohjelmat\Visual Studio 2015\repositories\SchedulerStudio\Scheduler studio\obj\Debug\Scheduler studio.csproj.GenerateResource.Cache
 D:\Veryim\Ohjelmat\Visual Studio 2015\repositories\SchedulerStudio\Scheduler studio\obj\Debug\Scheduler studio.exe
 D:\Veryim\Ohjelmat\Visual Studio 2015\repositories\SchedulerStudio\Scheduler studio\obj\Debug\Scheduler studio.pdb
+\\storage\homes\H8244\Dox\Desktop\GitHub\SchedulerStudio\Scheduler studio\bin\Debug\Scheduler studio.exe.config
+\\storage\homes\H8244\Dox\Desktop\GitHub\SchedulerStudio\Scheduler studio\obj\Debug\Scheduler studio.exe
+\\storage\homes\H8244\Dox\Desktop\GitHub\SchedulerStudio\Scheduler studio\obj\Debug\Scheduler studio.pdb
+\\storage\homes\H8244\Dox\Desktop\GitHub\SchedulerStudio\Scheduler studio\bin\Debug\Scheduler studio.exe
+\\storage\homes\H8244\Dox\Desktop\GitHub\SchedulerStudio\Scheduler studio\bin\Debug\Scheduler studio.pdb
+\\storage\homes\H8244\Dox\Desktop\GitHub\SchedulerStudio\Scheduler studio\bin\Debug\System.Data.SQLite.xml
+\\storage\homes\H8244\Dox\Desktop\GitHub\SchedulerStudio\Scheduler studio\obj\Debug\Scheduler studio.csprojResolveAssemblyReference.cache
+\\storage\homes\H8244\Dox\Desktop\GitHub\SchedulerStudio\Scheduler studio\obj\Debug\MainWindow.g.cs
+\\storage\homes\H8244\Dox\Desktop\GitHub\SchedulerStudio\Scheduler studio\obj\Debug\App.g.cs
+\\storage\homes\H8244\Dox\Desktop\GitHub\SchedulerStudio\Scheduler studio\obj\Debug\Scheduler studio_MarkupCompile.cache
+\\storage\homes\H8244\Dox\Desktop\GitHub\SchedulerStudio\Scheduler studio\obj\Debug\Scheduler studio_MarkupCompile.lref
+\\storage\homes\H8244\Dox\Desktop\GitHub\SchedulerStudio\Scheduler studio\obj\Debug\MainWindow.baml
+\\storage\homes\H8244\Dox\Desktop\GitHub\SchedulerStudio\Scheduler studio\obj\Debug\Scheduler studio.g.resources
+\\storage\homes\H8244\Dox\Desktop\GitHub\SchedulerStudio\Scheduler studio\obj\Debug\Scheduler_studio.Properties.Resources.resources
+\\storage\homes\H8244\Dox\Desktop\GitHub\SchedulerStudio\Scheduler studio\obj\Debug\Scheduler studio.csproj.GenerateResource.Cache
