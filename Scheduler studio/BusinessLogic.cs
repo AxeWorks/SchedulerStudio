@@ -15,6 +15,12 @@ namespace Scheduler_studio
     class Worker : INotifyPropertyChanged
     {
         #region PROPERTIES
+
+        public string FullName
+        {
+            get { return firstname + " " + lastname; }
+        }
+
         private int pkey;
 
         public int PKey
@@ -103,22 +109,22 @@ namespace Scheduler_studio
         #endregion
     }
 
-    class Note
+    public class Note
     {
-        private string workerID;
+        private string noteauthor;
 
-        public string WorkerID
+        public string NoteAuthor
         {
-            get { return workerID; }
-            set { workerID = value; }
+            get { return noteauthor; }
+            set { noteauthor = value; }
         }
 
-        private int pkey;
+        private int fkey;
 
-        public int PKey
+        public int FKey
         {
-            get { return pkey; }
-            set { pkey = value; }
+            get { return fkey; }
+            set { fkey = value; }
         }
 
 
@@ -132,9 +138,15 @@ namespace Scheduler_studio
 
         public Note(string msg, string user, int primarykey)
         {
-            this.pkey = primarykey;
+            this.fkey = primarykey;
             this.message = msg;
-            this.workerID = user;
+            this.noteauthor = user;
+        }
+
+        public Note(string msg, string user)
+        {
+            this.message = msg;
+            this.noteauthor = user;
         }
 
     }
@@ -142,11 +154,23 @@ namespace Scheduler_studio
     static class Studio
     {
 
-        public static void SaveNotes(List<Note> list)
+        public static void SaveNote(Note note)
         {
             try
             {
+                DBStudio.SaveNote(note.Message, note.FKey);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
+        public static void DeleteNote(Note note)
+        {
+            try
+            {
+                DBStudio.DeleteNote(note.Message, note.FKey);
             }
             catch (Exception ex)
             {
@@ -159,7 +183,7 @@ namespace Scheduler_studio
             try
             {
                 DataTable dt;
-                dt = DBWorker.GetNotes();
+                dt = DBStudio.GetNotes();
 
                 List<Note> notes = new List<Note>();
 
@@ -182,7 +206,7 @@ namespace Scheduler_studio
             try
             {
                 DataTable dt = new DataTable();
-                dt = DBWorker.GetAllWorkersData();
+                dt = DBStudio.GetAllWorkersData();
                 return dt;
             }
             catch (Exception ex)
@@ -191,20 +215,16 @@ namespace Scheduler_studio
             }
         }
         
-        public static List<Worker> GetWorkersList()
+        public static List<Worker> GetWorkersList(DataTable dt)
         {
             try
             {
-                DataTable dt = new DataTable();
-                dt = DBWorker.GetAllWorkersData();
                 List<Worker> workers = new List<Worker>();
 
                 foreach(DataRow row in dt.Rows)
                 {
                     workers.Add(new Worker(Convert.ToInt32(row["PKey"].ToString()), row["Fname"].ToString(), row["Lname"].ToString(), row["Addr"].ToString(), row["Phone"].ToString(), Convert.ToDateTime(row["RegDate"].ToString()), row["Other"].ToString()));
                 }
-
-                
 
                 return workers;
             }

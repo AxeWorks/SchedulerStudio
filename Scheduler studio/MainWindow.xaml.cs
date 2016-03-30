@@ -28,6 +28,8 @@ namespace Scheduler_studio
         DataTable dt;
         DataRow dr;
         List<Note> notes;
+        List<Worker> workers;
+
 
         public MainWindow()
         {
@@ -35,54 +37,19 @@ namespace Scheduler_studio
             InitMyStuff();        
         }
 
-        private void Row_Changed(object sender, DataRowChangeEventArgs e)
+        private void InitMyStuff()
         {
             try
             {
-                //e.Row.
-                MessageBox.Show(e.Row.RowState.ToString());
-               // MessageBox.Show("ROW CHANGED, dr[Lname].ToString():" + dr["Lname"].ToString() + ",\n    e.Row[Lname].ToString(): " + e.Row["Lname"].ToString());
+                workers = new List<Worker>();
+                RefreshWorkers();
+                notes = new List<Note>();
+                notes = Studio.GetNotesList();
 
-               /* string property = "";
-                string newData = "";
-
-                if (dr["Fname"].ToString() != e.Row["Fname"].ToString())
+                foreach (Note note in notes)
                 {
-                    property = "Fname";
-                    newData = e.Row["Fname"].ToString();
+                    AppendMessage(note);
                 }
-
-                else if (dr["Lname"].ToString() != e.Row["Lname"].ToString())
-                {
-                    property = "Lname";
-                    newData = e.Row["Lname"].ToString();
-                }
-
-                else if (dr["Addr"].ToString() != e.Row["Addr"].ToString())
-                {
-                    property = "Addr";
-                    newData = e.Row["Addr"].ToString();
-                }
-
-                else if (dr["Phone"].ToString() != e.Row["Phone"].ToString())
-                {
-                    property = "Phone";
-                    newData = e.Row["Phone"].ToString();
-                }
-                else if (dr["RegDate"].ToString() != e.Row["RegDate"].ToString())
-                {
-                    property = "RegDate";
-                    DateTime RegDate = Convert.ToDateTime(e.Row["RegDate"].ToString());
-                    newData = RegDate.Year + "-" + RegDate.Month + "-" + RegDate.Day;
-                }
-                else if (dr["Other"].ToString() != e.Row["Other"].ToString())
-                {
-                    property = "Other";
-                    newData = e.Row["Other"].ToString();
-                }
-
-                MessageBox.Show("Property: " + property + ", newData: "+ newData);
-                BLData.UpdateWorker(dr, e.Row);*/
             }
             catch (Exception ex)
             {
@@ -90,24 +57,33 @@ namespace Scheduler_studio
             }
         }
 
-        private void InitMyStuff()
+        private void RefreshWorkers()
         {
             try
             {
-                notes = new List<Note>();
-                notes = Studio.GetNotesList();
+                dt = Studio.GetWorkersTable();
+                dv = dt.DefaultView;
+                dgWorkerList.ItemsSource = dv;
 
-                foreach(Note note in notes)
-                {
-                    AppendMessage(note);
-                }
+                cbNotesWorkerSelector.ItemsSource = null;
+                workers.Clear();
+                workers = Studio.GetWorkersList(dt);
 
-                List<Worker> workers = Studio.GetWorkersList();
                 cbNotesWorkerSelector.ItemsSource = workers;
-               /* foreach (Worker worker in workers)
-                {
-                    cbNotesWorkerSelector.Items.Add(worker);
-                }*/
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void DeleteNoteContainer(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                 Studio.DeleteNote((Note)((sender as Button).Parent as StackPanel).DataContext);
+                ((sender as Button).Parent as StackPanel).Children.Clear();
             }
             catch (Exception ex)
             {
@@ -117,14 +93,42 @@ namespace Scheduler_studio
 
         private void AppendMessage(Note note)
         {
+            try
+            {
 
+                TextBlock txtWorker = new TextBlock();
+                TextBlock txtNote = new TextBlock();
+                Button btnDelNote = new Button();
+                btnDelNote.Content = "Delete";
+                btnDelNote.Click += DeleteNoteContainer;
+                StackPanel spContainer = new StackPanel();
+
+                txtWorker.Text = note.NoteAuthor;
+                txtNote.Text = note.Message;
+
+                txtNote.Foreground = new SolidColorBrush(Colors.Red);
+
+                spContainer.CanVerticallyScroll = true;
+                spContainer.DataContext = note;
+                spContainer.Orientation = Orientation.Horizontal;
+                spContainer.Children.Add(txtNote);
+                spContainer.Children.Add(txtWorker);
+                spContainer.Children.Add(btnDelNote);
+                spSubmittedNotes.Children.Add(spContainer);
+                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
+        #region PANELS
         private void btnStaff_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                RefreshWorkers();
+                SetVisibile("worker");
             }
             catch (Exception ex)
             {
@@ -136,7 +140,7 @@ namespace Scheduler_studio
         {
             try
             {
-               
+                SetVisibile("notebook");
             }
             catch (Exception ex)
             {
@@ -144,69 +148,13 @@ namespace Scheduler_studio
             }
         }
 
-        private void RefreshWorkers()
-        {
-            dt = DBWorker.GetAllWorkersData();
-            dv = dt.DefaultView;
-            dgWorkerList.ItemsSource = dv;
-        }
-
-        /* private void dgWorkerList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-         {
-             try
-             {
-                 sbWorkerDetails.DataContext = dgWorkerList.SelectedItem;
-             }
-             catch (Exception ex)
-             {
-                 MessageBox.Show(ex.Message);                
-             }
-         }
 
 
-         
-
-        private void btnDeleteWorker_Click(object sender, RoutedEventArgs e)
+        private void btnReservations_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                DateTime date = Convert.ToDateTime(dpDate.SelectedDate.Value);
-                DBWorker.RemoveWorker(txtFirstName.Text, txtLastName.Text, txtAddress.Text, txtPhone.Text, date, txtOther.Text);
-                dt = DBWorker.GetAllWorkersData();
-                dv = dt.DefaultView;
-                dgWorkerList.DataContext = dv;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }*/
-        /*
-                public string[] dates = { "RegDate", "ReservationDate" };
-
-
-                public void addColumnTemplates(object sender, DataGridAutoGeneratingColumnEventArgs e)
-                {
-
-                    string header = e.Column.Header.ToString();
-
-                    if (dates.Contains(header))
-                    {
-                        MyDataGridTemplateColumn col = new MyDataGridTemplateColumn();
-                        col.ColumnName = e.PropertyName;
-                        col.CellTemplate = (DataTemplate)FindResource("datePickerTemplate");
-                        e.Column = col;
-                        e.Column.Header = e.PropertyName;
-                    }
-
-                }*/
-
-        private void btnSaveChanges_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                DBWorker.UpdateWorker(dt);
-                RefreshWorkers();
+                SetVisibile("reservation");
             }
             catch (Exception ex)
             {
@@ -219,6 +167,67 @@ namespace Scheduler_studio
             try
             {
                 spAddWorker.Visibility = Visibility.Visible;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void SetVisibile(string panel)
+        {
+            try
+            {
+                switch (panel)
+                {
+                    case "worker":
+                        spWorkerView.Visibility = Visibility.Visible;
+                        spNoteView.Visibility = Visibility.Collapsed;
+                        spReservationView.Visibility = Visibility.Collapsed;
+                        break;
+                    case "notebook":
+                        spNoteView.Visibility = Visibility.Visible;
+                        spReservationView.Visibility = Visibility.Collapsed;
+                        spWorkerView.Visibility = Visibility.Collapsed;
+                        break;
+                    case "reservation":
+                        spReservationView.Visibility = Visibility.Visible;
+                        spNoteView.Visibility = Visibility.Collapsed;
+                        spWorkerView.Visibility = Visibility.Collapsed;
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        #endregion
+
+        #region SAVEFUNCTIONS
+
+        private void btnSaveNote_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Note note = new Note(txtNote.Text, cbNotesWorkerSelector.Text, Convert.ToInt32(cbNotesWorkerSelector.SelectedValue));
+                notes.Add(note);
+                Studio.SaveNote(note);
+                AppendMessage(note);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void btnSaveChanges_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                DBStudio.UpdateWorker(dt);
+                RefreshWorkers();
             }
             catch (Exception ex)
             {
@@ -248,7 +257,7 @@ namespace Scheduler_studio
                     dpRegDate.Text = "";
                     txtOther.Text = "";
 
-                    DBWorker.UpdateWorker(dt);
+                    DBStudio.UpdateWorker(dt);
                     RefreshWorkers();
                 }
             }
@@ -257,33 +266,7 @@ namespace Scheduler_studio
                 MessageBox.Show(ex.Message);
             }
         }
+        #endregion
 
-        private void btnSaveNote_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-
-                AppendMessage(new Note(txtNote.Text, ))
-
-                TextBlock worker = new TextBlock();
-                worker.Text = cbNotesWorkerSelector.Text;
-                TextBlock Note = new TextBlock();
-                Note.Text = ;
-                
-                
-                Note.Foreground = new SolidColorBrush(Colors.Red);
-                StackPanel sp = new StackPanel();           
-                sp.CanVerticallyScroll = true;
-                sp.Orientation = Orientation.Vertical;
-                sp.Children.Add(Note);
-                sp.Children.Add(worker);
-                spSubmittedNotes.Children.Add(sp);
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
     }
 }

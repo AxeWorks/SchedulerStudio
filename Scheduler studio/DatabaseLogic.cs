@@ -9,7 +9,7 @@ using System.Data.SQLite;
 
 namespace Scheduler_studio
 {
-     public static class DBWorker
+     public static class DBStudio
     {
 
         public static DataTable GetNotes()
@@ -28,6 +28,61 @@ namespace Scheduler_studio
                     conn.Close();
                 }
                 return dt;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public static int SaveNote(string msg, int FKey)
+        {
+            try
+            {
+                int count;
+                using (SQLiteConnection conn = new SQLiteConnection(Scheduler_studio.Properties.Settings.Default.ConnectionString))
+                {
+                    conn.Open();
+                    string sqlString = string.Format("INSERT INTO notebook (Note, Employee) VALUES (@Note, {0})", FKey);
+
+                    SQLiteCommand command = new SQLiteCommand(sqlString, conn);
+                    SQLiteParameter param = new SQLiteParameter("Note", DbType.String);
+                    param.Value = msg;
+                    command.Parameters.Add(param);
+
+                    // Tutki kannattaako käyttää .executenonqueryasync
+                    count = command.ExecuteNonQuery();
+                    conn.Close();
+                }
+                return count;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+        public static int DeleteNote(string msg, int FKey)
+        {
+            try
+            {
+                int count;
+                using (SQLiteConnection conn = new SQLiteConnection(Scheduler_studio.Properties.Settings.Default.ConnectionString))
+                {
+                    conn.Open();
+                    string sqlString = string.Format("DELETE FROM notebook WHERE (Note = @Note) AND (Employee = {0})", FKey);
+
+                    SQLiteCommand command = new SQLiteCommand(sqlString, conn);
+                    SQLiteParameter param = new SQLiteParameter("Note", DbType.String);
+                    param.Value = msg;
+                    command.Parameters.Add(param);
+
+                    // Tutki kannattaako käyttää .executenonqueryasync
+                    count = command.ExecuteNonQuery();
+                    conn.Close();
+                }
+                return count;
             }
             catch (Exception ex)
             {

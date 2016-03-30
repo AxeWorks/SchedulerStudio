@@ -20,7 +20,7 @@
                 <Button x:Name="btnNotes" Content="Muistio" Click="btnNotes_Click"/>
                 <Button x:Name="btnStaff" Content="Henkilökunta" Click="btnStaff_Click"/>
                 <Button x:Name="btnCustomers" Content="Asiakkaat" />
-                <Button x:Name="btnReservations" Content="Varaukset"/>
+                <Button x:Name="btnReservations" Content="Varaukset" Click="btnReservations_Click"/>
             </StackPanel>
             <StackPanel x:Name="spNoteView" Orientation="Vertical">
                 <StackPanel x:Name="spSubmittedNotes" Orientation="Vertical" Height="301">                    
@@ -29,7 +29,7 @@
                     <StackPanel x:Name="spNoteForm" Orientation="Horizontal" Height="84">
                         
                         <TextBox x:Name="txtNote" Width="1042"/>
-                        <ComboBox x:Name="cbNotesWorkerSelector" Width="98"/>
+                        <ComboBox DisplayMemberPath="FullName" SelectedValuePath="PKey" x:Name="cbNotesWorkerSelector" Width="98"/>
                         <Button x:Name="btnSaveNote" Content="Tallenna viesti" Click="btnSaveNote_Click"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
