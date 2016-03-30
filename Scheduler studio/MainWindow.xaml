@@ -17,8 +17,8 @@
     <Grid>
         <StackPanel Orientation="Vertical" >
             <StackPanel Orientation="Horizontal" Margin="5,5,5,5">
-                <Button x:Name="btnNotes" Content="Muistio" Click="btnNotes_Click"/>
-                <Button x:Name="btnStaff" Content="Henkilökunta" Click="btnStaff_Click"/>
+                    <Button x:Name="btnNotes" Content="Muistio" Click="btnNotes_Click"/>
+                    <Button x:Name="btnStaff" Content="Henkilökunta" Click="btnStaff_Click"/>
                 <Button x:Name="btnCustomers" Content="Asiakkaat" />
                 <Button x:Name="btnReservations" Content="Varaukset"/>
             </StackPanel>
@@ -54,16 +54,17 @@
                         <Button x:Name="btnShowSavePanel" Content="Add user" VerticalAlignment="Bottom" Click="btnShowSavePanel_Click" Height="29" Width="72" />
                     </StackPanel>
                 </StackPanel>
-                
-                
-            </StackPanel>
+            <StackPanel x:Name="spWorkerView" Background="LightGray" Orientation="Vertical"  Visibility="Collapsed">
+                <DataGrid x:Name="dgWorkerList" ColumnWidth="100" ItemsSource="{Binding}" ScrollViewer.VerticalScrollBarVisibility="Auto" Height="314"/>
+                <Button x:Name="btnSaveChanges" Content="Tallenna muutokset" Click="btnSaveChanges_Click" Height="36"/>
+                    </StackPanel>
             <StackPanel Visibility="Collapsed" x:Name="spReservationView" Height="440">
                 <TabControl  x:Name="tabReservationControl" Height="319">
-                    <TabItem Header="Kaikki">
+                        <TabItem Header="Kaikki">
                         <DataGrid x:Name="dgReservationList" ColumnWidth="100" ItemsSource="{Binding}" ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="0,0,0,-119"/>
-                    </TabItem>                    
-                </TabControl>
-            </StackPanel>            
-        </StackPanel>
+                        </TabItem>
+                    </TabControl>
+                <Button x:Name="btnSaveChangesReservation" Content="Tallenna muutokset" Click="btnSaveChangesReservation_Click" Height="36"/>
+            </StackPanel>
     </Grid>
 </Window>

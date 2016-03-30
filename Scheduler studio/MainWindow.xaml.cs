@@ -90,6 +90,8 @@ namespace Scheduler_studio
 
         private void btnStaff_Click(object sender, RoutedEventArgs e)
         {
+            spReservationView.Visibility = Visibility.Collapsed;
+            spWorkerView.Visibility = Visibility.Visible;
             try
             {
                 RefreshWorkers();
@@ -104,7 +106,7 @@ namespace Scheduler_studio
         {
             try
             {
-               
+
             }
             catch (Exception ex)
             {
@@ -135,19 +137,19 @@ namespace Scheduler_studio
          
 
         private void btnDeleteWorker_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
+         {
+             try
+             {
                 DateTime date = Convert.ToDateTime(dpDate.SelectedDate.Value);
                 DBWorker.RemoveWorker(txtFirstName.Text, txtLastName.Text, txtAddress.Text, txtPhone.Text, date, txtOther.Text);
-                dt = DBWorker.GetAllWorkersData();
-                dv = dt.DefaultView;
-                dgWorkerList.DataContext = dv;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+                 dt = DBWorker.GetAllWorkersData();
+                 dv = dt.DefaultView;
+                 dgWorkerList.DataContext = dv;
+             }
+             catch (Exception ex)
+             {
+                 MessageBox.Show(ex.Message);
+             }
         }*/
         /*
                 public string[] dates = { "RegDate", "ReservationDate" };
@@ -180,7 +182,7 @@ namespace Scheduler_studio
             {
                 MessageBox.Show(ex.Message);
             }
-        }
+         }
 
         private void btnShowSavePanel_Click(object sender, RoutedEventArgs e)
         {
@@ -222,6 +224,23 @@ namespace Scheduler_studio
             }
             catch (Exception ex)
             {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void btnReservations_Click(object sender, RoutedEventArgs e) {
+            spReservationView.Visibility = Visibility.Visible;
+            spWorkerView.Visibility = Visibility.Collapsed;
+            dt = DBWorker.GetAllWorkersData(2);
+            dv = dt.DefaultView;
+            dgReservationList.DataContext = dv;
+        }
+
+        private void btnSaveChangesReservation_Click(object sender, RoutedEventArgs e) {
+            try {
+                DBWorker.UpdateWorker(dt, 2);
+            }
+            catch (Exception ex) {
                 MessageBox.Show(ex.Message);
             }
         }
