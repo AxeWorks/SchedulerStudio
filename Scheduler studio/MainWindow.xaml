@@ -58,9 +58,9 @@
             <StackPanel x:Name="spReservationView" Height="440">
                 <TabControl  x:Name="tabReservationControl" Height="319">
                     <TabItem Header="Kaikki">
-                        <DataGrid x:Name="dgReservationList" ColumnWidth="100" ItemsSource="{Binding}" ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="0,0,0,-119">
+                        <DataGrid x:Name="dgReservationList" AutoGenerateColumns="False" ColumnWidth="100" ItemsSource="{Binding}" ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="0,0,0,-119">
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="Operaatio" Binding="{Binding Service}" Width="100"/>
+                                <DataGridTextColumn Header="Operaatio" Binding="{Binding Operation}" Width="100"/>
                                 <DataGridTextColumn Header="Rekisteröity asiakas" Binding="{Binding RegCustomer}" Width="100"/>
                                 <DataGridTextColumn Header="Rekisteröimätön asiakas" Binding="{Binding UnregCustomer}" Width="200" />
                                 <DataGridTextColumn Header="Pvm" Binding="{Binding ReservationDate}" Width="100"/>

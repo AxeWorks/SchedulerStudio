@@ -230,6 +230,7 @@ namespace Scheduler_studio
 
         private void btnReservations_Click(object sender, RoutedEventArgs e)
         {
+            
             spReservationView.Visibility = Visibility.Visible;
             spWorkerView.Visibility = Visibility.Collapsed;
             dt = DBWorker.GetAllWorkersData(2);
@@ -238,7 +239,8 @@ namespace Scheduler_studio
         }
 
         private void btnSaveChangesReservation_Click(object sender, RoutedEventArgs e) {
-            try {
+            try
+            {
                 DBWorker.UpdateWorker(dt, 2);
             }
             catch (Exception ex) {
