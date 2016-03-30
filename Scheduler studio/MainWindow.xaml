@@ -1,0 +1,69 @@
+﻿<Window x:Class="Scheduler_studio.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Scheduler_studio"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="500" Width="1450.584">
+    <!--<Window.Resources>
+        <ResourceDictionary>
+            <DataTemplate x:Key="datePickerTemplate">
+                <DatePicker Text="{Binding}"
+                ></DatePicker>
+            </DataTemplate>
+        </ResourceDictionary>
+    </Window.Resources>-->
+    <Grid>
+        <StackPanel Orientation="Vertical" >
+            <StackPanel Orientation="Horizontal" Margin="5,5,5,5">
+                <Button x:Name="btnNotes" Content="Muistio" Click="btnNotes_Click"/>
+                <Button x:Name="btnStaff" Content="Henkilökunta" Click="btnStaff_Click"/>
+                <Button x:Name="btnCustomers" Content="Asiakkaat" />
+                <Button x:Name="btnReservations" Content="Varaukset"/>
+            </StackPanel>
+            <StackPanel x:Name="spWorkerView" Orientation="Vertical" Height="439">
+                <DataGrid x:Name="dgWorkerList" ColumnWidth="100" ItemsSource="{Binding}" ScrollViewer.VerticalScrollBarVisibility="Auto" CanUserAddRows="False" Height="383" AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Etunimi" Binding="{Binding Fname}" Width="100"/>
+                        <DataGridTextColumn Header="Sukunimi" Binding="{Binding Lname}" Width="100"/>
+                        <DataGridTextColumn Header="Osoite" Binding="{Binding Addr}" Width="200" />
+                        <DataGridTextColumn Header="Puh" Binding="{Binding Phone}" Width="100"/>
+                        <DataGridTextColumn Header="Rekisteröintynyt" Binding="{Binding RegDate}" IsReadOnly="True" Width="100"/>
+                        <DataGridTextColumn Header="Muuta tietoa" Binding="{Binding Other}" Width="400"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <StackPanel Orientation="Vertical" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+                    <StackPanel x:Name="spAddWorker" Visibility="Collapsed" Orientation="Horizontal" Height="27">
+                        <TextBlock Text="Etunimi:"/>
+                        <TextBox x:Name="txtFname" Width="100" />
+                        <TextBlock Text="Sukunimi:"/>
+                        <TextBox x:Name="txtLname" Width="100" />
+                        <TextBlock Text="Osoite:"/>
+                        <TextBox x:Name="txtAddress" Width="200" />
+                        <TextBlock Text="Puhelin:"/>
+                        <TextBox x:Name="txtPhone" Width="100" />
+                        <TextBlock Text="Rekisteröintipäivä:"/>
+                        <DatePicker Language="Finnish" x:Name="dpRegDate" Width="150" />
+                        <TextBlock Text="Muuta:"/>
+                        <TextBox x:Name="txtOther" Width="100" />
+                        <Button x:Name="btnSaveWorker" Content="Tallenna" Click="btnSaveWorker_Click"/>
+                    </StackPanel>
+                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Bottom">
+                        <Button x:Name="btnSaveChanges" Content="Tallenna muutokset" VerticalAlignment="Bottom" Click="btnSaveChanges_Click" Height="29" Width="127"/>
+                        <Button x:Name="btnShowSavePanel" Content="Add user" VerticalAlignment="Bottom" Click="btnShowSavePanel_Click" Height="29" Width="72" />
+                    </StackPanel>
+                </StackPanel>
+                
+                
+            </StackPanel>
+            <StackPanel Visibility="Collapsed" x:Name="spReservationView" Height="440">
+                <TabControl  x:Name="tabReservationControl" Height="319">
+                    <TabItem Header="Kaikki">
+                        <DataGrid x:Name="dgReservationList" ColumnWidth="100" ItemsSource="{Binding}" ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="0,0,0,-119"/>
+                    </TabItem>                    
+                </TabControl>
+            </StackPanel>            
+        </StackPanel>
+    </Grid>
+</Window>
