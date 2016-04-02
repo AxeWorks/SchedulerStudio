@@ -6,14 +6,17 @@
         xmlns:local="clr-namespace:Scheduler_studio"
         mc:Ignorable="d"
         Title="MainWindow" Height="500" Width="1450.584">
-    <!--<Window.Resources>
+    <Window.Resources>
         <ResourceDictionary>
-            <DataTemplate x:Key="datePickerTemplate">
+            <!-- <DataTemplate x:Key="datePickerTemplate">
                 <DatePicker Text="{Binding}"
                 ></DatePicker>
+            </DataTemplate>-->
+            <DataTemplate x:Key="WorkerTab" DataType="TabItem">
+                
             </DataTemplate>
         </ResourceDictionary>
-    </Window.Resources>-->
+    </Window.Resources>
     <Grid>
         <StackPanel Orientation="Vertical" >
             <StackPanel Orientation="Horizontal" Margin="5,5,5,5">
@@ -22,7 +25,7 @@
                 <Button x:Name="btnCustomers" Content="Asiakkaat" />
                 <Button x:Name="btnReservations" Content="Varaukset" Click="btnReservations_Click"/>
             </StackPanel>
-            <StackPanel x:Name="spNoteView" Orientation="Vertical">
+            <StackPanel x:Name="spNoteView" Visibility="Collapsed" Orientation="Vertical">
                 <StackPanel x:Name="spSubmittedNotes" Orientation="Vertical" Height="301">                    
                 </StackPanel>
                 <StackPanel Orientation="Vertical" Height="137">
@@ -70,12 +73,54 @@
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
-            <StackPanel Visibility="Collapsed" x:Name="spReservationView" Height="440">
-                <TabControl  x:Name="tabReservationControl" Height="319">
+            <StackPanel x:Name="spReservationView" Height="440" Orientation="Vertical">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="FILTTERIT"/>
+                    <TextBlock Text="Työntekijä" Margin="10,0,0,0"/>
+                    <ComboBox x:Name="cbWorkerFilter" Margin="10,0,0,0"/>
+                    <TextBlock Text="Asiakas" Margin="10,0,0,0"/>
+                    <TextBox x:Name="cbCustomerFilter" Margin="10,0,0,0" Width="155"/>
+                    <TextBlock Text="Päivämäärä" Margin="10,0,0,0"/>
+                    <ComboBox x:Name="cbDateFilter" Margin="10,0,0,0"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" Height="380">
+                    <DataGrid x:Name="dgReservations" ColumnWidth="100" ItemsSource="{Binding}" ScrollViewer.VerticalScrollBarVisibility="Auto" CanUserAddRows="False" Height="383" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Palvelu" Binding="{Binding Operation}" Width="100"/>
+                            <DataGridTextColumn Header="Työntekijä" Binding="{Binding FullName}" IsReadOnly="True" Width="100"/>
+                            <DataGridTextColumn Header="Asiakas (reg)" Binding="{Binding FullName1}" Width="100"/>
+                            <DataGridTextColumn Header="Asiakas (unreg)" Binding="{Binding UnregCustomer}" Width="100"/>
+                            <DataGridTextColumn Header="Aika" Binding="{Binding ReservationTime}" Width="200" />
+                            <DataGridTextColumn Header="Pvm" Binding="{Binding ReservationDate}" Width="100"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+                <!--<TabControl  x:Name="tcReservations" Height="319">
                     <TabItem Header="Kaikki">
                         <DataGrid x:Name="dgReservationList" ColumnWidth="100" ItemsSource="{Binding}" ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="0,0,0,-119"/>
-                    </TabItem>                    
-                </TabControl>
+                    </TabItem>
+                    <TabItem Header="lala"></TabItem>
+                    <StackPanel>
+                        <Button Content="DIIDADAA"/>
+                    </StackPanel>
+                </TabControl>-->
+                <StackPanel x:Name="spAddReservation" Orientation="Horizontal" Height="27">
+                    <TextBlock Text="Rekisteröity asiakas:"/>
+                    <ComboBox x:Name="cbRegCustomer" Width="100" DisplayMemberPath="FullName" SelectedValuePath="PKey"/>
+                    <TextBlock Text="Rekisteröimätön asiakas:"/>
+                    <TextBox x:Name="txtUnregCustomer" Width="100" />
+                    <TextBlock Text="Palvelu:"/>
+                    <TextBox x:Name="txtService" Width="200" />
+                    <TextBlock Text="Pvm:"/>
+                    <DatePicker x:Name="dpReservation" Width="100" />
+                    <TextBlock Text="Aika:"/>
+                    <TextBox x:Name="txtTime" Width="150" />
+                    <TextBlock Text="Muuta:"/>
+                    <TextBox x:Name="txtReservationOther" Width="100" />
+                    <TextBlock Text="Työntekijä"/>
+                    <ComboBox x:Name="cbReservationEmployee" DisplayMemberPath="FullName" SelectedValuePath="PKey"/>
+                    <Button x:Name="btnSaveReservation" Content="Tallenna" Click="btnSaveReservation_Click"/>
+                </StackPanel>
             </StackPanel>            
         </StackPanel>
     </Grid>

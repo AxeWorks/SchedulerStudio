@@ -111,6 +111,7 @@ namespace Scheduler_studio
 
     public class Note
     {
+        #region PROPERTIES
         private string noteauthor;
 
         public string NoteAuthor
@@ -136,6 +137,10 @@ namespace Scheduler_studio
             set { message = value; }
         }
 
+        #endregion
+
+        #region CONSTRUCTORS
+
         public Note(string msg, string user, int primarykey)
         {
             this.fkey = primarykey;
@@ -148,7 +153,87 @@ namespace Scheduler_studio
             this.message = msg;
             this.noteauthor = user;
         }
+        #endregion
+    }
 
+    public class Reservation
+    {
+        #region PROPERTIES
+        private int employee;
+
+        public int Employee
+        {               
+            get { return employee; }
+            set { employee = value; }
+        }
+
+        private int regcustomer;
+
+        public int RegCustomer
+        {
+            get { return regcustomer; }
+            set { regcustomer = value; }
+        }
+
+        private int pkey;
+
+        public int PKey
+        {
+            get { return pkey; }
+            set { pkey = value; }
+        }
+
+        private string unregcustomer;
+
+        public string UnregCustomer
+        {
+            get { return unregcustomer; }
+            set { unregcustomer = value; }
+        }
+
+        private DateTime dateandtime;
+
+        public DateTime DateAndTime
+        {
+            get { return dateandtime; }
+            set { dateandtime = value; }
+        }
+
+        private string service;
+
+        public string Service
+        {
+            get { return service; }
+            set { service = value; }
+        }
+
+
+        #endregion
+        #region CONSTRUCTORS
+        public Reservation(int id, int worker, int rcustomer, string operation, string customer, DateTime dnt)
+        {
+            this.pkey = id;
+            this.employee = worker;
+            this.regcustomer = rcustomer;
+            this.service = operation;
+            this.unregcustomer = customer;
+            this.dateandtime = dnt;
+        }
+
+        public Reservation(int worker, int rcustomer, string operation, string customer, DateTime dnt)
+        {
+            this.employee = worker;
+            this.regcustomer = rcustomer;
+            this.service = operation;
+            this.unregcustomer = customer;
+            this.dateandtime = dnt;
+        }
+
+        #endregion
+
+        #region METHODS
+
+        #endregion
     }
 
     static class Studio
@@ -197,6 +282,29 @@ namespace Scheduler_studio
             {
                 throw ex;
             }
+        }
+
+        public static DataTable GetReservations()
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                dt = DBStudio.GetReservations();
+
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public static int SaveReservation(Reservation reservation)
+        {
+            int rowcount;
+            rowcount = DBStudio.InsertReservation(reservation.Service, reservation.DateAndTime.TimeOfDay.ToString(), reservation.DateAndTime.Date.ToString(), reservation.UnregCustomer, reservation.RegCustomer, reservation.Employee);
+
+            return rowcount;
         }
 
         #region WORKER

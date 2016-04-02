@@ -24,11 +24,14 @@ namespace Scheduler_studio
     public partial class MainWindow : Window
     {
 
-        DataView dv;
-        DataTable dt;
+        DataView dvWorkers;
+        DataTable dtWorkers;
+        DataView dvReservations;
+        DataTable dtReservations;
         DataRow dr;
         List<Note> notes;
         List<Worker> workers;
+        DataView view;
 
 
         public MainWindow()
@@ -41,8 +44,10 @@ namespace Scheduler_studio
         {
             try
             {
+                view = new DataView();
                 workers = new List<Worker>();
                 RefreshWorkers();
+                RefreshReservations();
                 notes = new List<Note>();
                 notes = Studio.GetNotesList();
 
@@ -50,6 +55,37 @@ namespace Scheduler_studio
                 {
                     AppendMessage(note);
                 }
+
+               
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void RefreshReservations()
+        {
+            try
+            {
+                dtReservations = Studio.GetReservations();
+                dvReservations = dtReservations.DefaultView;
+                dgReservations.ItemsSource = null;
+                dgReservations.ItemsSource = dvReservations;
+                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void RefreshCustomers()
+        {
+            try
+            {
+
             }
             catch (Exception ex)
             {
@@ -61,16 +97,17 @@ namespace Scheduler_studio
         {
             try
             {
-                dt = Studio.GetWorkersTable();
-                dv = dt.DefaultView;
-                dgWorkerList.ItemsSource = dv;
+                dtWorkers = Studio.GetWorkersTable();
+                dvWorkers = dtWorkers.DefaultView;
+                dgWorkerList.ItemsSource = dvWorkers;
 
                 cbNotesWorkerSelector.ItemsSource = null;
+                cbWorkerFilter.ItemsSource = null;
                 workers.Clear();
-                workers = Studio.GetWorkersList(dt);
+                workers = Studio.GetWorkersList(dtWorkers);
 
                 cbNotesWorkerSelector.ItemsSource = workers;
-
+                cbWorkerFilter.ItemsSource = workers;
             }
             catch (Exception ex)
             {
@@ -226,7 +263,7 @@ namespace Scheduler_studio
         {
             try
             {
-                DBStudio.UpdateWorker(dt);
+                DBStudio.UpdateWorker(dtWorkers);
                 RefreshWorkers();
             }
             catch (Exception ex)
@@ -241,14 +278,15 @@ namespace Scheduler_studio
             {
                 if (MessageBox.Show("Haluatko varmasti lisätä tämän käyttäjän?\n" + "Nimi: " + txtFname.Text + " " + txtLname.Text + "\n" + "Osoite: " + txtAddress.Text + "\n" + "Puhelinnumero: " + txtPhone.Text + "\n" + "Rekisteröintipäivä: " + dpRegDate.SelectedDate.Value.Day + "." + dpRegDate.SelectedDate.Value.Month + "." + dpRegDate.SelectedDate.Value.Year + "\n" + "Muu tieto: " + txtOther.Text, "Varmistus", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
-                    dr = dt.NewRow();
+                    dr = dtWorkers.NewRow();
                     dr["fname"] = txtFname.Text;
                     dr["lname"] = txtLname.Text;
                     dr["addr"] = txtAddress.Text;
                     dr["phone"] = txtPhone.Text;
                     dr["regdate"] = dpRegDate.SelectedDate.Value.Day + "." + dpRegDate.SelectedDate.Value.Month + "." + dpRegDate.SelectedDate.Value.Year;
                     dr["other"] = txtOther.Text;
-                    dt.Rows.Add(dr);
+                    dr["fullname"] = txtFname.Text + " " + txtLname.Text;
+                    dtWorkers.Rows.Add(dr);
                     spAddWorker.Visibility = Visibility.Collapsed;
                     txtFname.Text = "";
                     txtLname.Text = "";
@@ -257,7 +295,7 @@ namespace Scheduler_studio
                     dpRegDate.Text = "";
                     txtOther.Text = "";
 
-                    DBStudio.UpdateWorker(dt);
+                    DBStudio.UpdateWorker(dtWorkers);
                     RefreshWorkers();
                 }
             }
@@ -268,5 +306,31 @@ namespace Scheduler_studio
         }
         #endregion
 
+        private void btnSaveReservation_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (MessageBox.Show("Haluatko varmasti lisätä tämän varauksen?\n" + "Palvelu: " + txtService.Text + "\n" + "Rekisteröity käyttäjä: " + cbRegCustomer.SelectedValue + "\n" + "Rekisteröimätön käyttäjä: " + txtUnregCustomer.Text + "\n" + "Pvm: " + dpReservation.SelectedDate + "\n" + "Aika: " + txtTime.Text + "\n" + "Työntekijä: " + cbReservationEmployee.SelectedValue, "Varmistus", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                {
+                    string[] time = txtTime.Text.Split(':');
+                    time[2] = "00";
+                    DateTime date = new DateTime(dpReservation.SelectedDate.Value.Year, dpReservation.SelectedDate.Value.Month, dpReservation.SelectedDate.Value.Day, Convert.ToInt32(time[0]), Convert.ToInt32(time[1]), Convert.ToInt32(time[2]));
+
+
+                    Reservation reservation = new Reservation(Convert.ToInt32(cbReservationEmployee.SelectedValue), Convert.ToInt32(cbRegCustomer.SelectedValue), txtService.Text, txtUnregCustomer.Text, date);
+                    txtService.Text = "";
+                    cbRegCustomer.SelectedIndex = -1;
+                    txtUnregCustomer.Text = "";
+                    cbReservationEmployee.SelectedIndex = -1;
+                    txtTime.Text = "";
+
+                    Studio.SaveReservation(reservation);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
     }
 }
