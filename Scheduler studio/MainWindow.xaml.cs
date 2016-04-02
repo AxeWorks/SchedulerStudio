@@ -30,6 +30,7 @@ namespace Scheduler_studio
         DataTable dtReservations;
         DataRow dr;
         List<Note> notes;
+        List<Customer> customers;
         List<Worker> workers;
         DataView view;
 
@@ -46,8 +47,10 @@ namespace Scheduler_studio
             {
                 view = new DataView();
                 workers = new List<Worker>();
+                customers = new List<Customer>();
                 RefreshWorkers();
                 RefreshReservations();
+                RefreshCustomers();
                 notes = new List<Note>();
                 notes = Studio.GetNotesList();
 
@@ -85,7 +88,16 @@ namespace Scheduler_studio
         {
             try
             {
+                customers.Clear();
+                customers = Studio.GetCustomersList();
+                cbRegCustomer.ItemsSource = null;
 
+                cbRegCustomer.Items.Add(new Customer());
+                foreach (Customer customer in customers)
+                {
+                    cbRegCustomer.Items.Add(customer);
+                }
+                //cbRegCustomer.ItemsSource = customers;
             }
             catch (Exception ex)
             {
@@ -103,11 +115,18 @@ namespace Scheduler_studio
 
                 cbNotesWorkerSelector.ItemsSource = null;
                 cbWorkerFilter.ItemsSource = null;
+                cbReservationEmployee.ItemsSource = null;
                 workers.Clear();
                 workers = Studio.GetWorkersList(dtWorkers);
 
+                cbWorkerFilter.Items.Add(new Worker());
+                foreach (Worker worker in workers)
+                {
+                    cbWorkerFilter.Items.Add(worker);
+                }
                 cbNotesWorkerSelector.ItemsSource = workers;
-                cbWorkerFilter.ItemsSource = workers;
+                //cbWorkerFilter.ItemsSource = workers;
+                cbReservationEmployee.ItemsSource = workers;
             }
             catch (Exception ex)
             {
@@ -263,7 +282,8 @@ namespace Scheduler_studio
         {
             try
             {
-                DBStudio.UpdateWorker(dtWorkers);
+                int rowcount = DBStudio.UpdateWorker(dtWorkers);
+                MessageBox.Show(rowcount + " riviä muokattu.");
                 RefreshWorkers();
             }
             catch (Exception ex)
@@ -312,12 +332,12 @@ namespace Scheduler_studio
             {
                 if (MessageBox.Show("Haluatko varmasti lisätä tämän varauksen?\n" + "Palvelu: " + txtService.Text + "\n" + "Rekisteröity käyttäjä: " + cbRegCustomer.SelectedValue + "\n" + "Rekisteröimätön käyttäjä: " + txtUnregCustomer.Text + "\n" + "Pvm: " + dpReservation.SelectedDate + "\n" + "Aika: " + txtTime.Text + "\n" + "Työntekijä: " + cbReservationEmployee.SelectedValue, "Varmistus", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
-                    string[] time = txtTime.Text.Split(':');
-                    time[2] = "00";
-                    DateTime date = new DateTime(dpReservation.SelectedDate.Value.Year, dpReservation.SelectedDate.Value.Month, dpReservation.SelectedDate.Value.Day, Convert.ToInt32(time[0]), Convert.ToInt32(time[1]), Convert.ToInt32(time[2]));
-
-
-                    Reservation reservation = new Reservation(Convert.ToInt32(cbReservationEmployee.SelectedValue), Convert.ToInt32(cbRegCustomer.SelectedValue), txtService.Text, txtUnregCustomer.Text, date);
+                    string unregcustomer = null;
+                    if (txtUnregCustomer.Text != "")
+                    {
+                        unregcustomer = txtUnregCustomer.Text;
+                    }
+                    Reservation reservation = new Reservation(Convert.ToInt32(cbReservationEmployee.SelectedValue), Convert.ToInt32(cbRegCustomer.SelectedValue), txtService.Text, unregcustomer, dpReservation.SelectedDate.Value, txtTime.Text);
                     txtService.Text = "";
                     cbRegCustomer.SelectedIndex = -1;
                     txtUnregCustomer.Text = "";

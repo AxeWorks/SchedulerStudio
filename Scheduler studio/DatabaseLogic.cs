@@ -114,10 +114,11 @@ namespace Scheduler_studio
             }
         }
         
-        public static void UpdateWorker(DataTable dt)
+        public static int UpdateWorker(DataTable dt)
         {
             try
-            {                
+            {
+                int rowcount;       
                 using (SQLiteConnection conn = new SQLiteConnection(Scheduler_studio.Properties.Settings.Default.ConnectionString))
                 {
                     conn.Open();
@@ -175,9 +176,11 @@ namespace Scheduler_studio
                      da.DeleteCommand.Parameters.Add("@RegDate", DbType.String, 10, "RegDate");
                      da.DeleteCommand.Parameters.Add("@Other", DbType.String, 100, "Other");*/
 
-                    da.Update(dt);
+                    rowcount = da.Update(dt);
                     conn.Close();
+                    
                 }
+                return rowcount;
 
             }
             catch (Exception ex)
@@ -194,7 +197,7 @@ namespace Scheduler_studio
                 using (SQLiteConnection conn = new SQLiteConnection(Scheduler_studio.Properties.Settings.Default.ConnectionString))
                 {
                     conn.Open();
-                    string sqlString = "SELECT r.Operation, r.ReservationTime, r.ReservationDate, r.UnregCustomer, w.FullName, c.FullName FROM reservation as r JOIN worker as w ON r.Employee = w.PKey JOIN customer as c ON r.RegCustomer = c.PKey";
+                    string sqlString = "SELECT r.Service, r.ReservationTime, r.ReservationDate, r.UnregCustomer, w.FullName, c.FullName FROM reservation as r JOIN worker as w ON r.Employee = w.PKey JOIN customer as c ON r.RegCustomer = c.PKey";
                    // SQLiteCommand command = new SQLiteCommand(sqlString, conn);
                     SQLiteDataAdapter da = new SQLiteDataAdapter(sqlString, conn);
 
@@ -218,32 +221,25 @@ namespace Scheduler_studio
                 {
                     conn.Open();
 
-                    string sqlString = "INSERT INTO reservation (Operation, ReservationTime, ReservationDate, UnregCustomer, RegCustomer, Employee) VALUES ('@Operation', '@ReservationTime', '@ReservationDate','@UnregCustomer','@RegCustomer', '@Employee')";
+                    string sqlString = string.Format("INSERT INTO reservation (Service, ReservationTime, ReservationDate, UnregCustomer, RegCustomer, Employee) VALUES (@Service, @ReservationTime, @ReservationDate, @UnregCustomer, {0}, {1})", regcustomer, employee);
                     SQLiteCommand command = new SQLiteCommand(sqlString, conn);
 
                     SQLiteParameter param;
-                    param = new SQLiteParameter("@Operation", DbType.String, 100, "Operation");
+
+                    param = new SQLiteParameter("@Service", DbType.String, "Service");
                     param.Value = operation;
                     command.Parameters.Add(param);
 
-                    param = new SQLiteParameter("@ReservationTime", DbType.String, 100, "ReservationTime");
+                    param = new SQLiteParameter("@ReservationTime", DbType.String, "ReservationTime");
                     param.Value = ResTime;
                     command.Parameters.Add(param);
 
-                    param = new SQLiteParameter("@ReservationDate", DbType.String, 100, "ReservationDate");
+                    param = new SQLiteParameter("@ReservationDate", DbType.String, "ReservationDate");
                     param.Value = ResDate;
                     command.Parameters.Add(param);
 
-                    param = new SQLiteParameter("@UnregCustomer", DbType.String, 100, "UnregCustomer");
+                    param = new SQLiteParameter("@UnregCustomer", DbType.String, "UnregCustomer");
                     param.Value = unregcustomer;
-                    command.Parameters.Add(param);
-
-                    param = new SQLiteParameter("@RegCustomer", DbType.String, 100, "RegCustomer");
-                    param.Value = regcustomer;
-                    command.Parameters.Add(param);
-
-                    param = new SQLiteParameter("@Employee", DbType.String, 100, "Employee");
-                    param.Value = employee;
                     command.Parameters.Add(param);
 
                     // Tutki kannattaako käyttää .executenonqueryasync
@@ -259,7 +255,28 @@ namespace Scheduler_studio
         }
 
 
+        public static DataTable GetCustomers()
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                using (SQLiteConnection conn = new SQLiteConnection(Scheduler_studio.Properties.Settings.Default.ConnectionString))
+                {
+                    conn.Open();
+                    string sqlString = "SELECT * FROM customer";
+                    // SQLiteCommand command = new SQLiteCommand(sqlString, conn);
+                    SQLiteDataAdapter da = new SQLiteDataAdapter(sqlString, conn);
 
+                    da.Fill(dt);
+                    conn.Close();
+                }
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         /* public static int AddWorker(string Fname, string Lname, string Addr, string Phone, DateTime RegDate, string Other)
          {
              try

@@ -191,12 +191,21 @@ namespace Scheduler_studio
             set { unregcustomer = value; }
         }
 
-        private DateTime dateandtime;
+        private DateTime date;
 
-        public DateTime DateAndTime
+        public DateTime Date
         {
-            get { return dateandtime; }
-            set { dateandtime = value; }
+            get { return date; }
+            set { date = value; }
+        }
+
+
+        private string time;
+
+        public string Time
+        {
+            get { return time; }
+            set { time = value; }
         }
 
         private string service;
@@ -210,29 +219,128 @@ namespace Scheduler_studio
 
         #endregion
         #region CONSTRUCTORS
-        public Reservation(int id, int worker, int rcustomer, string operation, string customer, DateTime dnt)
+        public Reservation(int id, int worker, int rcustomer, string operation, string customer, DateTime date, string time)
         {
             this.pkey = id;
             this.employee = worker;
             this.regcustomer = rcustomer;
             this.service = operation;
             this.unregcustomer = customer;
-            this.dateandtime = dnt;
+            this.date = date;
+            this.time = time;
+            
         }
 
-        public Reservation(int worker, int rcustomer, string operation, string customer, DateTime dnt)
+        public Reservation(int worker, int rcustomer, string operation, string customer, DateTime date, string time)
         {
             this.employee = worker;
             this.regcustomer = rcustomer;
             this.service = operation;
             this.unregcustomer = customer;
-            this.dateandtime = dnt;
+            this.date = date;
+            this.time = time;
         }
 
         #endregion
 
         #region METHODS
 
+        #endregion
+    }
+
+    public class Customer
+    {
+        #region PROPERTIES
+        private int pkey;
+
+        public int PKey
+        {
+            get { return pkey; }
+            set { pkey = value; }
+        }
+
+        public string FullName
+        {
+            get { return fname + " " + lname; }
+        }
+
+        private string fname;
+
+        public string Fname
+        {
+            get { return fname; }
+            set { fname = value; }
+        }
+
+        private string lname;
+
+        public string Lname
+        {
+            get { return lname; }
+            set { lname = value; }
+        }
+
+        private DateTime regdate;
+
+        public DateTime RegDate
+        {
+            get { return regdate; }
+        }
+
+        private string phone;
+
+        public string Phone
+        {
+            get { return phone; }
+            set { phone = value; }
+        }
+        private string privilege;
+
+        public string Privilege
+        {
+            get { return privilege; }
+            set { privilege = value; }
+        }
+
+        private DateTime birthdate;
+
+        public DateTime Birthdate
+        {
+            get { return birthdate; }
+            set { birthdate = value; }
+        }
+
+
+        #endregion
+
+        #region CONSTRUCTORS
+        public Customer()
+        {
+                  
+        }
+        public Customer(int id, string firstname, string lastname, string phn, string priv, DateTime bdate, DateTime rdate)
+        {
+            this.pkey = id;
+            this.fname = firstname;
+            this.lname = lastname;
+            this.phone = phn;
+            this.privilege = priv;
+            this.birthdate = bdate;
+            this.regdate = rdate;
+        }
+        public Customer(string firstname, string lastname, string phn, string priv, DateTime bdate, DateTime rdate)
+        {
+            this.fname = firstname;
+            this.lname = lastname;
+            this.phone = phn;
+            this.privilege = priv;
+            this.birthdate = bdate;
+            this.regdate = rdate;
+        }
+
+        #endregion
+
+        #region METHODS
         #endregion
     }
 
@@ -284,6 +392,35 @@ namespace Scheduler_studio
             }
         }
 
+        public static List<Customer> GetCustomersList()
+        {
+            try
+            {
+                List<Customer> customers = new List<Customer>();
+                DataTable dt = DBStudio.GetCustomers();
+
+                int pkey;
+                DateTime bdate;
+                DateTime rdate;
+
+                foreach(DataRow row in dt.Rows)
+                {
+                    pkey = Convert.ToInt32(row["PKey"].ToString());
+                    bdate = Convert.ToDateTime(row["Birthdate"].ToString());
+                    rdate = Convert.ToDateTime(row["RegDate"].ToString());
+
+                    customers.Add(new Customer(pkey, row["Fname"].ToString(), row["Lname"].ToString(), row["Phone"].ToString(), row["Privilege"].ToString(), bdate, rdate));
+                }
+
+                return customers;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public static DataTable GetReservations()
         {
             try
@@ -302,7 +439,7 @@ namespace Scheduler_studio
         public static int SaveReservation(Reservation reservation)
         {
             int rowcount;
-            rowcount = DBStudio.InsertReservation(reservation.Service, reservation.DateAndTime.TimeOfDay.ToString(), reservation.DateAndTime.Date.ToString(), reservation.UnregCustomer, reservation.RegCustomer, reservation.Employee);
+            rowcount = DBStudio.InsertReservation(reservation.Service, reservation.Time.ToString(), reservation.Date.Date.ToString(), reservation.UnregCustomer, reservation.RegCustomer, reservation.Employee);
 
             return rowcount;
         }

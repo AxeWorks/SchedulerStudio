@@ -8,10 +8,9 @@
         Title="MainWindow" Height="500" Width="1450.584">
     <Window.Resources>
         <ResourceDictionary>
-            <!-- <DataTemplate x:Key="datePickerTemplate">
-                <DatePicker Text="{Binding}"
-                ></DatePicker>
-            </DataTemplate>-->
+            <DataTemplate x:Key="SelectorTemplate">
+                <ComboBox DisplayMemberPath="FullName" SelectedValuePath="PKey"/>
+            </DataTemplate>
             <DataTemplate x:Key="WorkerTab" DataType="TabItem">
                 
             </DataTemplate>
@@ -115,10 +114,10 @@
                     <DatePicker x:Name="dpReservation" Width="100" />
                     <TextBlock Text="Aika:"/>
                     <TextBox x:Name="txtTime" Width="150" />
-                    <TextBlock Text="Muuta:"/>
-                    <TextBox x:Name="txtReservationOther" Width="100" />
+                    <!--<TextBlock Text="Muuta:"/>
+                    <TextBox x:Name="txtReservationOther" Width="100" />-->
                     <TextBlock Text="Työntekijä"/>
-                    <ComboBox x:Name="cbReservationEmployee" DisplayMemberPath="FullName" SelectedValuePath="PKey"/>
+                    <ComboBox x:Name="cbReservationEmployee" DisplayMemberPath="FullName" SelectedValuePath="PKey"  Width="150"/>
                     <Button x:Name="btnSaveReservation" Content="Tallenna" Click="btnSaveReservation_Click"/>
                 </StackPanel>
             </StackPanel>            
