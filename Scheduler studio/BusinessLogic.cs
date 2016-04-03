@@ -167,9 +167,9 @@ namespace Scheduler_studio
             set { employee = value; }
         }
 
-        private int regcustomer;
+        private Nullable<int> regcustomer;
 
-        public int RegCustomer
+        public Nullable<int> RegCustomer
         {
             get { return regcustomer; }
             set { regcustomer = value; }
@@ -219,7 +219,7 @@ namespace Scheduler_studio
 
         #endregion
         #region CONSTRUCTORS
-        public Reservation(int id, int worker, int rcustomer, string operation, string customer, DateTime date, string time)
+        public Reservation(int id, int worker, Nullable<int> rcustomer, string operation, string customer, DateTime date, string time)
         {
             this.pkey = id;
             this.employee = worker;
@@ -231,7 +231,7 @@ namespace Scheduler_studio
             
         }
 
-        public Reservation(int worker, int rcustomer, string operation, string customer, DateTime date, string time)
+        public Reservation(int worker, Nullable<int> rcustomer, string operation, string customer, DateTime date, string time)
         {
             this.employee = worker;
             this.regcustomer = rcustomer;
@@ -346,6 +346,20 @@ namespace Scheduler_studio
 
     static class Studio
     {
+
+        public static int RemoveReservation(int pkey)
+        {
+            try
+            {
+                int effectedRows = DBStudio.DeleteReservation(pkey);
+                return effectedRows;
+            }
+            catch (Exception ex)
+            {
+                
+                throw ex;
+            }
+        }
 
         public static int UpdateReservations(DataTable dtReservations)
         {

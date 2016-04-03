@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Scheduler_studio"
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="1450.584">
+        Title="Scheduler Studio" Height="500" Width="1450.584">
     <Window.Resources>
         <ResourceDictionary>
             <DataTemplate x:Key="SelectorTemplate">
@@ -104,15 +104,15 @@
                 <StackPanel Orientation="Vertical">
                     <StackPanel x:Name="spAddReservation" Orientation="Horizontal" Height="27">
                         <TextBlock Text="Rekisteröity asiakas:"/>
-                        <ComboBox x:Name="cbRegCustomer" Width="100" DisplayMemberPath="FullName" SelectedValuePath="PKey"/>
+                        <ComboBox x:Name="cbReservationRegCustomer" Width="100" DisplayMemberPath="FullName" SelectedValuePath="PKey"/>
                         <TextBlock Text="Rekisteröimätön asiakas:"/>
-                        <TextBox x:Name="txtUnregCustomer" Width="100" />
+                        <TextBox x:Name="txtReservationUnregCustomer" Width="100" />
                         <TextBlock Text="Palvelu:"/>
-                        <TextBox x:Name="txtService" Width="200" />
+                        <TextBox x:Name="txtReservationService" Width="200" />
                         <TextBlock Text="Pvm:"/>
-                        <DatePicker x:Name="dpReservation" Width="100" />
+                        <DatePicker x:Name="dpReservationDate" Width="100" />
                         <TextBlock Text="Aika:"/>
-                        <TextBox x:Name="txtTime" Width="150" />
+                        <TextBox x:Name="txtReservationTime" Width="150" />
                         <!--<TextBlock Text="Muuta:"/>
                     <TextBox x:Name="txtReservationOther" Width="100" />-->
                         <TextBlock Text="Työntekijä"/>
@@ -120,7 +120,8 @@
                         <Button x:Name="btnSaveReservation" Content="Tallenna" Click="btnSaveReservation_Click"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <Button x:Name="btnUpdateReservations" Content="Päivitä muutokset" Click="btnUpdateReservations_Click"/><Button x:Name="btnDeleteReservation" Content="Poista varaus"/>
+                        <Button x:Name="btnUpdateReservations" Content="Päivitä muutokset" Click="btnUpdateReservations_Click"/>
+                        <Button x:Name="btnDeleteReservation" Content="Poista varaus" Click="btnDeleteReservation_Click"/>
                     </StackPanel>
                 </StackPanel>
                 

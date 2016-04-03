@@ -94,12 +94,12 @@ namespace Scheduler_studio
             {
                 customers.Clear();
                 customers = Studio.GetCustomersList();
-                cbRegCustomer.ItemsSource = null;
+                cbReservationRegCustomer.ItemsSource = null;
 
-                cbRegCustomer.Items.Add(new Customer());
+                cbReservationRegCustomer.Items.Add(new Customer());
                 foreach (Customer customer in customers)
                 {
-                    cbRegCustomer.Items.Add(customer);
+                    cbReservationRegCustomer.Items.Add(customer);
                 }
                 //cbRegCustomer.ItemsSource = customers;
 
@@ -275,21 +275,42 @@ namespace Scheduler_studio
         {
             try
             {
-                if (MessageBox.Show("Haluatko varmasti lisätä tämän varauksen?\n" + "Palvelu: " + txtService.Text + "\n" + "Rekisteröity käyttäjä: " + cbRegCustomer.SelectedValue + "\n" + "Rekisteröimätön käyttäjä: " + txtUnregCustomer.Text + "\n" + "Pvm: " + dpReservation.SelectedDate + "\n" + "Aika: " + txtTime.Text + "\n" + "Työntekijä: " + cbReservationEmployee.SelectedValue, "Varmistus", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                bool ok;
+                ok = true;
+                if (txtReservationUnregCustomer.Text == "" && cbReservationRegCustomer.SelectedIndex == -1 || cbReservationEmployee.SelectedIndex == -1 || txtReservationService.Text == "" || txtReservationTime.Text == "" || !dpReservationDate.SelectedDate.HasValue)
+                {
+
+                    MessageBox.Show("Tarpeellisia tietoja jätetty pois!");
+                    ok = false;
+                }
+                else if (MessageBox.Show("Haluatko varmasti lisätä tämän varauksen?\n" + "Palvelu: " + txtReservationService.Text + "\n" + "Rekisteröity käyttäjä: " + cbReservationRegCustomer.SelectedValue + "\n" + "Rekisteröimätön käyttäjä: " + txtReservationUnregCustomer.Text + "\n" + "Pvm: " + dpReservationDate.SelectedDate.Value.Date + "\n" + "Aika: " + txtReservationTime.Text + "\n" + "Työntekijä: " + cbReservationEmployee.SelectedValue, "Varmistus", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
                     string unregcustomer = null;
-                    if (txtUnregCustomer.Text != "")
-                    {
-                        unregcustomer = txtUnregCustomer.Text;
-                    }
-                    Reservation reservation = new Reservation(Convert.ToInt32(cbReservationEmployee.SelectedValue), Convert.ToInt32(cbRegCustomer.SelectedValue), txtService.Text, unregcustomer, dpReservation.SelectedDate.Value, txtTime.Text);
-                    txtService.Text = "";
-                    cbRegCustomer.SelectedIndex = -1;
-                    txtUnregCustomer.Text = "";
-                    cbReservationEmployee.SelectedIndex = -1;
-                    txtTime.Text = "";
+                    Nullable<int> regcustomer = null;
 
-                    Studio.SaveReservation(reservation);
+                    if (txtReservationUnregCustomer.Text == "" && cbReservationRegCustomer.SelectedIndex != -1)
+                    {
+                        regcustomer = Convert.ToInt32(cbReservationRegCustomer.SelectedValue);
+
+                    }
+
+                    if (txtReservationUnregCustomer.Text != "" && cbReservationRegCustomer.SelectedIndex == -1)
+                    {
+                        unregcustomer = txtReservationUnregCustomer.Text;
+                    }
+
+                    if (ok == true)
+                    {
+                        Reservation reservation = new Reservation(Convert.ToInt32(cbReservationEmployee.SelectedValue), regcustomer, txtReservationService.Text, unregcustomer, dpReservationDate.SelectedDate.Value.Date, txtReservationTime.Text);
+                        txtReservationService.Text = "";
+                        cbReservationRegCustomer.SelectedIndex = -1;
+                        txtReservationUnregCustomer.Text = "";
+                        cbReservationEmployee.SelectedIndex = -1;
+                        txtReservationTime.Text = "";
+
+                        Studio.SaveReservation(reservation);
+                        RefreshReservations();
+                    }                    
                 }
             }
             catch (Exception ex)
@@ -373,5 +394,23 @@ namespace Scheduler_studio
                 MessageBox.Show(ex.Message);
             }
         }
+
+        private void btnDeleteReservation_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+
+                int pkey = Convert.ToInt32((dgReservations.SelectedItem as DataRowView)["PKey"].ToString());
+
+                int effectedRows = Studio.RemoveReservation(pkey);
+                MessageBox.Show(effectedRows + " riviä poistettu!");
+                RefreshReservations();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
     }
 }

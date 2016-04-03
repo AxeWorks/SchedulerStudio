@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.SQLite;
+using System.Windows;
 
 namespace Scheduler_studio
 {
@@ -239,8 +240,9 @@ namespace Scheduler_studio
                 using (SQLiteConnection conn = new SQLiteConnection(Scheduler_studio.Properties.Settings.Default.ConnectionString))
                 {
                     conn.Open();
-                    string sqlString = "SELECT r.Service, r.Employee, r.ReservationTime, r.ReservationDate, r.RegCustomer, r.UnregCustomer, r.PKey FROM reservation as r JOIN worker as w ON r.Employee = w.PKey JOIN customer as c ON r.RegCustomer = c.PKey";
-                   // SQLiteCommand command = new SQLiteCommand(sqlString, conn);
+                    // string sqlString = "SELECT r.Service, r.Employee, r.ReservationTime, r.ReservationDate, r.RegCustomer, r.UnregCustomer, r.PKey FROM reservation as r JOIN worker as w ON r.Employee = w.PKey JOIN customer as c ON r.RegCustomer = c.PKey";
+                    string sqlString = "SELECT * FROM reservation";
+
                     SQLiteDataAdapter da = new SQLiteDataAdapter(sqlString, conn);
 
                     da.Fill(dt);
@@ -254,16 +256,39 @@ namespace Scheduler_studio
             }
         }
 
-        public static int InsertReservation(string operation, string ResTime, string ResDate, string unregcustomer, int regcustomer, int employee)
+        public static int DeleteReservation(int pkey)
         {
             try
             {
+                int rowcount;
+                using (SQLiteConnection conn = new SQLiteConnection(Scheduler_studio.Properties.Settings.Default.ConnectionString))
+                {
+                    conn.Open();
+                    string sqlString = string.Format("DELETE FROM reservation WHERE PKey = {0}", pkey);
+                    SQLiteCommand command = new SQLiteCommand(sqlString, conn);
+                    rowcount = command.ExecuteNonQuery();
+
+                    conn.Close();
+                }
+                return rowcount;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public static int InsertReservation(string operation, string ResTime, string ResDate, string unregcustomer, Nullable<int> regcustomer, int employee)
+        {
+            try
+            {
+                MessageBox.Show("Palvelu:"+operation + ",\n" + "pvm:" + ResDate + ",\n" + "Aika:" + ResTime + ",\n" + "Unregasiakas:" + unregcustomer + ",\n" + "regasiakas:" + regcustomer + ",\n" + "Teyöntekijä:" + employee);
                 int count = 0;
                 using (SQLiteConnection conn = new SQLiteConnection(Scheduler_studio.Properties.Settings.Default.ConnectionString))
                 {
                     conn.Open();
 
-                    string sqlString = string.Format("INSERT INTO reservation (Service, ReservationTime, ReservationDate, UnregCustomer, RegCustomer, Employee) VALUES (@Service, @ReservationTime, @ReservationDate, @UnregCustomer, {0}, {1})", regcustomer, employee);
+                    string sqlString = string.Format("INSERT INTO reservation (Service, ReservationTime, ReservationDate, UnregCustomer, RegCustomer, Employee) VALUES (@Service, @ReservationTime, @ReservationDate, @UnregCustomer, @RegCustomer, {0})", employee);
                     SQLiteCommand command = new SQLiteCommand(sqlString, conn);
 
                     SQLiteParameter param;
@@ -282,6 +307,10 @@ namespace Scheduler_studio
 
                     param = new SQLiteParameter("@UnregCustomer", DbType.String, "UnregCustomer");
                     param.Value = unregcustomer;
+                    command.Parameters.Add(param);
+
+                    param = new SQLiteParameter("@RegCustomer", DbType.String, "RegCustomer");
+                    param.Value = regcustomer;
                     command.Parameters.Add(param);
 
                     // Tutki kannattaako käyttää .executenonqueryasync
