@@ -123,17 +123,16 @@ namespace Scheduler_studio
                 {
                     conn.Open();
                     SQLiteDataAdapter da = new SQLiteDataAdapter();
-                    da.InsertCommand = new SQLiteCommand("INSERT INTO worker (Fname, Lname, FullName, Addr, Phone, RegDate, Other) VALUES (@Fname, @Lname, @FullName, @Addr, @Phone, @RegDate, @Other)", conn);
+                    da.InsertCommand = new SQLiteCommand("INSERT INTO worker (Fname, Lname, Addr, Phone, RegDate, Other) VALUES (@Fname, @Lname, @Addr, @Phone, @RegDate, @Other)", conn);
 
                     da.InsertCommand.Parameters.Add("@Fname", DbType.String, 20, "Fname");
                     da.InsertCommand.Parameters.Add("@Lname", DbType.String, 30, "Lname");
-                    da.InsertCommand.Parameters.Add("@FullName", DbType.String, 50, "FullName");
                     da.InsertCommand.Parameters.Add("@Addr", DbType.String, 80, "Addr");
                     da.InsertCommand.Parameters.Add("@Phone", DbType.String, 20, "Phone");
                     da.InsertCommand.Parameters.Add("@RegDate", DbType.String, 10, "RegDate");
                     da.InsertCommand.Parameters.Add("@Other", DbType.String, 100, "Other");
 
-                    da.UpdateCommand = new SQLiteCommand("UPDATE worker SET Fname = @newFname, Lname = @newLname, FullName = @newFullName, Addr = @newAddr, Phone = @newPhone, Other = @newOther " +
+                    da.UpdateCommand = new SQLiteCommand("UPDATE worker SET Fname = @newFname, Lname = @newLname, Addr = @newAddr, Phone = @newPhone, Other = @newOther " +
                         "WHERE PKey = @PKey", conn);
 
                    /* SQLiteParameter param1 = da.UpdateCommand.Parameters.Add("@oldFname", DbType.String, 20, "Fname");
@@ -155,8 +154,6 @@ namespace Scheduler_studio
                     paramA.SourceVersion = DataRowVersion.Current;
                     SQLiteParameter paramB = da.UpdateCommand.Parameters.Add("@newLname", DbType.String, 30, "Lname");
                     paramB.SourceVersion = DataRowVersion.Current;
-                    SQLiteParameter paramC = da.UpdateCommand.Parameters.Add("@newFullName", DbType.String, 50, "FullName");
-                    paramC.SourceVersion = DataRowVersion.Current;
                     SQLiteParameter paramD = da.UpdateCommand.Parameters.Add("@newAddr", DbType.String, 80, "Addr");
                     paramD.SourceVersion = DataRowVersion.Current;
                     SQLiteParameter paramE = da.UpdateCommand.Parameters.Add("@newPhone", DbType.String, 20, "Phone");
@@ -197,7 +194,7 @@ namespace Scheduler_studio
                 using (SQLiteConnection conn = new SQLiteConnection(Scheduler_studio.Properties.Settings.Default.ConnectionString))
                 {
                     conn.Open();
-                    string sqlString = "SELECT r.Service, r.ReservationTime, r.ReservationDate, r.UnregCustomer, w.FullName, c.FullName FROM reservation as r JOIN worker as w ON r.Employee = w.PKey JOIN customer as c ON r.RegCustomer = c.PKey";
+                    string sqlString = "SELECT r.Service, r.Employee, r.ReservationTime, r.ReservationDate, r.RegCustomer, r.UnregCustomer FROM reservation as r JOIN worker as w ON r.Employee = w.PKey JOIN customer as c ON r.RegCustomer = c.PKey";
                    // SQLiteCommand command = new SQLiteCommand(sqlString, conn);
                     SQLiteDataAdapter da = new SQLiteDataAdapter(sqlString, conn);
 

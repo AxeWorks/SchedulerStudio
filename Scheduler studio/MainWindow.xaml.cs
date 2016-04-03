@@ -58,9 +58,6 @@ namespace Scheduler_studio
                 {
                     AppendMessage(note);
                 }
-
-               
-
             }
             catch (Exception ex)
             {
@@ -74,14 +71,21 @@ namespace Scheduler_studio
             {
                 dtReservations = Studio.GetReservations();
                 dvReservations = dtReservations.DefaultView;
-                dgReservations.ItemsSource = null;
-                dgReservations.ItemsSource = dvReservations;
+                dgReservations.DataContext = null;
+                dgReservations.DataContext = dvReservations;
                 
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private void SomeSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var comboBox = sender as ComboBox;
+            var selectedItem = this.dgReservations.CurrentItem;
+
         }
 
         private void RefreshCustomers()
@@ -98,6 +102,8 @@ namespace Scheduler_studio
                     cbRegCustomer.Items.Add(customer);
                 }
                 //cbRegCustomer.ItemsSource = customers;
+
+                dgcReservationRegCustomer.ItemsSource = customers;
             }
             catch (Exception ex)
             {
@@ -111,7 +117,7 @@ namespace Scheduler_studio
             {
                 dtWorkers = Studio.GetWorkersTable();
                 dvWorkers = dtWorkers.DefaultView;
-                dgWorkerList.ItemsSource = dvWorkers;
+                dgWorkerList.DataContext = dvWorkers;
 
                 cbNotesWorkerSelector.ItemsSource = null;
                 cbWorkerFilter.ItemsSource = null;
@@ -127,6 +133,8 @@ namespace Scheduler_studio
                 cbNotesWorkerSelector.ItemsSource = workers;
                 //cbWorkerFilter.ItemsSource = workers;
                 cbReservationEmployee.ItemsSource = workers;
+                dgcReservationRegEmployee.ItemsSource = workers;
+
             }
             catch (Exception ex)
             {
@@ -263,6 +271,33 @@ namespace Scheduler_studio
 
         #region SAVEFUNCTIONS
 
+        private void btnSaveReservation_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (MessageBox.Show("Haluatko varmasti lisätä tämän varauksen?\n" + "Palvelu: " + txtService.Text + "\n" + "Rekisteröity käyttäjä: " + cbRegCustomer.SelectedValue + "\n" + "Rekisteröimätön käyttäjä: " + txtUnregCustomer.Text + "\n" + "Pvm: " + dpReservation.SelectedDate + "\n" + "Aika: " + txtTime.Text + "\n" + "Työntekijä: " + cbReservationEmployee.SelectedValue, "Varmistus", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                {
+                    string unregcustomer = null;
+                    if (txtUnregCustomer.Text != "")
+                    {
+                        unregcustomer = txtUnregCustomer.Text;
+                    }
+                    Reservation reservation = new Reservation(Convert.ToInt32(cbReservationEmployee.SelectedValue), Convert.ToInt32(cbRegCustomer.SelectedValue), txtService.Text, unregcustomer, dpReservation.SelectedDate.Value, txtTime.Text);
+                    txtService.Text = "";
+                    cbRegCustomer.SelectedIndex = -1;
+                    txtUnregCustomer.Text = "";
+                    cbReservationEmployee.SelectedIndex = -1;
+                    txtTime.Text = "";
+
+                    Studio.SaveReservation(reservation);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
         private void btnSaveNote_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -296,23 +331,21 @@ namespace Scheduler_studio
         {
             try
             {
-                if (MessageBox.Show("Haluatko varmasti lisätä tämän käyttäjän?\n" + "Nimi: " + txtFname.Text + " " + txtLname.Text + "\n" + "Osoite: " + txtAddress.Text + "\n" + "Puhelinnumero: " + txtPhone.Text + "\n" + "Rekisteröintipäivä: " + dpRegDate.SelectedDate.Value.Day + "." + dpRegDate.SelectedDate.Value.Month + "." + dpRegDate.SelectedDate.Value.Year + "\n" + "Muu tieto: " + txtOther.Text, "Varmistus", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                if (MessageBox.Show("Haluatko varmasti lisätä tämän käyttäjän?\n" + "Nimi: " + txtFname.Text + " " + txtLname.Text + "\n" + "Osoite: " + txtAddress.Text + "\n" + "Puhelinnumero: " + txtPhone.Text + "\n" + "Muu tieto: " + txtOther.Text, "Varmistus", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
                     dr = dtWorkers.NewRow();
                     dr["fname"] = txtFname.Text;
                     dr["lname"] = txtLname.Text;
                     dr["addr"] = txtAddress.Text;
                     dr["phone"] = txtPhone.Text;
-                    dr["regdate"] = dpRegDate.SelectedDate.Value.Day + "." + dpRegDate.SelectedDate.Value.Month + "." + dpRegDate.SelectedDate.Value.Year;
+                    dr["regdate"] =  DateTime.Now.Day + "." + DateTime.Now.Month + "." + DateTime.Now.Year;
                     dr["other"] = txtOther.Text;
-                    dr["fullname"] = txtFname.Text + " " + txtLname.Text;
                     dtWorkers.Rows.Add(dr);
                     spAddWorker.Visibility = Visibility.Collapsed;
                     txtFname.Text = "";
                     txtLname.Text = "";
                     txtAddress.Text = "";
                     txtPhone.Text = "";
-                    dpRegDate.Text = "";
                     txtOther.Text = "";
 
                     DBStudio.UpdateWorker(dtWorkers);
@@ -326,31 +359,6 @@ namespace Scheduler_studio
         }
         #endregion
 
-        private void btnSaveReservation_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                if (MessageBox.Show("Haluatko varmasti lisätä tämän varauksen?\n" + "Palvelu: " + txtService.Text + "\n" + "Rekisteröity käyttäjä: " + cbRegCustomer.SelectedValue + "\n" + "Rekisteröimätön käyttäjä: " + txtUnregCustomer.Text + "\n" + "Pvm: " + dpReservation.SelectedDate + "\n" + "Aika: " + txtTime.Text + "\n" + "Työntekijä: " + cbReservationEmployee.SelectedValue, "Varmistus", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
-                {
-                    string unregcustomer = null;
-                    if (txtUnregCustomer.Text != "")
-                    {
-                        unregcustomer = txtUnregCustomer.Text;
-                    }
-                    Reservation reservation = new Reservation(Convert.ToInt32(cbReservationEmployee.SelectedValue), Convert.ToInt32(cbRegCustomer.SelectedValue), txtService.Text, unregcustomer, dpReservation.SelectedDate.Value, txtTime.Text);
-                    txtService.Text = "";
-                    cbRegCustomer.SelectedIndex = -1;
-                    txtUnregCustomer.Text = "";
-                    cbReservationEmployee.SelectedIndex = -1;
-                    txtTime.Text = "";
-
-                    Studio.SaveReservation(reservation);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
+      
     }
 }

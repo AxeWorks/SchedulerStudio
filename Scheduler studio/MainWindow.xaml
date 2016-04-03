@@ -60,8 +60,6 @@
                         <TextBox x:Name="txtAddress" Width="200" />
                         <TextBlock Text="Puhelin:"/>
                         <TextBox x:Name="txtPhone" Width="100" />
-                        <TextBlock Text="Rekisteröintipäivä:"/>
-                        <DatePicker Language="Finnish" x:Name="dpRegDate" Width="150" />
                         <TextBlock Text="Muuta:"/>
                         <TextBox x:Name="txtOther" Width="100" />
                         <Button x:Name="btnSaveWorker" Content="Tallenna" Click="btnSaveWorker_Click"/>
@@ -85,9 +83,9 @@
                 <StackPanel Orientation="Vertical" Height="380">
                     <DataGrid x:Name="dgReservations" ColumnWidth="100" ItemsSource="{Binding}" ScrollViewer.VerticalScrollBarVisibility="Auto" CanUserAddRows="False" Height="383" AutoGenerateColumns="False">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Palvelu" Binding="{Binding Operation}" Width="100"/>
-                            <DataGridTextColumn Header="Työntekijä" Binding="{Binding FullName}" IsReadOnly="True" Width="100"/>
-                            <DataGridTextColumn Header="Asiakas (reg)" Binding="{Binding FullName1}" Width="100"/>
+                            <DataGridTextColumn Header="Palvelu" Binding="{Binding Service}" Width="100"/>
+                            <DataGridComboBoxColumn x:Name="dgcReservationRegEmployee" DisplayMemberPath="FullName" SelectedValuePath="PKey" SelectedValueBinding="{Binding Employee}" Header="Työntekijä" Width="100"/>
+                            <DataGridComboBoxColumn x:Name="dgcReservationRegCustomer" DisplayMemberPath="FullName" SelectedValuePath="PKey" SelectedValueBinding="{Binding RegCustomer}" Header="Asiakas (reg)" Width="100"/>
                             <DataGridTextColumn Header="Asiakas (unreg)" Binding="{Binding UnregCustomer}" Width="100"/>
                             <DataGridTextColumn Header="Aika" Binding="{Binding ReservationTime}" Width="200" />
                             <DataGridTextColumn Header="Pvm" Binding="{Binding ReservationDate}" Width="100"/>

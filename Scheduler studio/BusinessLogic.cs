@@ -21,9 +21,9 @@ namespace Scheduler_studio
             get { return firstname + " " + lastname; }
         }
 
-        private int pkey;
+        private long pkey;
 
-        public int PKey
+        public long PKey
         {
             get { return pkey; }
             set { pkey = value; }
@@ -81,7 +81,7 @@ namespace Scheduler_studio
         #endregion
         #region CONSTRUCTORS
         public Worker() { }
-        public Worker(int id, string fname, string lname, string addr, string phone, DateTime rdate, string other)
+        public Worker(long id, string fname, string lname, string addr, string phone, DateTime rdate, string other)
         {
             pkey = id;
             firstname = fname;
@@ -251,9 +251,9 @@ namespace Scheduler_studio
     public class Customer
     {
         #region PROPERTIES
-        private int pkey;
+        private long pkey;
 
-        public int PKey
+        public long PKey
         {
             get { return pkey; }
             set { pkey = value; }
@@ -318,7 +318,7 @@ namespace Scheduler_studio
         {
                   
         }
-        public Customer(int id, string firstname, string lastname, string phn, string priv, DateTime bdate, DateTime rdate)
+        public Customer(long id, string firstname, string lastname, string phn, string priv, DateTime bdate, DateTime rdate)
         {
             this.pkey = id;
             this.fname = firstname;
@@ -399,15 +399,17 @@ namespace Scheduler_studio
                 List<Customer> customers = new List<Customer>();
                 DataTable dt = DBStudio.GetCustomers();
 
-                int pkey;
+                long pkey;
                 DateTime bdate;
                 DateTime rdate;
 
                 foreach(DataRow row in dt.Rows)
                 {
-                    pkey = Convert.ToInt32(row["PKey"].ToString());
+                    pkey = Convert.ToInt64(row["PKey"].ToString());
                     bdate = Convert.ToDateTime(row["Birthdate"].ToString());
                     rdate = Convert.ToDateTime(row["RegDate"].ToString());
+                    
+
 
                     customers.Add(new Customer(pkey, row["Fname"].ToString(), row["Lname"].ToString(), row["Phone"].ToString(), row["Privilege"].ToString(), bdate, rdate));
                 }
@@ -468,7 +470,7 @@ namespace Scheduler_studio
 
                 foreach(DataRow row in dt.Rows)
                 {
-                    workers.Add(new Worker(Convert.ToInt32(row["PKey"].ToString()), row["Fname"].ToString(), row["Lname"].ToString(), row["Addr"].ToString(), row["Phone"].ToString(), Convert.ToDateTime(row["RegDate"].ToString()), row["Other"].ToString()));
+                    workers.Add(new Worker(Convert.ToInt64(row["PKey"].ToString()), row["Fname"].ToString(), row["Lname"].ToString(), row["Addr"].ToString(), row["Phone"].ToString(), Convert.ToDateTime(row["RegDate"].ToString()), row["Other"].ToString()));
                 }
 
                 return workers;
@@ -484,12 +486,6 @@ namespace Scheduler_studio
         #endregion
     }
 
-    /* public class MyData
- {
-     public MyData(string name, bool data) { nameData = name; showData = data; }
-     public string nameData { get; set; }
-     public bool showData { get; set; }
- }
  public class MyDataGridTemplateColumn : DataGridTemplateColumn
  {
      public string ColumnName
@@ -504,5 +500,5 @@ namespace Scheduler_studio
          BindingOperations.SetBinding(cp, ContentPresenter.ContentProperty, new Binding(this.ColumnName));
          return cp;
      }
- }*/
+ }
 }
