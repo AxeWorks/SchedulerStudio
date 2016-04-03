@@ -12,6 +12,51 @@ namespace Scheduler_studio
      public static class DBStudio
     {
 
+        public static int UpdateReservations(List<Reservation> reservations)
+        {
+            try
+            {
+                int count = 0;
+                using (SQLiteConnection conn = new SQLiteConnection(Scheduler_studio.Properties.Settings.Default.ConnectionString))
+                {
+                    conn.Open();
+                    string sqlString;
+                    SQLiteCommand command;
+                    SQLiteParameter param;
+                    foreach (Reservation reservation in reservations)
+                    {
+                        sqlString = string.Format("UPDATE reservation SET Service = @Service, UnregCustomer = @UnregCustomer, ReservationTime = @ReservationTime, ReservationDate = @ReservationDate, RegCustomer = {0}, Employee = {1} WHERE PKey = {2}", reservation.RegCustomer, reservation.Employee, reservation.PKey);
+                        command = new SQLiteCommand(sqlString, conn);
+
+                        param = new SQLiteParameter("@Service", DbType.String, 100, "Service");
+                        param.Value = reservation.Service;
+                        command.Parameters.Add(param);
+
+                        param = new SQLiteParameter("@UnregCustomer", DbType.String, 50, "UnregCustomer");
+                        param.Value = reservation.UnregCustomer;
+                        command.Parameters.Add(param);
+
+                        param = new SQLiteParameter("@ReservationTime", DbType.String, 10, "ReservationTime");
+                        param.Value = reservation.Time;
+                        command.Parameters.Add(param);
+
+                        param = new SQLiteParameter("@ReservationDate", DbType.String, 10, "ReservationDate");
+                        param.Value = reservation.Date;
+                        command.Parameters.Add(param);
+
+                        count += command.ExecuteNonQuery();
+                    }
+                    conn.Close();
+                }
+                return count;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public static DataTable GetNotes()
         {
             try
@@ -194,7 +239,7 @@ namespace Scheduler_studio
                 using (SQLiteConnection conn = new SQLiteConnection(Scheduler_studio.Properties.Settings.Default.ConnectionString))
                 {
                     conn.Open();
-                    string sqlString = "SELECT r.Service, r.Employee, r.ReservationTime, r.ReservationDate, r.RegCustomer, r.UnregCustomer FROM reservation as r JOIN worker as w ON r.Employee = w.PKey JOIN customer as c ON r.RegCustomer = c.PKey";
+                    string sqlString = "SELECT r.Service, r.Employee, r.ReservationTime, r.ReservationDate, r.RegCustomer, r.UnregCustomer, r.PKey FROM reservation as r JOIN worker as w ON r.Employee = w.PKey JOIN customer as c ON r.RegCustomer = c.PKey";
                    // SQLiteCommand command = new SQLiteCommand(sqlString, conn);
                     SQLiteDataAdapter da = new SQLiteDataAdapter(sqlString, conn);
 

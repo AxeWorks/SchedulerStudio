@@ -347,6 +347,37 @@ namespace Scheduler_studio
     static class Studio
     {
 
+        public static int UpdateReservations(DataTable dtReservations)
+        {
+            try
+            {
+                List<Reservation> reservations = new List<Reservation>();
+                DateTime date;
+                string unregcustomer;
+                foreach(DataRow row in dtReservations.Rows)
+                {
+                    date = Convert.ToDateTime(row["ReservationDate"].ToString());
+                    
+                    if(row["UnregCustomer"].ToString() == "")
+                    {
+                        unregcustomer = null;
+                    }
+                    else
+                    {
+                        unregcustomer = row["UnregCustomer"].ToString();
+                    }
+                    reservations.Add(new Reservation(Convert.ToInt32(row["PKey"].ToString()), Convert.ToInt32(row["Employee"].ToString()), Convert.ToInt32(row["RegCustomer"].ToString()), row["Service"].ToString(), unregcustomer, date, row["ReservationTime"].ToString()));
+                }
+                int count = DBStudio.UpdateReservations(reservations);
+                return count;
+            }
+            catch (Exception ex)
+            {
+                
+                throw ex;
+            }
+        }
+
         public static void SaveNote(Note note)
         {
             try
@@ -486,7 +517,9 @@ namespace Scheduler_studio
         #endregion
     }
 
- public class MyDataGridTemplateColumn : DataGridTemplateColumn
+
+
+/* public class MyDataGridTemplateColumn : DataGridTemplateColumn
  {
      public string ColumnName
      {
@@ -500,5 +533,5 @@ namespace Scheduler_studio
          BindingOperations.SetBinding(cp, ContentPresenter.ContentProperty, new Binding(this.ColumnName));
          return cp;
      }
- }
+ }*/
 }

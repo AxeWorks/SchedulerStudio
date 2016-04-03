@@ -357,8 +357,21 @@ namespace Scheduler_studio
                 MessageBox.Show(ex.Message);
             }
         }
+
         #endregion
 
-      
+        private void btnUpdateReservations_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                int rows = Studio.UpdateReservations(dtReservations);
+                MessageBox.Show(rows + " riviä päivitetty");
+                RefreshReservations();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
     }
 }
