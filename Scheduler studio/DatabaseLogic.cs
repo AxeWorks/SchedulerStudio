@@ -26,7 +26,7 @@ namespace Scheduler_studio
                     SQLiteParameter param;
                     foreach (Reservation reservation in reservations)
                     {
-                        sqlString = string.Format("UPDATE reservation SET Service = @Service, UnregCustomer = @UnregCustomer, ReservationTime = @ReservationTime, ReservationDate = @ReservationDate, RegCustomer = {0}, Employee = {1} WHERE PKey = {2}", reservation.RegCustomer, reservation.Employee, reservation.PKey);
+                        sqlString = string.Format("UPDATE reservation SET Service = @Service, UnregCustomer = @UnregCustomer, ReservationTime = @ReservationTime, ReservationDate = @ReservationDate, RegCustomer = @RegCustomer, Employee = {0} WHERE PKey = {1}", reservation.Employee, reservation.PKey);
                         command = new SQLiteCommand(sqlString, conn);
 
                         param = new SQLiteParameter("@Service", DbType.String, 100, "Service");
@@ -35,6 +35,10 @@ namespace Scheduler_studio
 
                         param = new SQLiteParameter("@UnregCustomer", DbType.String, 50, "UnregCustomer");
                         param.Value = reservation.UnregCustomer;
+                        command.Parameters.Add(param);
+
+                        param = new SQLiteParameter("@RegCustomer", DbType.Int32, "RegCustomer");
+                        param.Value = reservation.RegCustomer;
                         command.Parameters.Add(param);
 
                         param = new SQLiteParameter("@ReservationTime", DbType.String, 10, "ReservationTime");

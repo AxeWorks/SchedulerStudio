@@ -26,7 +26,6 @@ namespace Scheduler_studio
         public long PKey
         {
             get { return pkey; }
-            set { pkey = value; }
         }
         
         private string firstname;
@@ -100,11 +99,6 @@ namespace Scheduler_studio
             {                
                 PropertyChanged(this, new PropertyChangedEventArgs(propName));
             }
-        }
-
-        public override string ToString()
-        {
-            return firstname + " " + lastname;
         }
         #endregion
     }
@@ -256,7 +250,6 @@ namespace Scheduler_studio
         public long PKey
         {
             get { return pkey; }
-            set { pkey = value; }
         }
 
         public string FullName
@@ -347,6 +340,30 @@ namespace Scheduler_studio
     static class Studio
     {
 
+        
+
+        public class DataGridComboBoxColumnWithBindingHack : DataGridComboBoxColumn
+        {
+            protected override FrameworkElement GenerateEditingElement(DataGridCell cell, object dataItem)
+            {
+                FrameworkElement element = base.GenerateEditingElement(cell, dataItem);
+                CopyItemsSource(element);
+                return element;
+            }
+
+            protected override FrameworkElement GenerateElement(DataGridCell cell, object dataItem)
+            {
+                FrameworkElement element = base.GenerateElement(cell, dataItem);
+                CopyItemsSource(element);
+                return element;
+            }
+
+            private void CopyItemsSource(FrameworkElement element)
+            {
+                BindingOperations.SetBinding(element, ComboBox.ItemsSourceProperty, BindingOperations.GetBinding(this, ComboBox.ItemsSourceProperty));
+            }
+        }
+
         public static int RemoveReservation(int pkey)
         {
             try
@@ -367,12 +384,16 @@ namespace Scheduler_studio
             {
                 List<Reservation> reservations = new List<Reservation>();
                 DateTime date;
+                Nullable<int> regcustomer;
+                int tempVal;
                 string unregcustomer;
                 foreach(DataRow row in dtReservations.Rows)
                 {
-                    date = Convert.ToDateTime(row["ReservationDate"].ToString());
-                    
-                    if(row["UnregCustomer"].ToString() == "")
+                    //MessageBox.Show("RegCustomer:"+Convert.ToInt32(row["RegCustomer"].ToString())+"\n"+"Employee:"+ Convert.ToInt32(row["RegCustomer"].ToString()) + "\n" + "PKey:" + Convert.ToInt32(row["PKey"].ToString()));
+                    date = Convert.ToDateTime(row["ReservationDate"].ToString());                    
+
+                    regcustomer = Int32.TryParse(row["RegCustomer"].ToString(), out tempVal) ? tempVal : (int?)null;
+                    if (row["UnregCustomer"].ToString() == "")
                     {
                         unregcustomer = null;
                     }
@@ -380,8 +401,9 @@ namespace Scheduler_studio
                     {
                         unregcustomer = row["UnregCustomer"].ToString();
                     }
-                    reservations.Add(new Reservation(Convert.ToInt32(row["PKey"].ToString()), Convert.ToInt32(row["Employee"].ToString()), Convert.ToInt32(row["RegCustomer"].ToString()), row["Service"].ToString(), unregcustomer, date, row["ReservationTime"].ToString()));
+                    reservations.Add(new Reservation(Convert.ToInt32(row["PKey"].ToString()), Convert.ToInt32(row["Employee"].ToString()), regcustomer, row["Service"].ToString(), unregcustomer, date, row["ReservationTime"].ToString()));
                 }
+
                 int count = DBStudio.UpdateReservations(reservations);
                 return count;
             }

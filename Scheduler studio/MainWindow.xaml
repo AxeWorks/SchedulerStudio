@@ -31,7 +31,7 @@
                     <StackPanel x:Name="spNoteForm" Orientation="Horizontal" Height="84">
                         
                         <TextBox x:Name="txtNote" Width="1042"/>
-                        <ComboBox DisplayMemberPath="FullName" SelectedValuePath="PKey" x:Name="cbNotesWorkerSelector" Width="98"/>
+                        <ComboBox DisplayMemberPath="FullName" SelectedValuePath="PKey" x:Name="cbNotesEmployeeSelector" Width="98"/>
                         <Button x:Name="btnSaveNote" Content="Tallenna viesti" Click="btnSaveNote_Click"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
@@ -74,7 +74,7 @@
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="FILTTERIT"/>
                     <TextBlock Text="Työntekijä" Margin="10,0,0,0"/>
-                    <ComboBox x:Name="cbWorkerFilter" Margin="10,0,0,0"/>
+                    <ComboBox x:Name="cbWorkerFilter" DisplayMemberPath="FullName" SelectedValuePath="PKey" Margin="10,0,0,0"/>
                     <TextBlock Text="Asiakas" Margin="10,0,0,0"/>
                     <TextBox x:Name="cbCustomerFilter" Margin="10,0,0,0" Width="155"/>
                     <TextBlock Text="Päivämäärä" Margin="10,0,0,0"/>

@@ -119,7 +119,7 @@ namespace Scheduler_studio
                 dvWorkers = dtWorkers.DefaultView;
                 dgWorkerList.DataContext = dvWorkers;
 
-                cbNotesWorkerSelector.ItemsSource = null;
+                cbNotesEmployeeSelector.ItemsSource = null;
                 cbWorkerFilter.ItemsSource = null;
                 cbReservationEmployee.ItemsSource = null;
                 workers.Clear();
@@ -130,8 +130,7 @@ namespace Scheduler_studio
                 {
                     cbWorkerFilter.Items.Add(worker);
                 }
-                cbNotesWorkerSelector.ItemsSource = workers;
-                //cbWorkerFilter.ItemsSource = workers;
+                cbNotesEmployeeSelector.ItemsSource = workers;
                 cbReservationEmployee.ItemsSource = workers;
                 dgcReservationRegEmployee.ItemsSource = workers;
 
@@ -323,7 +322,7 @@ namespace Scheduler_studio
         {
             try
             {
-                Note note = new Note(txtNote.Text, cbNotesWorkerSelector.Text, Convert.ToInt32(cbNotesWorkerSelector.SelectedValue));
+                Note note = new Note(txtNote.Text, cbNotesEmployeeSelector.Text, Convert.ToInt32(cbNotesEmployeeSelector.SelectedValue));
                 notes.Add(note);
                 Studio.SaveNote(note);
                 AppendMessage(note);
@@ -411,6 +410,5 @@ namespace Scheduler_studio
                 MessageBox.Show(ex.Message);
             }
         }
-
     }
 }
