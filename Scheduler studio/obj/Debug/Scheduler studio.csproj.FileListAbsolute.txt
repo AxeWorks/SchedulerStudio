@@ -1,32 +1,44 @@
-Z:\Dox\Documents\GitHub\Scheduler-studio\Scheduler studio\Scheduler studio\bin\Debug\Scheduler studio.exe.config
-Z:\Dox\Documents\GitHub\Scheduler-studio\Scheduler studio\Scheduler studio\obj\Debug\Scheduler studio.csprojResolveAssemblyReference.cache
-Z:\Dox\Documents\GitHub\Scheduler-studio\Scheduler studio\Scheduler studio\obj\Debug\MainWindow.g.cs
-Z:\Dox\Documents\GitHub\Scheduler-studio\Scheduler studio\Scheduler studio\obj\Debug\App.g.cs
-Z:\Dox\Documents\GitHub\Scheduler-studio\Scheduler studio\Scheduler studio\obj\Debug\Scheduler studio_MarkupCompile.cache
-Z:\Dox\Documents\GitHub\Scheduler-studio\Scheduler studio\Scheduler studio\obj\Debug\Scheduler studio_MarkupCompile.lref
-Z:\Dox\Documents\GitHub\Scheduler-studio\Scheduler studio\Scheduler studio\bin\Debug\Scheduler studio.exe
-Z:\Dox\Documents\GitHub\Scheduler-studio\Scheduler studio\Scheduler studio\bin\Debug\Scheduler studio.pdb
-Z:\Dox\Documents\GitHub\Scheduler-studio\Scheduler studio\Scheduler studio\bin\Debug\System.Data.SQLite.xml
-Z:\Dox\Documents\GitHub\Scheduler-studio\Scheduler studio\Scheduler studio\obj\Debug\MainWindow.baml
-Z:\Dox\Documents\GitHub\Scheduler-studio\Scheduler studio\Scheduler studio\obj\Debug\Scheduler studio.g.resources
-Z:\Dox\Documents\GitHub\Scheduler-studio\Scheduler studio\Scheduler studio\obj\Debug\Scheduler_studio.Properties.Resources.resources
-Z:\Dox\Documents\GitHub\Scheduler-studio\Scheduler studio\Scheduler studio\obj\Debug\Scheduler studio.csproj.GenerateResource.Cache
-Z:\Dox\Documents\GitHub\Scheduler-studio\Scheduler studio\Scheduler studio\obj\Debug\Scheduler studio.exe
-Z:\Dox\Documents\GitHub\Scheduler-studio\Scheduler studio\Scheduler studio\obj\Debug\Scheduler studio.pdb
-Z:\Dox\Documents\GitHub\SchedulerStudio\Scheduler studio\bin\Debug\Scheduler studio.exe.config
-Z:\Dox\Documents\GitHub\SchedulerStudio\Scheduler studio\obj\Debug\Scheduler studio.exe
-Z:\Dox\Documents\GitHub\SchedulerStudio\Scheduler studio\obj\Debug\Scheduler studio.pdb
+C:\Users\Prometheus\Documents\GitHub\SchedulerStudio\Scheduler studio\bin\Debug\Scheduler studio.exe.config
+C:\Users\Prometheus\Documents\GitHub\SchedulerStudio\Scheduler studio\bin\Debug\Scheduler studio.exe
+C:\Users\Prometheus\Documents\GitHub\SchedulerStudio\Scheduler studio\bin\Debug\Scheduler studio.pdb
+C:\Users\Prometheus\Documents\GitHub\SchedulerStudio\Scheduler studio\bin\Debug\System.Data.SQLite.xml
+C:\Users\Prometheus\Documents\GitHub\SchedulerStudio\Scheduler studio\obj\Debug\Scheduler studio.csprojResolveAssemblyReference.cache
+C:\Users\Prometheus\Documents\GitHub\SchedulerStudio\Scheduler studio\obj\Debug\MainWindow.g.cs
+C:\Users\Prometheus\Documents\GitHub\SchedulerStudio\Scheduler studio\obj\Debug\App.g.cs
+C:\Users\Prometheus\Documents\GitHub\SchedulerStudio\Scheduler studio\obj\Debug\Scheduler studio_MarkupCompile.cache
+C:\Users\Prometheus\Documents\GitHub\SchedulerStudio\Scheduler studio\obj\Debug\Scheduler studio_MarkupCompile.lref
+C:\Users\Prometheus\Documents\GitHub\SchedulerStudio\Scheduler studio\obj\Debug\MainWindow.baml
+C:\Users\Prometheus\Documents\GitHub\SchedulerStudio\Scheduler studio\obj\Debug\Scheduler studio.g.resources
+C:\Users\Prometheus\Documents\GitHub\SchedulerStudio\Scheduler studio\obj\Debug\Scheduler_studio.Properties.Resources.resources
+C:\Users\Prometheus\Documents\GitHub\SchedulerStudio\Scheduler studio\obj\Debug\Scheduler studio.csproj.GenerateResource.Cache
+C:\Users\Prometheus\Documents\GitHub\SchedulerStudio\Scheduler studio\obj\Debug\Scheduler studio.exe
+C:\Users\Prometheus\Documents\GitHub\SchedulerStudio\Scheduler studio\obj\Debug\Scheduler studio.pdb
+\\storage\homes\H8244\Dox\Desktop\GitHub\SchedulerStudio\Scheduler studio\bin\Debug\Scheduler studio.exe.config
+\\storage\homes\H8244\Dox\Desktop\GitHub\SchedulerStudio\Scheduler studio\obj\Debug\Scheduler studio.exe
+\\storage\homes\H8244\Dox\Desktop\GitHub\SchedulerStudio\Scheduler studio\obj\Debug\Scheduler studio.pdb
+\\storage\homes\H8244\Dox\Desktop\GitHub\SchedulerStudio\Scheduler studio\bin\Debug\Scheduler studio.exe
+\\storage\homes\H8244\Dox\Desktop\GitHub\SchedulerStudio\Scheduler studio\bin\Debug\Scheduler studio.pdb
+\\storage\homes\H8244\Dox\Desktop\GitHub\SchedulerStudio\Scheduler studio\bin\Debug\System.Data.SQLite.xml
+\\storage\homes\H8244\Dox\Desktop\GitHub\SchedulerStudio\Scheduler studio\obj\Debug\Scheduler studio.csprojResolveAssemblyReference.cache
+\\storage\homes\H8244\Dox\Desktop\GitHub\SchedulerStudio\Scheduler studio\obj\Debug\MainWindow.g.cs
+\\storage\homes\H8244\Dox\Desktop\GitHub\SchedulerStudio\Scheduler studio\obj\Debug\App.g.cs
+\\storage\homes\H8244\Dox\Desktop\GitHub\SchedulerStudio\Scheduler studio\obj\Debug\Scheduler studio_MarkupCompile.cache
+\\storage\homes\H8244\Dox\Desktop\GitHub\SchedulerStudio\Scheduler studio\obj\Debug\Scheduler studio_MarkupCompile.lref
+\\storage\homes\H8244\Dox\Desktop\GitHub\SchedulerStudio\Scheduler studio\obj\Debug\MainWindow.baml
+\\storage\homes\H8244\Dox\Desktop\GitHub\SchedulerStudio\Scheduler studio\obj\Debug\Scheduler studio.g.resources
+\\storage\homes\H8244\Dox\Desktop\GitHub\SchedulerStudio\Scheduler studio\obj\Debug\Scheduler_studio.Properties.Resources.resources
+\\storage\homes\H8244\Dox\Desktop\GitHub\SchedulerStudio\Scheduler studio\obj\Debug\Scheduler studio.csproj.GenerateResource.Cache
 Z:\Repos\SchedulerStudio\Scheduler studio\bin\Debug\Scheduler studio.exe.config
 Z:\Repos\SchedulerStudio\Scheduler studio\obj\Debug\Scheduler studio.exe
 Z:\Repos\SchedulerStudio\Scheduler studio\obj\Debug\Scheduler studio.pdb
-Z:\Repos\SchedulerStudio\Scheduler studio\bin\Debug\Scheduler studio.exe
-Z:\Repos\SchedulerStudio\Scheduler studio\bin\Debug\Scheduler studio.pdb
-Z:\Repos\SchedulerStudio\Scheduler studio\bin\Debug\System.Data.SQLite.xml
 Z:\Repos\SchedulerStudio\Scheduler studio\obj\Debug\Scheduler studio.csprojResolveAssemblyReference.cache
 Z:\Repos\SchedulerStudio\Scheduler studio\obj\Debug\MainWindow.g.cs
 Z:\Repos\SchedulerStudio\Scheduler studio\obj\Debug\App.g.cs
 Z:\Repos\SchedulerStudio\Scheduler studio\obj\Debug\Scheduler studio_MarkupCompile.cache
 Z:\Repos\SchedulerStudio\Scheduler studio\obj\Debug\Scheduler studio_MarkupCompile.lref
+Z:\Repos\SchedulerStudio\Scheduler studio\bin\Debug\Scheduler studio.exe
+Z:\Repos\SchedulerStudio\Scheduler studio\bin\Debug\Scheduler studio.pdb
+Z:\Repos\SchedulerStudio\Scheduler studio\bin\Debug\System.Data.SQLite.xml
 Z:\Repos\SchedulerStudio\Scheduler studio\obj\Debug\MainWindow.baml
 Z:\Repos\SchedulerStudio\Scheduler studio\obj\Debug\Scheduler studio.g.resources
 Z:\Repos\SchedulerStudio\Scheduler studio\obj\Debug\Scheduler_studio.Properties.Resources.resources

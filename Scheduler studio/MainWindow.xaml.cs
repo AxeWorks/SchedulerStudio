@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
@@ -24,63 +25,40 @@ namespace Scheduler_studio
     public partial class MainWindow : Window
     {
 
-        DataView dv;
-        DataTable dt;
+        DataView dvWorkers;
+        DataTable dtWorkers;
+        DataView dvReservations;
+        DataTable dtReservations;
         DataRow dr;
+        List<Note> notes;
+        List<Customer> customers;
+        List<Worker> workers;
+        DataView view;
+
 
         public MainWindow()
         {
-            InitializeComponent();            
+            InitializeComponent();
+            InitMyStuff();        
         }
 
-        private void Row_Changed(object sender, DataRowChangeEventArgs e)
+        private void InitMyStuff()
         {
             try
             {
-                //e.Row.
-                MessageBox.Show(e.Row.RowState.ToString());
-               // MessageBox.Show("ROW CHANGED, dr[Lname].ToString():" + dr["Lname"].ToString() + ",\n    e.Row[Lname].ToString(): " + e.Row["Lname"].ToString());
+                view = new DataView();
+                workers = new List<Worker>();
+                customers = new List<Customer>();
+                RefreshWorkers();
+                RefreshReservations();
+                RefreshCustomers();
+                notes = new List<Note>();
+                notes = Studio.GetNotesList();
 
-               /* string property = "";
-                string newData = "";
-
-                if (dr["Fname"].ToString() != e.Row["Fname"].ToString())
+                foreach (Note note in notes)
                 {
-                    property = "Fname";
-                    newData = e.Row["Fname"].ToString();
+                    AppendMessage(note);
                 }
-
-                else if (dr["Lname"].ToString() != e.Row["Lname"].ToString())
-                {
-                    property = "Lname";
-                    newData = e.Row["Lname"].ToString();
-                }
-
-                else if (dr["Addr"].ToString() != e.Row["Addr"].ToString())
-                {
-                    property = "Addr";
-                    newData = e.Row["Addr"].ToString();
-                }
-
-                else if (dr["Phone"].ToString() != e.Row["Phone"].ToString())
-                {
-                    property = "Phone";
-                    newData = e.Row["Phone"].ToString();
-                }
-                else if (dr["RegDate"].ToString() != e.Row["RegDate"].ToString())
-                {
-                    property = "RegDate";
-                    DateTime RegDate = Convert.ToDateTime(e.Row["RegDate"].ToString());
-                    newData = RegDate.Year + "-" + RegDate.Month + "-" + RegDate.Day;
-                }
-                else if (dr["Other"].ToString() != e.Row["Other"].ToString())
-                {
-                    property = "Other";
-                    newData = e.Row["Other"].ToString();
-                }
-
-                MessageBox.Show("Property: " + property + ", newData: "+ newData);
-                BLData.UpdateWorker(dr, e.Row);*/
             }
             catch (Exception ex)
             {
@@ -88,16 +66,133 @@ namespace Scheduler_studio
             }
         }
 
-        private void btnStaff_Click(object sender, RoutedEventArgs e)
+        private void RefreshReservations()
         {
-            spReservationView.Visibility = Visibility.Collapsed;
-            spWorkerView.Visibility = Visibility.Visible;
             try
             {
-                dt = DBWorker.GetAllWorkersData(1);
-               // RefreshHandlers();
-                dv = dt.DefaultView;
-                dgWorkerList.DataContext = dv;
+                dtReservations = Studio.GetReservations();
+                dvReservations = dtReservations.DefaultView;
+                dgReservations.DataContext = null;
+                dgReservations.DataContext = dvReservations;
+                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void SomeSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var comboBox = sender as ComboBox;
+            var selectedItem = this.dgReservations.CurrentItem;
+
+        }
+
+        private void RefreshCustomers()
+        {
+            try
+            {
+                customers.Clear();
+                customers = Studio.GetCustomersList();
+                cbReservationRegCustomer.ItemsSource = null;
+
+                cbReservationRegCustomer.Items.Add(new Customer());
+                foreach (Customer customer in customers)
+                {
+                    cbReservationRegCustomer.Items.Add(customer);
+                }
+                //cbRegCustomer.ItemsSource = customers;
+
+                dgcReservationRegCustomer.ItemsSource = customers;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void RefreshWorkers()
+        {
+            try
+            {
+                dtWorkers = Studio.GetWorkersTable();
+                dvWorkers = dtWorkers.DefaultView;
+                dgWorkerList.DataContext = dvWorkers;
+
+                cbNotesEmployeeSelector.ItemsSource = null;
+                cbWorkerFilter.ItemsSource = null;
+                cbReservationEmployee.ItemsSource = null;
+                workers.Clear();
+                workers = Studio.GetWorkersList(dtWorkers);
+
+                cbWorkerFilter.Items.Add(new Worker());
+                foreach (Worker worker in workers)
+                {
+                    cbWorkerFilter.Items.Add(worker);
+                }
+                cbNotesEmployeeSelector.ItemsSource = workers;
+                cbReservationEmployee.ItemsSource = workers;
+                dgcReservationRegEmployee.ItemsSource = workers;
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void DeleteNoteContainer(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                 Studio.DeleteNote((Note)((sender as Button).Parent as StackPanel).DataContext);
+                ((sender as Button).Parent as StackPanel).Children.Clear();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void AppendMessage(Note note)
+        {
+            try
+            {
+
+                TextBlock txtWorker = new TextBlock();
+                TextBlock txtNote = new TextBlock();
+                Button btnDelNote = new Button();
+                btnDelNote.Content = "Delete";
+                btnDelNote.Click += DeleteNoteContainer;
+                StackPanel spContainer = new StackPanel();
+
+                txtWorker.Text = note.NoteAuthor;
+                txtNote.Text = note.Message;
+
+                txtNote.Foreground = new SolidColorBrush(Colors.Red);
+
+                spContainer.CanVerticallyScroll = true;
+                spContainer.DataContext = note;
+                spContainer.Orientation = Orientation.Horizontal;
+                spContainer.Children.Add(txtNote);
+                spContainer.Children.Add(txtWorker);
+                spContainer.Children.Add(btnDelNote);
+                spSubmittedNotes.Children.Add(spContainer);
+                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        #region PANELS
+        private void btnStaff_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                SetVisibile("worker");
             }
             catch (Exception ex)
             {
@@ -109,7 +204,7 @@ namespace Scheduler_studio
         {
             try
             {
-
+                SetVisibile("notebook");
             }
             catch (Exception ex)
             {
@@ -117,54 +212,135 @@ namespace Scheduler_studio
             }
         }
 
-        /* private void dgWorkerList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-         {
-             try
-             {
-                 sbWorkerDetails.DataContext = dgWorkerList.SelectedItem;
-             }
-             catch (Exception ex)
-             {
-                 MessageBox.Show(ex.Message);                
-             }
-         }
 
 
-         private void btnAddWorker_Click(object sender, RoutedEventArgs e)
-         {
-             try
-             {
-                 DBWorker.AddWorker(txtFirstName.Text, txtLastName.Text, txtAddress.Text, txtPhone.Text, dpDate.SelectedDate.Value, txtOther.Text);
-                 dt = DBWorker.GetAllWorkersData();
-                 dv = dt.DefaultView;
-                 dgWorkerList.DataContext = dv;
-             }
-             catch (Exception ex)
-             {
-                 MessageBox.Show(ex.Message);
-             }
-         }
-
-        private void btnDeleteWorker_Click(object sender, RoutedEventArgs e)
+        private void btnReservations_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                DateTime date = Convert.ToDateTime(dpDate.SelectedDate.Value);
-                DBWorker.RemoveWorker(txtFirstName.Text, txtLastName.Text, txtAddress.Text, txtPhone.Text, date, txtOther.Text);
-                dt = DBWorker.GetAllWorkersData();
-                dv = dt.DefaultView;
-                dgWorkerList.DataContext = dv;
+                SetVisibile("reservation");
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
-        }*/
+        }
+
+        private void btnShowSavePanel_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                spAddWorker.Visibility = Visibility.Visible;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void SetVisibile(string panel)
+        {
+            try
+            {
+                switch (panel)
+                {
+                    case "worker":
+                        spWorkerView.Visibility = Visibility.Visible;
+                        spNoteView.Visibility = Visibility.Collapsed;
+                        spReservationView.Visibility = Visibility.Collapsed;
+                        break;
+                    case "notebook":
+                        spNoteView.Visibility = Visibility.Visible;
+                        spReservationView.Visibility = Visibility.Collapsed;
+                        spWorkerView.Visibility = Visibility.Collapsed;
+                        break;
+                    case "reservation":
+                        spReservationView.Visibility = Visibility.Visible;
+                        spNoteView.Visibility = Visibility.Collapsed;
+                        spWorkerView.Visibility = Visibility.Collapsed;
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        #endregion
+
+        #region SAVEFUNCTIONS
+
+        private void btnSaveReservation_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                bool ok;
+                ok = true;
+                if (txtReservationUnregCustomer.Text == "" && cbReservationRegCustomer.SelectedIndex == -1 || cbReservationEmployee.SelectedIndex == -1 || txtReservationService.Text == "" || txtReservationTime.Text == "" || !dpReservationDate.SelectedDate.HasValue)
+                {
+
+                    MessageBox.Show("Tarpeellisia tietoja jätetty pois!");
+                    ok = false;
+                }
+                else if (MessageBox.Show("Haluatko varmasti lisätä tämän varauksen?\n" + "Palvelu: " + txtReservationService.Text + "\n" + "Rekisteröity käyttäjä: " + cbReservationRegCustomer.SelectedValue + "\n" + "Rekisteröimätön käyttäjä: " + txtReservationUnregCustomer.Text + "\n" + "Pvm: " + dpReservationDate.SelectedDate.Value.Date + "\n" + "Aika: " + txtReservationTime.Text + "\n" + "Työntekijä: " + cbReservationEmployee.SelectedValue, "Varmistus", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                {
+                    string unregcustomer = null;
+                    Nullable<int> regcustomer = null;
+
+                    if (txtReservationUnregCustomer.Text == "" && cbReservationRegCustomer.SelectedIndex != -1)
+                    {
+                        regcustomer = Convert.ToInt32(cbReservationRegCustomer.SelectedValue);
+
+                    }
+
+                    if (txtReservationUnregCustomer.Text != "" && cbReservationRegCustomer.SelectedIndex == -1)
+                    {
+                        unregcustomer = txtReservationUnregCustomer.Text;
+                    }
+
+                    if (ok == true)
+                    {
+                        Reservation reservation = new Reservation(Convert.ToInt32(cbReservationEmployee.SelectedValue), regcustomer, txtReservationService.Text, unregcustomer, dpReservationDate.SelectedDate.Value.Date, txtReservationTime.Text);
+                        txtReservationService.Text = "";
+                        cbReservationRegCustomer.SelectedIndex = -1;
+                        txtReservationUnregCustomer.Text = "";
+                        cbReservationEmployee.SelectedIndex = -1;
+                        txtReservationTime.Text = "";
+
+                        Studio.SaveReservation(reservation);
+                        RefreshReservations();
+                    }                    
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void btnSaveNote_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Note note = new Note(txtNote.Text, cbNotesEmployeeSelector.Text, Convert.ToInt32(cbNotesEmployeeSelector.SelectedValue));
+                notes.Add(note);
+                Studio.SaveNote(note);
+                AppendMessage(note);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
         private void btnSaveChanges_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                DBWorker.UpdateWorker(dt, 1);
+                int rowcount = DBStudio.UpdateWorker(dtWorkers);
+                MessageBox.Show(rowcount + " riviä muokattu.");
+                RefreshWorkers();
             }
             catch (Exception ex)
             {
@@ -172,17 +348,109 @@ namespace Scheduler_studio
             }
         }
 
-        private void btnReservations_Click(object sender, RoutedEventArgs e) {
-            spReservationView.Visibility = Visibility.Visible;
-            spWorkerView.Visibility = Visibility.Collapsed;
-            dt = DBWorker.GetAllWorkersData(2);
-            dv = dt.DefaultView;
-            dgReservationList.DataContext = dv;
+        private void btnSaveWorker_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (MessageBox.Show("Haluatko varmasti lisätä tämän käyttäjän?\n" + "Nimi: " + txtFname.Text + " " + txtLname.Text + "\n" + "Osoite: " + txtAddress.Text + "\n" + "Puhelinnumero: " + txtPhone.Text + "\n" + "Muu tieto: " + txtOther.Text, "Varmistus", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                {
+                    dr = dtWorkers.NewRow();
+                    dr["fname"] = txtFname.Text;
+                    dr["lname"] = txtLname.Text;
+                    dr["addr"] = txtAddress.Text;
+                    dr["phone"] = txtPhone.Text;
+                    dr["regdate"] =  DateTime.Now.Day + "." + DateTime.Now.Month + "." + DateTime.Now.Year;
+                    dr["other"] = txtOther.Text;
+                    dtWorkers.Rows.Add(dr);
+                    spAddWorker.Visibility = Visibility.Collapsed;
+                    txtFname.Text = "";
+                    txtLname.Text = "";
+                    txtAddress.Text = "";
+                    txtPhone.Text = "";
+                    txtOther.Text = "";
+
+                    DBStudio.UpdateWorker(dtWorkers);
+                    RefreshWorkers();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
-        private void btnSaveChangesReservation_Click(object sender, RoutedEventArgs e) {
+        #endregion
+
+        private void btnUpdateReservations_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                int rows = Studio.UpdateReservations(dtReservations);
+                MessageBox.Show(rows + " riviä päivitetty");
+                RefreshReservations();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void btnDeleteReservation_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+
+                int pkey = Convert.ToInt32((dgReservations.SelectedItem as DataRowView)["PKey"].ToString());
+
+                int effectedRows = Studio.RemoveReservation(pkey);
+                MessageBox.Show(effectedRows + " riviä poistettu!");
+                RefreshReservations();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void cbWorkerFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                if(cbWorkerFilter.SelectedIndex == 0)
+                {
+                    dvReservations.RowFilter = null;
+                }
+                else
+                {
+                    dvReservations.RowFilter = "Employee =" + cbWorkerFilter.SelectedValue;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void cbCustomerFilter_TextChanged(object sender, TextChangedEventArgs e) {
             try {
-                DBWorker.UpdateWorker(dt, 2);
+                if (cbCustomerFilter.Text == "") {
+                    dvReservations.RowFilter = null;
+                }
+                else {
+
+                    DataTable dt = Scheduler_studio.DBStudio.getCustomerNames();
+
+                    foreach(DataRow row in dt.Rows) {
+                        foreach (var value in row.ItemArray) {
+                            if (value.ToString() == cbCustomerFilter.Text) {
+                                dvReservations.RowFilter = "RegCustomer =" + row[0];
+                                break;
+                            }
+                        }
+                    }
+                }
+
             }
             catch (Exception ex) {
                 MessageBox.Show(ex.Message);
