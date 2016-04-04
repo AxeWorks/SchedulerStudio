@@ -389,19 +389,22 @@ namespace Scheduler_studio
                 string unregcustomer;
                 foreach(DataRow row in dtReservations.Rows)
                 {
-                    //MessageBox.Show("RegCustomer:"+Convert.ToInt32(row["RegCustomer"].ToString())+"\n"+"Employee:"+ Convert.ToInt32(row["RegCustomer"].ToString()) + "\n" + "PKey:" + Convert.ToInt32(row["PKey"].ToString()));
-                    date = Convert.ToDateTime(row["ReservationDate"].ToString());                    
+                    if(row.RowState == DataRowState.Modified)
+                    {
+                        date = Convert.ToDateTime(row["ReservationDate"].ToString());
 
-                    regcustomer = Int32.TryParse(row["RegCustomer"].ToString(), out tempVal) ? tempVal : (int?)null;
-                    if (row["UnregCustomer"].ToString() == "")
-                    {
-                        unregcustomer = null;
+                        regcustomer = Int32.TryParse(row["RegCustomer"].ToString(), out tempVal) ? tempVal : (int?)null;
+                        if (row["UnregCustomer"].ToString() == "")
+                        {
+                            unregcustomer = null;
+                        }
+                        else
+                        {
+                            unregcustomer = row["UnregCustomer"].ToString();
+                        }
+                        reservations.Add(new Reservation(Convert.ToInt32(row["PKey"].ToString()), Convert.ToInt32(row["Employee"].ToString()), regcustomer, row["Service"].ToString(), unregcustomer, date, row["ReservationTime"].ToString()));
                     }
-                    else
-                    {
-                        unregcustomer = row["UnregCustomer"].ToString();
-                    }
-                    reservations.Add(new Reservation(Convert.ToInt32(row["PKey"].ToString()), Convert.ToInt32(row["Employee"].ToString()), regcustomer, row["Service"].ToString(), unregcustomer, date, row["ReservationTime"].ToString()));
+                    
                 }
 
                 int count = DBStudio.UpdateReservations(reservations);
