@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
@@ -404,6 +405,26 @@ namespace Scheduler_studio
                 int effectedRows = Studio.RemoveReservation(pkey);
                 MessageBox.Show(effectedRows + " riviä poistettu!");
                 RefreshReservations();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void cbWorkerFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                if(cbWorkerFilter.SelectedIndex == 0)
+                {
+                    dvReservations.RowFilter = null;
+                }
+                else
+                {
+                    dvReservations.RowFilter = "Employee =" + cbWorkerFilter.SelectedValue;
+                }
+
             }
             catch (Exception ex)
             {

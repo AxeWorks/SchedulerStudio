@@ -394,6 +394,7 @@ namespace Scheduler_studio
                         date = Convert.ToDateTime(row["ReservationDate"].ToString());
 
                         regcustomer = Int32.TryParse(row["RegCustomer"].ToString(), out tempVal) ? tempVal : (int?)null;
+
                         if (row["UnregCustomer"].ToString() == "")
                         {
                             unregcustomer = null;

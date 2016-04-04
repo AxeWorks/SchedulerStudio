@@ -74,7 +74,7 @@
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="FILTTERIT"/>
                     <TextBlock Text="Työntekijä" Margin="10,0,0,0"/>
-                    <ComboBox x:Name="cbWorkerFilter" DisplayMemberPath="FullName" SelectedValuePath="PKey" Margin="10,0,0,0"/>
+                    <ComboBox x:Name="cbWorkerFilter" DisplayMemberPath="FullName" SelectedValuePath="PKey" Margin="10,0,0,0" SelectionChanged="cbWorkerFilter_SelectionChanged"/>
                     <TextBlock Text="Asiakas" Margin="10,0,0,0"/>
                     <TextBox x:Name="cbCustomerFilter" Margin="10,0,0,0" Width="155"/>
                     <TextBlock Text="Päivämäärä" Margin="10,0,0,0"/>
