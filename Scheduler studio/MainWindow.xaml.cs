@@ -431,5 +431,30 @@ namespace Scheduler_studio
                 MessageBox.Show(ex.Message);
             }
         }
+
+        private void cbCustomerFilter_TextChanged(object sender, TextChangedEventArgs e) {
+            try {
+                if (cbCustomerFilter.Text == "") {
+                    dvReservations.RowFilter = null;
+                }
+                else {
+
+                    DataTable dt = Scheduler_studio.DBStudio.getCustomerNames();
+
+                    foreach(DataRow row in dt.Rows) {
+                        foreach (var value in row.ItemArray) {
+                            if (value.ToString() == cbCustomerFilter.Text) {
+                                dvReservations.RowFilter = "RegCustomer =" + row[0];
+                                break;
+                            }
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex) {
+                MessageBox.Show(ex.Message);
+            }
+        }
     }
 }

@@ -85,6 +85,26 @@ namespace Scheduler_studio
             }
         }
 
+        public static DataTable getCustomerNames() {
+
+            try {
+                DataTable dt = new DataTable();
+                using (SQLiteConnection conn = new SQLiteConnection(Scheduler_studio.Properties.Settings.Default.ConnectionString)) {
+                    conn.Open();
+                    string sqlString = "SELECT PKey, Fname, Lname FROM customer";
+                    // SQLiteCommand command = new SQLiteCommand(sqlString, conn);
+                    SQLiteDataAdapter da = new SQLiteDataAdapter(sqlString, conn);
+
+                    da.Fill(dt);
+                    conn.Close();
+                }
+                return dt;
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
+        }
+
         public static int SaveNote(string msg, int FKey)
         {
             try
