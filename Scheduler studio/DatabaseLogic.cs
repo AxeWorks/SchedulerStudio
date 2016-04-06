@@ -12,7 +12,6 @@ namespace Scheduler_studio
 {
      public static class DBStudio
     {
-
         public static int UpdateReservations(List<Reservation> reservations)
         {
             try
@@ -112,7 +111,6 @@ namespace Scheduler_studio
             }
         }
 
-
         public static int DeleteNote(string msg, int FKey)
         {
             try
@@ -139,7 +137,6 @@ namespace Scheduler_studio
                 throw ex;
             }
         }
-
 
         public static DataTable GetAllWorkersData()
         {
@@ -185,21 +182,6 @@ namespace Scheduler_studio
                     da.UpdateCommand = new SQLiteCommand("UPDATE worker SET Fname = @newFname, Lname = @newLname, Addr = @newAddr, Phone = @newPhone, Other = @newOther " +
                         "WHERE PKey = @PKey", conn);
 
-                   /* SQLiteParameter param1 = da.UpdateCommand.Parameters.Add("@oldFname", DbType.String, 20, "Fname");
-                    param1.SourceVersion = DataRowVersion.Original;
-                    SQLiteParameter param2 = da.UpdateCommand.Parameters.Add("@oldLname", DbType.String, 30, "Lname");
-                    param2.SourceVersion = DataRowVersion.Original;
-                    SQLiteParameter param3 = da.UpdateCommand.Parameters.Add("@oldFullName", DbType.String, 100, "FullName");
-                    param3.SourceVersion = DataRowVersion.Original;
-                    SQLiteParameter param4 = da.UpdateCommand.Parameters.Add("@oldAddr", DbType.String, 80, "Addr");
-                    param4.SourceVersion = DataRowVersion.Original;
-                    SQLiteParameter param5 = da.UpdateCommand.Parameters.Add("@oldPhone", DbType.String, 20, "Phone");
-                    param5.SourceVersion = DataRowVersion.Original;
-                    SQLiteParameter param6 = da.UpdateCommand.Parameters.Add("@oldOther", DbType.String, 100, "Other");
-                    param6.SourceVersion = DataRowVersion.Original;*/
-
-
-
                     SQLiteParameter paramA = da.UpdateCommand.Parameters.Add("@newFname", DbType.String, 20, "Fname");
                     paramA.SourceVersion = DataRowVersion.Current;
                     SQLiteParameter paramB = da.UpdateCommand.Parameters.Add("@newLname", DbType.String, 30, "Lname");
@@ -215,13 +197,6 @@ namespace Scheduler_studio
                     da.DeleteCommand = new SQLiteCommand("DELETE FROM worker WHERE PKey = @PKey", conn);
 
                     da.DeleteCommand.Parameters.Add("@PKey", DbType.Int32, 100000, "PKey");
-
-                    /* da.DeleteCommand.Parameters.Add("@Fname", DbType.String, 20, "Fname");
-                     da.DeleteCommand.Parameters.Add("@Lname", DbType.String, 30, "Lname");
-                     da.DeleteCommand.Parameters.Add("@Addr", DbType.String, 80, "Addr");
-                     da.DeleteCommand.Parameters.Add("@Phone", DbType.String, 20, "Phone");
-                     da.DeleteCommand.Parameters.Add("@RegDate", DbType.String, 10, "RegDate");
-                     da.DeleteCommand.Parameters.Add("@Other", DbType.String, 100, "Other");*/
 
                     rowcount = da.Update(dt);
                     conn.Close();
@@ -286,7 +261,6 @@ namespace Scheduler_studio
         {
             try
             {
-                MessageBox.Show("Palvelu:"+operation + ",\n" + "pvm:" + ResDate + ",\n" + "Aika:" + ResTime + ",\n" + "Unregasiakas:" + unregcustomer + ",\n" + "regasiakas:" + regcustomer + ",\n" + "Teyöntekijä:" + employee);
                 int count = 0;
                 using (SQLiteConnection conn = new SQLiteConnection(Scheduler_studio.Properties.Settings.Default.ConnectionString))
                 {
@@ -329,7 +303,6 @@ namespace Scheduler_studio
             }
         }
 
-
         public static DataTable GetCustomers()
         {
             try
@@ -351,59 +324,6 @@ namespace Scheduler_studio
             {
                 throw ex;
             }
-        }
-        /* public static int AddWorker(string Fname, string Lname, string Addr, string Phone, DateTime RegDate, string Other)
-         {
-             try
-             {
-                 string date = RegDate.Year + "-" + RegDate.Month + "-" + RegDate.Day;
-                 int count;
-                 using (SQLiteConnection conn = new SQLiteConnection(Scheduler_studio.Properties.Settings.Default.ConnectionString))
-                 {
-                     conn.Open();
-                     string sqlString = 
-                         "INSERT INTO worker (Fname, Lname, Addr, Phone, RegDate, Other) VALUES ('"+Fname+"','"+Lname+"','"+Addr+"','"+Phone+"','"+date+"','"+Other+"')";
-
-                     SQLiteCommand command = new SQLiteCommand(sqlString, conn);
-                     // Tutki kannattaako käyttää .executenonqueryasync
-                     count = command.ExecuteNonQuery();
-                     conn.Close();
-                 }
-                 return count;
-             }
-             catch (Exception ex)
-             {
-                 throw ex;
-             }
-         }
-
-         public static void RemoveWorker(string Fname, string Lname, string Addr, string Phone, DateTime RegDate, string Other)
-         {
-             try
-             {
-                 string otherinfo;
-                 if(Other == "")
-                 {
-                     otherinfo = null;
-                 }
-                 else
-                 {
-                     otherinfo = Other;
-                 }
-                 string date = RegDate.Year + "-" + RegDate.Month + "-" + RegDate.Day;
-                 using (SQLiteConnection conn = new SQLiteConnection(Scheduler_studio.Properties.Settings.Default.ConnectionString))
-                 {
-                     conn.Open();
-                     string sqlString = "DELETE FROM worker WHERE (Fname IS '" + Fname + "') AND (Lname IS '" + Lname + "') AND (Addr IS '" + Addr + "') AND (Phone IS '" + Phone + "') AND (RegDate IS '" + date + "') AND (Other IS '" + otherinfo + "')";
-                     SQLiteCommand command = new SQLiteCommand(sqlString, conn);
-                     command.ExecuteNonQuery();
-                     conn.Close();
-                 }
-             }
-             catch (Exception ex)
-             {
-                 throw ex;
-             }
-         }*/
+        }       
     }
 }

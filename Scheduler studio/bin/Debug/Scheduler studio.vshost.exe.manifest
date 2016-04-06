@@ -3,7 +3,7 @@
   <asmv1:assemblyIdentity name="Scheduler studio.exe" version="1.0.0.1" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
   <application />
   <entryPoint>
-    <assemblyIdentity name="Scheduler studio" version="0.1.0.0" language="neutral" processorArchitecture="msil" />
+    <assemblyIdentity name="Scheduler studio" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
     <commandLine file="Scheduler studio.exe" parameters="" />
   </entryPoint>
   <trustInfo>
@@ -42,14 +42,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Scheduler studio.exe" size="41912">
-      <assemblyIdentity name="Scheduler studio" version="0.1.0.0" language="neutral" processorArchitecture="msil" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Scheduler studio.exe" size="43448">
+      <assemblyIdentity name="Scheduler studio" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>FasoBZ/htl3etUdpOX9I+mcbOEzZdpFVuCdX2p0b0+g=</dsig:DigestValue>
+        <dsig:DigestValue>5mY+Xn2t5l/cLStFTcEWDExmHDzcAJ+hkoVD6au2L7g=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

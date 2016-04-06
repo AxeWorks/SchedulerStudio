@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Text.RegularExpressions;
+
 
 namespace Scheduler_studio
 {
@@ -339,31 +341,6 @@ namespace Scheduler_studio
 
     static class Studio
     {
-
-        
-
-        public class DataGridComboBoxColumnWithBindingHack : DataGridComboBoxColumn
-        {
-            protected override FrameworkElement GenerateEditingElement(DataGridCell cell, object dataItem)
-            {
-                FrameworkElement element = base.GenerateEditingElement(cell, dataItem);
-                CopyItemsSource(element);
-                return element;
-            }
-
-            protected override FrameworkElement GenerateElement(DataGridCell cell, object dataItem)
-            {
-                FrameworkElement element = base.GenerateElement(cell, dataItem);
-                CopyItemsSource(element);
-                return element;
-            }
-
-            private void CopyItemsSource(FrameworkElement element)
-            {
-                BindingOperations.SetBinding(element, ComboBox.ItemsSourceProperty, BindingOperations.GetBinding(this, ComboBox.ItemsSourceProperty));
-            }
-        }
-
         public static int RemoveReservation(int pkey)
         {
             try
@@ -512,9 +489,22 @@ namespace Scheduler_studio
         public static int SaveReservation(Reservation reservation)
         {
             int rowcount;
-            rowcount = DBStudio.InsertReservation(reservation.Service, reservation.Time.ToString(), reservation.Date.Date.ToString(), reservation.UnregCustomer, reservation.RegCustomer, reservation.Employee);
+            rowcount = DBStudio.InsertReservation(reservation.Service, reservation.Time.ToString(), reservation.Date.Day + "." + reservation.Date.Month + "." + reservation.Date.Year, reservation.UnregCustomer, reservation.RegCustomer, reservation.Employee);
 
             return rowcount;
+        }
+        public static bool IsValidTime(string time)
+        {
+            Regex check = new Regex(@"^(?:0?[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$");
+
+            return check.IsMatch(time);
+        }
+
+        public static bool IsValidPhone(string phone)
+        {
+            Regex check = new Regex(@"^(\+([0-9]{3})?|^[0-9])([0-9]{2})(\\s)?(([0-9]{3})(\\s)?){2}([0-9])$");
+
+            return check.IsMatch(phone);
         }
 
         #region WORKER
@@ -556,22 +546,4 @@ namespace Scheduler_studio
 
         #endregion
     }
-
-
-
-/* public class MyDataGridTemplateColumn : DataGridTemplateColumn
- {
-     public string ColumnName
-     {
-         get;
-         set;
-     }
-
-     protected override System.Windows.FrameworkElement GenerateElement(DataGridCell cell, object dataItem)
-     {
-         ContentPresenter cp = (ContentPresenter)base.GenerateElement(cell, dataItem);
-         BindingOperations.SetBinding(cp, ContentPresenter.ContentProperty, new Binding(this.ColumnName));
-         return cp;
-     }
- }*/
 }
