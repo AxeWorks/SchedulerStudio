@@ -26,7 +26,7 @@ namespace Scheduler_studio.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data source=..\\..\\sqlite\\mydb")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data source=../../sqlite/mydb")]
         public string ConnectionString {
             get {
                 return ((string)(this["ConnectionString"]));

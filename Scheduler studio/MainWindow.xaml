@@ -11,7 +11,7 @@
             <DataTemplate x:Key="SelectorTemplate">
                 <ComboBox DisplayMemberPath="FullName" SelectedValuePath="PKey"/>
             </DataTemplate>
-            <DataTemplate x:Key="WorkerTab" DataType="TabItem">
+            <DataTemplate x:Key="WorkerTab" DataType="StackPanel">
                 
             </DataTemplate>
         </ResourceDictionary>
@@ -25,12 +25,12 @@
                 <Button x:Name="btnReservations" Content="Varaukset" Click="btnReservations_Click"/>
             </StackPanel>
             <StackPanel x:Name="spNoteView" Visibility="Collapsed" Orientation="Vertical">
-                <StackPanel x:Name="spSubmittedNotes" Orientation="Vertical" Height="301">                    
-                </StackPanel>
+                <WrapPanel x:Name="wpSubmittedNotes" Orientation="Vertical" Height="301">                    
+                </WrapPanel>
                 <StackPanel Orientation="Vertical" Height="137">
                     <StackPanel x:Name="spNoteForm" Orientation="Horizontal" Height="84">
                         
-                        <TextBox x:Name="txtNote" Width="1042"/>
+                        <TextBox x:Name="txtNote" Width="1042" TextWrapping="Wrap"/>
                         <ComboBox DisplayMemberPath="FullName" SelectedValuePath="PKey" x:Name="cbNotesEmployeeSelector" Width="98"/>
                         <Button x:Name="btnSaveNote" Content="Tallenna viesti" Click="btnSaveNote_Click"/>
                     </StackPanel>

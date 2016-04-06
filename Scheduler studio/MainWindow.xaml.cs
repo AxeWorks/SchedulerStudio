@@ -102,7 +102,6 @@ namespace Scheduler_studio
                 {
                     cbReservationRegCustomer.Items.Add(customer);
                 }
-                //cbRegCustomer.ItemsSource = customers;
 
                 dgcReservationRegCustomer.ItemsSource = customers;
             }
@@ -123,6 +122,9 @@ namespace Scheduler_studio
                 cbNotesEmployeeSelector.ItemsSource = null;
                 cbWorkerFilter.ItemsSource = null;
                 cbReservationEmployee.ItemsSource = null;
+                cbNotesEmployeeSelector.Items.Clear();
+                cbWorkerFilter.Items.Clear();
+                cbReservationEmployee.Items.Clear();
                 workers.Clear();
                 workers = Studio.GetWorkersList(dtWorkers);
 
@@ -134,7 +136,7 @@ namespace Scheduler_studio
                 cbNotesEmployeeSelector.ItemsSource = workers;
                 cbReservationEmployee.ItemsSource = workers;
                 dgcReservationRegEmployee.ItemsSource = workers;
-
+                RefreshReservations();
             }
             catch (Exception ex)
             {
@@ -147,7 +149,7 @@ namespace Scheduler_studio
             try
             {
                  Studio.DeleteNote((Note)((sender as Button).Parent as StackPanel).DataContext);
-                ((sender as Button).Parent as StackPanel).Children.Clear();
+                 (((sender as Button).Parent as StackPanel).Parent as StackPanel).Visibility = Visibility.Collapsed;
             }
             catch (Exception ex)
             {
@@ -159,13 +161,22 @@ namespace Scheduler_studio
         {
             try
             {
-
                 TextBlock txtWorker = new TextBlock();
                 TextBlock txtNote = new TextBlock();
+                txtNote.Width = 200;
+                txtNote.TextWrapping = TextWrapping.Wrap;
                 Button btnDelNote = new Button();
                 btnDelNote.Content = "Delete";
                 btnDelNote.Click += DeleteNoteContainer;
                 StackPanel spContainer = new StackPanel();
+                StackPanel spMessage = new StackPanel();
+                StackPanel spFooter = new StackPanel();
+                Border border = new Border();
+                border.BorderBrush = Brushes.White;
+                border.BorderThickness = new Thickness(2, 2, 2, 2);
+                border.Background = Brushes.Wheat;
+                border.CornerRadius = new CornerRadius(5);
+                border.Margin = new Thickness(2, 2, 2, 2);
 
                 txtWorker.Text = note.NoteAuthor;
                 txtNote.Text = note.Message;
@@ -173,13 +184,18 @@ namespace Scheduler_studio
                 txtNote.Foreground = new SolidColorBrush(Colors.Red);
 
                 spContainer.CanVerticallyScroll = true;
-                spContainer.DataContext = note;
                 spContainer.Orientation = Orientation.Horizontal;
-                spContainer.Children.Add(txtNote);
-                spContainer.Children.Add(txtWorker);
-                spContainer.Children.Add(btnDelNote);
-                spSubmittedNotes.Children.Add(spContainer);
-                
+                spFooter.Orientation = Orientation.Vertical;
+                spContainer.Width = 300;
+                spContainer.Height = 50;
+                spContainer.DataContext = note;
+                spMessage.Children.Add(txtNote);
+                spFooter.Children.Add(txtWorker);
+                spFooter.Children.Add(btnDelNote);
+                spContainer.Children.Add(spMessage);
+                spContainer.Children.Add(spFooter);
+                border.Child = spContainer;
+                wpSubmittedNotes.Children.Add(border);                
             }
             catch (Exception ex)
             {
