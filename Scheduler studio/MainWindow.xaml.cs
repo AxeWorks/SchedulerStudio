@@ -35,7 +35,6 @@ namespace Scheduler_studio
         List<Note> notes;
         List<Customer> customers;
         List<Worker> workers;
-        DataView view;
 
         public MainWindow()
         {
@@ -47,7 +46,6 @@ namespace Scheduler_studio
         {
             try
             {
-                view = new DataView();
                 workers = new List<Worker>();
                 customers = new List<Customer>();
                 RefreshWorkers();
@@ -373,6 +371,12 @@ namespace Scheduler_studio
 
             if (txtCFname.Text == "" || txtCLname.Text == "" || txtCFname.Text == "" || txtCPhone.Text == "" || txtCPrivilege.Text == "" || dpCustomerBD.SelectedDate == null) {
                 MessageBox.Show("Kaikkien kenttien täytyy olla täytetty.");
+                return;
+            }
+
+            if(Studio.IsValidPhone(txtCPhone.Text))
+            {
+                MessageBox.Show("Puhelinnumero väärää formaattia.");
                 return;
             }
             try

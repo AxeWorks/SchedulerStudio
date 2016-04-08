@@ -13,7 +13,7 @@ using System.Text.RegularExpressions;
 
 namespace Scheduler_studio
 {    
-    class Worker : INotifyPropertyChanged
+    class Worker
     {
         #region PROPERTIES
 
@@ -34,7 +34,7 @@ namespace Scheduler_studio
         public string Firstname
         {
             get { return firstname;  }
-            set { firstname = value; Notify("Fname"); }
+            set { firstname = value; }
             
         }
 
@@ -43,7 +43,7 @@ namespace Scheduler_studio
         public string Lastname
         {
             get { return lastname; }
-            set { lastname = value; Notify("Lname"); }
+            set { lastname = value; }
         }
 
         private string address;
@@ -51,7 +51,7 @@ namespace Scheduler_studio
         public string Address
         {
             get { return address; }
-            set { address = value; Notify("Address"); }
+            set { address = value; }
         }
 
         private string phone;
@@ -59,7 +59,7 @@ namespace Scheduler_studio
         public string Phone
         {
             get { return phone; }
-            set { phone = value; Notify("Phone"); }
+            set { phone = value; }
         }
 
         private DateTime regdate;
@@ -67,7 +67,7 @@ namespace Scheduler_studio
         public DateTime RegDate
         {
             get { return regdate; }
-            set { regdate = value; Notify("RegDate"); }
+            set { regdate = value; }
         }
 
         private string otherInfo;
@@ -75,7 +75,7 @@ namespace Scheduler_studio
         public string OtherInfo
         {
             get { return otherInfo; }
-            set { otherInfo = value; Notify("Other"); }
+            set { otherInfo = value; }
         }
         
         #endregion
@@ -92,15 +92,7 @@ namespace Scheduler_studio
         }
         #endregion
         #region METHODS
-        public event PropertyChangedEventHandler PropertyChanged;
 
-        void Notify(string propName)
-        {
-            if (PropertyChanged != null)
-            {                
-                PropertyChanged(this, new PropertyChangedEventArgs(propName));
-            }
-        }
         #endregion
     }
 
