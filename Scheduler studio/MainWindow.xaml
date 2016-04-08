@@ -21,7 +21,7 @@
             <StackPanel Orientation="Horizontal" Margin="5,5,5,5">
                 <Button x:Name="btnNotes" Content="Muistio" Click="btnNotes_Click"/>
                 <Button x:Name="btnStaff" Content="Henkilökunta" Click="btnStaff_Click"/>
-                <Button x:Name="btnCustomers" Content="Asiakkaat" />
+                <Button x:Name="btnCustomers" Content="Asiakkaat" Click="btnCustomers_Click" />
                 <Button x:Name="btnReservations" Content="Varaukset" Click="btnReservations_Click"/>
             </StackPanel>
             <StackPanel x:Name="spNoteView" Visibility="Collapsed" Orientation="Vertical">
@@ -66,7 +66,41 @@
                     </StackPanel>
                     <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Bottom">
                         <Button x:Name="btnSaveChanges" Content="Tallenna muutokset" VerticalAlignment="Bottom" Click="btnSaveChanges_Click" Height="29" Width="127"/>
-                        <Button x:Name="btnShowSavePanel" Content="Add user" VerticalAlignment="Bottom" Click="btnShowSavePanel_Click" Height="29" Width="72" />
+                        <Button x:Name="btnShowSavePanel" Content="Lisää työntekijä" VerticalAlignment="Bottom" Click="btnShowSavePanel_Click" Height="29" Width="72" />
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+            <StackPanel x:Name="spCustomerView" Visibility="Collapsed" Height="440" Orientation="Vertical">
+                <DataGrid x:Name="dgCustomerList" ColumnWidth="100" ItemsSource="{Binding}" ScrollViewer.VerticalScrollBarVisibility="Auto" CanUserAddRows="False" Height="383" AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Etunimi" Binding="{Binding Fname}" Width="100"/>
+                        <DataGridTextColumn Header="Sukunimi" Binding="{Binding Lname}" Width="100"/>
+                        <DataGridTextColumn Header="Puh" Binding="{Binding Phone}" Width="100"/>
+                        <DataGridTextColumn Header="Etuus" Binding="{Binding Privilege}" Width="100"/>
+                        <DataGridTextColumn Header="Syntymäpäivä" Binding="{Binding Birthdate}" Width="400"/>
+                        <DataGridTextColumn Header="Rekisteröitymispäivä" Binding="{Binding RegDate}" Width="400" IsReadOnly="True"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <StackPanel Orientation="Vertical" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+                    <StackPanel x:Name="spAddCustomer" Visibility="Collapsed" Orientation="Horizontal" Height="27">
+                        <TextBlock Text="Etunimi:"/>
+                        <TextBox x:Name="txtCFname" Width="100" />
+                        <TextBlock Text="Sukunimi:"/>
+                        <TextBox x:Name="txtCLname" Width="100" />
+                        <TextBlock Text="Puhelin:"/>
+                        <TextBox x:Name="txtCPhone" Width="200" />
+                        <TextBlock Text="Etuus:"/>
+                        <TextBox x:Name="txtCPrivilege" Width="100" />
+                        <TextBlock Text="Syntymäaika:"/>
+                        <DatePicker x:Name="txtCBD" Width="100" />
+                        <TextBlock Text="Rekisteröitynyt:"/>
+                        <TextBox x:Name="txtCRD" Width="100" IsReadOnly="True"/>
+                        <Button x:Name="btnSaveCustomer" Content="Tallenna" Click="btnSaveCustomer_Click"/>
+                    </StackPanel>
+                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Bottom">
+                        <Button x:Name="btnCSaveChanges" Content="Tallenna muutokset" VerticalAlignment="Bottom" Height="29" Width="127" Click="btnCSaveChanges_Click"/>
+                        <Button x:Name="btnCShowSavePanel" Content="Lisää asiakas" VerticalAlignment="Bottom" Height="29" Width="100" Click="btnCShowSavePanel_Click" />
+                        <Button x:Name="btnCDeleteCustomer" Content="Poista asiakas" VerticalAlignment="Bottom" Height="29" Width="127" Click="btnCDeleteCustomer_Click"/>
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
@@ -78,7 +112,7 @@
                     <TextBlock Text="Asiakas" Margin="10,0,0,0"/>
                     <TextBox x:Name="cbCustomerFilter" Margin="10,0,0,0" Width="155" TextChanged="cbCustomerFilter_TextChanged"/>
                     <TextBlock Text="Päivämäärä" Margin="10,0,0,0"/>
-                    <ComboBox x:Name="cbDateFilter" Margin="10,0,0,0"/>
+                    <DatePicker x:Name="cbDateFilter" Margin="10,0,0,0" SelectedDateChanged="cbDateFilter_SelectedDateChanged"/>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" Height="361">
                     <DataGrid x:Name="dgReservations" ColumnWidth="100" ItemsSource="{Binding}" ScrollViewer.VerticalScrollBarVisibility="Auto" CanUserAddRows="False" Height="350" AutoGenerateColumns="False">

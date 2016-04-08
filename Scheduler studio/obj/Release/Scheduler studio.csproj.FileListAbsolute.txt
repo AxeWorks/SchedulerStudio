@@ -1,0 +1,20 @@
+Z:\Repos\SchedulerStudio\Scheduler studio\bin\Release\Scheduler studio.exe.config
+Z:\Repos\SchedulerStudio\Scheduler studio\bin\Release\Scheduler Studio.exe
+Z:\Repos\SchedulerStudio\Scheduler studio\bin\Release\Scheduler Studio.pdb
+Z:\Repos\SchedulerStudio\Scheduler studio\bin\Release\System.Data.SQLite.dll
+Z:\Repos\SchedulerStudio\Scheduler studio\bin\Release\System.Data.SQLite.xml
+Z:\Repos\SchedulerStudio\Scheduler studio\obj\Release\Scheduler studio.csprojResolveAssemblyReference.cache
+Z:\Repos\SchedulerStudio\Scheduler studio\obj\Release\MainWindow.g.cs
+Z:\Repos\SchedulerStudio\Scheduler studio\obj\Release\App.g.cs
+Z:\Repos\SchedulerStudio\Scheduler studio\obj\Release\Scheduler Studio_MarkupCompile.cache
+Z:\Repos\SchedulerStudio\Scheduler studio\obj\Release\Scheduler Studio_MarkupCompile.lref
+Z:\Repos\SchedulerStudio\Scheduler studio\obj\Release\MainWindow.baml
+Z:\Repos\SchedulerStudio\Scheduler studio\obj\Release\Scheduler Studio.g.resources
+Z:\Repos\SchedulerStudio\Scheduler studio\obj\Release\Scheduler_studio.Properties.Resources.resources
+Z:\Repos\SchedulerStudio\Scheduler studio\obj\Release\Scheduler studio.csproj.GenerateResource.Cache
+Z:\Repos\SchedulerStudio\Scheduler studio\obj\Release\Scheduler Studio.exe
+Z:\Repos\SchedulerStudio\Scheduler studio\obj\Release\Scheduler Studio.pdb
+Z:\Repos\SchedulerStudio\Scheduler studio\bin\Release\Scheduler Studio.exe.manifest
+Z:\Repos\SchedulerStudio\Scheduler studio\bin\Release\Scheduler Studio.application
+Z:\Repos\SchedulerStudio\Scheduler studio\obj\Release\Scheduler Studio.exe.manifest
+Z:\Repos\SchedulerStudio\Scheduler studio\obj\Release\Scheduler Studio.application

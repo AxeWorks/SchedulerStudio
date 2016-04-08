@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,6 +30,8 @@ namespace Scheduler_studio
         DataTable dtWorkers;
         DataView dvReservations;
         DataTable dtReservations;
+        DataView dvCustomers;
+        DataTable dtCustomers;
         DataRow dr;
         List<Note> notes;
         List<Customer> customers;
@@ -62,7 +65,7 @@ namespace Scheduler_studio
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.ToString());
             }
         }
 
@@ -105,10 +108,14 @@ namespace Scheduler_studio
                 //cbRegCustomer.ItemsSource = customers;
 
                 dgcReservationRegCustomer.ItemsSource = customers;
+
+                dtCustomers = Studio.GetCustomersTable();
+                dvCustomers = dtCustomers.DefaultView;
+                dgCustomerList.DataContext = dvCustomers; 
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.ToString());
             }
         }
 
@@ -212,6 +219,15 @@ namespace Scheduler_studio
             }
         }
 
+        private void btnCustomers_Click(object sender, RoutedEventArgs e) {
+            try {
+                SetVisibile("customer");
+            }
+            catch (Exception ex) {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
 
 
         private void btnReservations_Click(object sender, RoutedEventArgs e)
@@ -226,7 +242,7 @@ namespace Scheduler_studio
             }
         }
 
-        private void btnShowSavePanel_Click(object sender, RoutedEventArgs e)
+        private void btnShowSavePanel_Click(object sender, RoutedEventArgs e) //työntekijän tallennuspaneelin näyttäminen
         {
             try
             {
@@ -238,7 +254,16 @@ namespace Scheduler_studio
             }
         }
 
-        private void SetVisibile(string panel)
+        private void btnCShowSavePanel_Click(object sender, RoutedEventArgs e) { //asiakkaan tallennuspaneelin näyttäminen
+            try {
+                spAddCustomer.Visibility = Visibility.Visible;
+            }
+            catch (Exception ex) {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void SetVisibile(string panel) //näkymien vaihtorakenne
         {
             try
             {
@@ -248,14 +273,23 @@ namespace Scheduler_studio
                         spWorkerView.Visibility = Visibility.Visible;
                         spNoteView.Visibility = Visibility.Collapsed;
                         spReservationView.Visibility = Visibility.Collapsed;
+                        spCustomerView.Visibility = Visibility.Collapsed;
                         break;
                     case "notebook":
                         spNoteView.Visibility = Visibility.Visible;
                         spReservationView.Visibility = Visibility.Collapsed;
                         spWorkerView.Visibility = Visibility.Collapsed;
+                        spCustomerView.Visibility = Visibility.Collapsed;
                         break;
                     case "reservation":
                         spReservationView.Visibility = Visibility.Visible;
+                        spNoteView.Visibility = Visibility.Collapsed;
+                        spWorkerView.Visibility = Visibility.Collapsed;
+                        spCustomerView.Visibility = Visibility.Collapsed;
+                        break;
+                    case "customer":
+                        spCustomerView.Visibility = Visibility.Visible;
+                        spReservationView.Visibility = Visibility.Collapsed;
                         spNoteView.Visibility = Visibility.Collapsed;
                         spWorkerView.Visibility = Visibility.Collapsed;
                         break;
@@ -434,27 +468,122 @@ namespace Scheduler_studio
 
         private void cbCustomerFilter_TextChanged(object sender, TextChangedEventArgs e) {
             try {
-                if (cbCustomerFilter.Text == "") {
+                MessageBox.Show("Eventti ampuu.");
+                if (false) {
                     dvReservations.RowFilter = null;
                 }
                 else {
 
-                    DataTable dt = Scheduler_studio.DBStudio.getCustomerNames();
+                    DataTable dtCustomers = Scheduler_studio.DBStudio.getCustomerNames();
+                    DataTable dtReservations = Scheduler_studio.DBStudio.GetReservations();
+                    //dvReservations.RowFilter = null;
 
-                    foreach(DataRow row in dt.Rows) {
-                        foreach (var value in row.ItemArray) {
-                            if (value.ToString() == cbCustomerFilter.Text) {
-                                dvReservations.RowFilter = "RegCustomer =" + row[0];
-                                break;
-                            }
+                    List<int> PKeys = new List<int>();
+
+                    foreach (DataRow row in dtCustomers.Rows) {
+                        MessageBox.Show("For eachissa. CustomFilterText = " + cbCustomerFilter.Text + ".\n Tutkittava nimi = " + row[1].ToString() + ".\n sisältyykö = " + row[1].ToString().Contains(cbCustomerFilter.Text));
+                        /*foreach (var value in row.ItemArray) {
+                            MessageBox.Show(value.ToString());
+                        }*/
+
+                        //row[1].ToString() == cbCustomerFilter.Text || row[2].ToString() == cbCustomerFilter.Text
+                        if (row[1].ToString().StartsWith(cbCustomerFilter.Text) || row[2].ToString().StartsWith(cbCustomerFilter.Text)) {
+                            MessageBox.Show("iffissä.");
+                            PKeys.Add(Int32.Parse(row[0].ToString()));
+                            Trace.WriteLine("PKeys Count: " + PKeys.Count);
+                            //dvReservations.RowFilter = "RegCustomer =" + row[0] + "OR UnregCustomer = " + row[2];
+                            //dvReservations.RowFilter = "RegCustomer =" + "'" + row[0] + "'"; 
+
                         }
                     }
+                    for (int iterator = 0; iterator < PKeys.Count; iterator++) {
+                        
+                        dvReservations.RowFilter.Insert(iterator, "RegCustomer =" + "'" + PKeys[iterator] + "'");
+                        Trace.WriteLine("RowFilterin indeksissä[" + iterator + "] on = " + dvReservations.RowFilter[iterator] + ". RowFilterin koko = " + dvReservations.RowFilter.Length + ". Iteraattori: " + iterator + ". PKeys Count: " + PKeys.Count + ". Pkeys[Iterator] = " + PKeys[iterator]);
+                    }
                 }
-
             }
             catch (Exception ex) {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.ToString());
             }
         }
+
+        private void cbDateFilter_SelectedDateChanged(object sender, SelectionChangedEventArgs e) {
+
+            //MessageBox.Show(cbDateFilter.SelectedDate.ToString());
+            string date = cbDateFilter.SelectedDate.Value.Year.ToString() + "-" + cbDateFilter.SelectedDate.Value.Month.ToString() + "-" + cbDateFilter.SelectedDate.Value.Day.ToString();
+            //MessageBox.Show(date);
+            dvReservations.RowFilter = "ReservationDate >=" + "#" + date + "#";
+        }
+
+        private void btnCSaveChanges_Click(object sender, RoutedEventArgs e) {
+            try {
+                int rowcount = DBStudio.UpdateCustomer(dtCustomers);
+                MessageBox.Show(rowcount + " riviä muokattu.");
+                RefreshCustomers();
+            }
+            catch (Exception ex) {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void btnSaveCustomer_Click(object sender, RoutedEventArgs e) {
+            try {
+                if (MessageBox.Show("Haluatko varmasti lisätä tämän Asiakkaan?\n" + "Nimi: " + txtCFname.Text + " " + txtCLname.Text + "\n" + "Puhelinnumero: " + txtCPhone.Text + "\n" + "Etuus: " + txtCPrivilege.Text + "\n" + "Syntymäaika:" + txtCBD.Text, "Varmistus", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes) {
+
+                    string zeroMonth = "";
+                    string zeroDay = "";
+
+                    if (txtCBD.SelectedDate.Value.Month < 10) {
+                        zeroMonth = "0";
+                    }
+
+                    if (txtCBD.SelectedDate.Value.Day < 10) {
+                        zeroDay = "0";
+                    }
+
+                    dr = dtCustomers.NewRow();
+                    dr["fname"] = txtCFname.Text;
+                    dr["lname"] = txtCLname.Text;
+                    dr["phone"] = txtCPhone.Text;
+                    dr["Birthdate"] = txtCBD.SelectedDate.Value.Year + "-" + zeroMonth + txtCBD.SelectedDate.Value.Month + "-" + zeroDay + txtCBD.SelectedDate.Value.Day;
+                    dr["Privilege"] = txtCPrivilege.Text;
+
+                    zeroDay = "";
+                    zeroMonth = "";
+
+                    if (DateTime.Now.Month < 10) {
+                        zeroMonth = "0";
+                    }
+
+                    if (DateTime.Now.Day < 10) { 
+                        zeroDay = "0";
+                    }
+
+                    dr["regdate"] = DateTime.Now.Year + "-" + zeroMonth + DateTime.Now.Month + "-" + zeroDay + DateTime.Now.Day;
+                    dtCustomers.Rows.Add(dr);
+                    spAddCustomer.Visibility = Visibility.Collapsed;
+                    txtCFname.Text = "";
+                    txtCLname.Text = "";
+                    txtCPhone.Text = "";
+                    txtCBD.Text = "";
+                    txtCPrivilege.Text = "";
+
+                    DBStudio.UpdateCustomer(dtCustomers);
+                    RefreshCustomers();
+                }
+            }
+            catch (Exception ex) {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void btnCDeleteCustomer_Click(object sender, RoutedEventArgs e) {
+            dvCustomers.Delete(dgCustomerList.SelectedIndex);
+
+            DBStudio.UpdateCustomer(dtCustomers);
+        }
+
+
     }
 }

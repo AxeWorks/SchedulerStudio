@@ -342,7 +342,7 @@ namespace Scheduler_studio
 
         
 
-        public class DataGridComboBoxColumnWithBindingHack : DataGridComboBoxColumn
+        /*public class DataGridComboBoxColumnWithBindingHack : DataGridComboBoxColumn
         {
             protected override FrameworkElement GenerateEditingElement(DataGridCell cell, object dataItem)
             {
@@ -363,7 +363,7 @@ namespace Scheduler_studio
                 BindingOperations.SetBinding(element, ComboBox.ItemsSourceProperty, BindingOperations.GetBinding(this, ComboBox.ItemsSourceProperty));
             }
         }
-
+        */
         public static int RemoveReservation(int pkey)
         {
             try
@@ -479,8 +479,6 @@ namespace Scheduler_studio
                     pkey = Convert.ToInt64(row["PKey"].ToString());
                     bdate = Convert.ToDateTime(row["Birthdate"].ToString());
                     rdate = Convert.ToDateTime(row["RegDate"].ToString());
-                    
-
 
                     customers.Add(new Customer(pkey, row["Fname"].ToString(), row["Lname"].ToString(), row["Phone"].ToString(), row["Privilege"].ToString(), bdate, rdate));
                 }
@@ -532,7 +530,18 @@ namespace Scheduler_studio
                 throw ex;
             }
         }
-        
+
+        public static DataTable GetCustomersTable() {
+            try {
+                DataTable dt = new DataTable();
+                dt = DBStudio.GetCustomers();
+                return dt;
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
+        }
+
         public static List<Worker> GetWorkersList(DataTable dt)
         {
             try

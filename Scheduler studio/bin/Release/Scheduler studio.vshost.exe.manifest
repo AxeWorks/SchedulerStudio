@@ -42,14 +42,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Scheduler Studio.exe" size="44472">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Scheduler Studio.exe" size="37304">
       <assemblyIdentity name="Scheduler Studio" version="0.1.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>ZtJQAo+IU3SF4jQuQzPeVZOyNcYE9xlaWBsh7qreWd0=</dsig:DigestValue>
+        <dsig:DigestValue>68C/9PSR0QYiXBj4lxcjis6OZigWhs9aEUgAVZ21m/s=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
