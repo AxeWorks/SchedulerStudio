@@ -348,6 +348,32 @@ namespace Scheduler_studio
         #region CUSTOMER
         private void btnSaveCustomer_Click(object sender, RoutedEventArgs e)
         {
+
+            if (txtCFname.Text.Any(char.IsDigit) || txtCLname.Text.Any(char.IsDigit)) {
+                MessageBox.Show("Nimi kentissä ei voi olla numeroita.");
+                return;
+            }
+
+            if (txtCPhone.Text.Any(char.IsLetter)) {
+                MessageBox.Show("Puhelinnumero kentässä ei voi olla kirjaimia.");
+                return;
+            }
+
+            if (txtCFname.Text.Length > 20 || txtCLname.Text.Length > 20 || txtCPhone.Text.Length > 13
+                || txtCPrivilege.Text.Length > 50 || dpCustomerBD.Text.Length > 10) {
+
+                MessageBox.Show("Kenttä on liian pitkä..\n" +
+                                "Etunimi voi olla 20 merkkiä.\n" +
+                                "Sukunimi voi olla 20 merkkiä.\n" +
+                                "Puhelinnumero voi olla 13 merkkiä.\n" +
+                                "Etu voi olla 50 merkkiä.\n" +
+                                "Syntymäaika voi olla 10 merkkiä.");
+                return;
+            }
+
+            if (txtCFname.Text == "" || txtCLname.Text == "" || txtCFname.Text == "" || txtCPhone.Text == "" || txtCPrivilege.Text == "" || dpCustomerBD.SelectedDate == null) {
+                MessageBox.Show("Kaikkien kenttien täytyy olla täytetty.");
+            }
             try
             {
                 if (MessageBox.Show("Haluatko varmasti lisätä tämän Asiakkaan?\n" + "Nimi: " + txtCFname.Text + " " + txtCLname.Text + "\n" + "Puhelinnumero: " + txtCPhone.Text + "\n" + "Etuus: " + txtCPrivilege.Text + "\n" + "Syntymäaika:" + dpCustomerBD.Text, "Varmistus", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
