@@ -22,7 +22,6 @@ namespace Scheduler_studio
                 {
                     conn.Open();
                     string sqlString = "SELECT * FROM worker";
-                    //  SQLiteCommand command = new SQLiteCommand(sqlString, conn);
                     SQLiteDataAdapter da = new SQLiteDataAdapter(sqlString, conn);
 
                     da.Fill(dt);
@@ -216,7 +215,6 @@ namespace Scheduler_studio
                     param.Value = regcustomer;
                     command.Parameters.Add(param);
 
-                    // Tutki kannattaako käyttää .executenonqueryasync
                     count = command.ExecuteNonQuery();
                     conn.Close();
                 }
@@ -238,7 +236,6 @@ namespace Scheduler_studio
                 {
                     conn.Open();
                     string sqlString = "SELECT * FROM customer";
-                    // SQLiteCommand command = new SQLiteCommand(sqlString, conn);
                     SQLiteDataAdapter da = new SQLiteDataAdapter(sqlString, conn);
 
                     da.Fill(dt);
@@ -261,7 +258,6 @@ namespace Scheduler_studio
                 {
                     conn.Open();
                     string sqlString = "SELECT PKey, Fname, Lname FROM customer";
-                    // SQLiteCommand command = new SQLiteCommand(sqlString, conn);
                     SQLiteDataAdapter da = new SQLiteDataAdapter(sqlString, conn);
 
                     da.Fill(dt);
@@ -335,7 +331,6 @@ namespace Scheduler_studio
                 {
                     conn.Open();
                     string sqlString = "SELECT notebook.Note, notebook.Employee, worker.Fname, worker.Lname FROM notebook JOIN worker ON notebook.Employee = worker.PKey";
-                    // SQLiteCommand command = new SQLiteCommand(sqlString, conn);
                     SQLiteDataAdapter da = new SQLiteDataAdapter(sqlString, conn);
 
                     da.Fill(dt);
@@ -363,8 +358,7 @@ namespace Scheduler_studio
                     SQLiteParameter param = new SQLiteParameter("Note", DbType.String);
                     param.Value = msg;
                     command.Parameters.Add(param);
-
-                    // Tutki kannattaako käyttää .executenonqueryasync
+                    
                     count = command.ExecuteNonQuery();
                     conn.Close();
                 }
@@ -390,8 +384,7 @@ namespace Scheduler_studio
                     SQLiteParameter param = new SQLiteParameter("Note", DbType.String);
                     param.Value = msg;
                     command.Parameters.Add(param);
-
-                    // Tutki kannattaako käyttää .executenonqueryasync
+                    
                     count = command.ExecuteNonQuery();
                     conn.Close();
                 }

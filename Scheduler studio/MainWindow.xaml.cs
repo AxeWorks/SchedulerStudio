@@ -144,58 +144,7 @@ namespace Scheduler_studio
             }
         }
 
-        private void AppendMessage(Note note)
-        {
-            try
-            {
-                TextBlock txtWorker = new TextBlock();
-                TextBlock txtNote = new TextBlock();
-                ScrollViewer scrollview = new ScrollViewer();
-                StackPanel spContainer = new StackPanel();
-                StackPanel spMessage = new StackPanel();
-                StackPanel spHeader = new StackPanel();
-                Button btnDelNote = new Button();
-                Border border = new Border();
-
-                btnDelNote.Background = Brushes.WhiteSmoke;
-                txtNote.Width = 390;
-                spContainer.Width = 500;
-                spContainer.Height = 100;
-                scrollview.Height = 100;
-                scrollview.CanContentScroll = true;
-                scrollview.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
-                txtNote.TextWrapping = TextWrapping.Wrap;
-                spContainer.Orientation = Orientation.Horizontal;
-                spHeader.Orientation = Orientation.Vertical;
-
-                btnDelNote.Content = "Delete";
-                btnDelNote.Click += DeleteNote;
-                spHeader.Margin = new Thickness(5, 5, 5, 5);
-                border.BorderBrush = Brushes.Black;
-                border.BorderThickness = new Thickness(1, 1, 1, 1);
-                border.Background = Brushes.LightYellow;
-                border.CornerRadius = new CornerRadius(5);
-                border.Margin = new Thickness(2, 2, 2, 2);
-             
-                txtWorker.Text = note.NoteAuthor;
-                txtNote.Text = note.Message;
  
-                spContainer.DataContext = note;
-                scrollview.Content = txtNote;
-                txtNote.Padding = new Thickness(2, 2, 2, 2);
-                spMessage.Children.Add(scrollview);
-                spHeader.Children.Add(txtWorker);
-                spHeader.Children.Add(btnDelNote);
-                spContainer.Children.Add(spHeader);
-                spContainer.Children.Add(spMessage);
-                border.Child = spContainer;
-                wpSubmittedNotes.Children.Add(border);                
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
 
         #region PANELS
 
@@ -374,11 +323,12 @@ namespace Scheduler_studio
                 return;
             }
 
-            if(Studio.IsValidPhone(txtCPhone.Text))
+            if(!Studio.IsValidPhone(txtCPhone.Text))
             {
-                MessageBox.Show("Puhelinnumero väärää formaattia.");
+                MessageBox.Show("Puhelinnumeron formaatti väärä.\nOikeat formaatit ovat\n0401234567\ntai\n+358401234567");
                 return;
             }
+
             try
             {
                 if (MessageBox.Show("Haluatko varmasti lisätä tämän Asiakkaan?\n" + "Nimi: " + txtCFname.Text + " " + txtCLname.Text + "\n" + "Puhelinnumero: " + txtCPhone.Text + "\n" + "Etuus: " + txtCPrivilege.Text + "\n" + "Syntymäaika:" + dpCustomerBD.Text, "Varmistus", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
@@ -439,12 +389,20 @@ namespace Scheduler_studio
 
         private void btnCDeleteCustomer_Click(object sender, RoutedEventArgs e)
         {
-            dvCustomers.Delete(dgCustomerList.SelectedIndex);
+            if (dgCustomerList.SelectedIndex == -1)
+            {
+                MessageBox.Show("Valitse asiakas ensin.");
+                return;
+            }
+            if (MessageBox.Show("Haluatko varmasti poistaa valitun asiakkaan?", "Varmistus", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+            {
+                dvCustomers.Delete(dgCustomerList.SelectedIndex);
 
-            int rows = DBStudio.UpdateCustomer(dtCustomers);
-            RefreshCustomers();
-            RefreshReservations();
-            MessageBox.Show(rows + " tietuetta poistettu.");
+                int rows = DBStudio.UpdateCustomer(dtCustomers);
+                RefreshCustomers();
+                RefreshReservations();
+                MessageBox.Show(rows + " asiakas poistettu.");
+            }
         }
 
         private void btnSaveCustomerChanges_Click(object sender, RoutedEventArgs e)
@@ -497,6 +455,61 @@ namespace Scheduler_studio
                 MessageBox.Show(ex.Message);
             }
         }
+
+        private void AppendMessage(Note note)
+        {
+            try
+            {
+                TextBlock txtWorker = new TextBlock();
+                TextBlock txtNote = new TextBlock();
+                ScrollViewer scrollview = new ScrollViewer();
+                StackPanel spContainer = new StackPanel();
+                StackPanel spMessage = new StackPanel();
+                StackPanel spHeader = new StackPanel();
+                Button btnDelNote = new Button();
+                Border border = new Border();
+
+                btnDelNote.Background = Brushes.WhiteSmoke;
+                txtNote.Width = 370;
+                spContainer.Width = 470;
+                spContainer.Height = 100;
+                scrollview.Height = 100;
+                scrollview.CanContentScroll = true;
+                scrollview.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
+                txtNote.TextWrapping = TextWrapping.Wrap;
+                spContainer.Orientation = Orientation.Horizontal;
+                spHeader.Orientation = Orientation.Vertical;
+
+                btnDelNote.Content = "Delete";
+                btnDelNote.Click += DeleteNote;
+                spHeader.Margin = new Thickness(5, 5, 5, 5);
+                border.BorderBrush = Brushes.Black;
+                border.BorderThickness = new Thickness(1, 1, 1, 1);
+                border.Background = Brushes.LightYellow;
+                border.CornerRadius = new CornerRadius(5);
+                border.Margin = new Thickness(2, 2, 2, 2);
+
+                txtWorker.Text = "Kirjoittaja:\n" + note.NoteAuthor;
+                txtWorker.Width = 100;
+                txtWorker.TextWrapping = TextWrapping.Wrap;
+                txtNote.Text = note.Message;
+
+                spContainer.DataContext = note;
+                scrollview.Content = txtNote;
+                txtNote.Padding = new Thickness(2, 2, 2, 2);
+                spMessage.Children.Add(scrollview);
+                spHeader.Children.Add(txtWorker);
+                spHeader.Children.Add(btnDelNote);
+                spContainer.Children.Add(spHeader);
+                spContainer.Children.Add(spMessage);
+                border.Child = spContainer;
+                wpSubmittedNotes.Children.Add(border);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
         #endregion
         #region RESERVATION
         private void btnSaveReservation_Click(object sender, RoutedEventArgs e)
@@ -513,7 +526,7 @@ namespace Scheduler_studio
                 {
                     if (Studio.IsValidTime(txtReservationTime.Text))
                     {
-                        if (MessageBox.Show("Haluatko varmasti lisätä tämän varauksen?\n" + "Palvelu: " + txtReservationService.Text + "\n" + "Rekisteröity käyttäjä: " + cbReservationRegCustomer.SelectedValue + "\n" + "Rekisteröimätön käyttäjä: " + txtReservationUnregCustomer.Text + "\n" + "Pvm: " + dpReservationDate.SelectedDate.Value.Day + "." + dpReservationDate.SelectedDate.Value.Month + "." + dpReservationDate.SelectedDate.Value.Year + "\n" + "Aika: " + txtReservationTime.Text + "\n" + "Työntekijä: " + cbReservationEmployee.SelectedValue, "Varmistus", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                        if (MessageBox.Show("Haluatko varmasti lisätä tämän varauksen?\n" + "Palvelu: " + txtReservationService.Text + "\n" + "Rekisteröity käyttäjä: " + cbReservationRegCustomer.Text + "\n" + "Rekisteröimätön käyttäjä: " + txtReservationUnregCustomer.Text + "\n" + "Pvm: " + dpReservationDate.SelectedDate.Value.Day + "." + dpReservationDate.SelectedDate.Value.Month + "." + dpReservationDate.SelectedDate.Value.Year + "\n" + "Aika: " + txtReservationTime.Text + "\n" + "Työntekijä: " + cbReservationEmployee.Text, "Varmistus", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                         {
                             string unregcustomer = null;
                             Nullable<int> regcustomer = null;
@@ -572,12 +585,19 @@ namespace Scheduler_studio
         {
             try
             {
+                if (dgReservations.SelectedIndex == -1)
+                {
+                    MessageBox.Show("Valitse varaus ensin.");
+                    return;
+                }
+                if (MessageBox.Show("Haluatko varmasti poistaa valitun varauksen?", "Varmistus", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                {
+                    int pkey = Convert.ToInt32((dgReservations.SelectedItem as DataRowView)["PKey"].ToString());
 
-                int pkey = Convert.ToInt32((dgReservations.SelectedItem as DataRowView)["PKey"].ToString());
-
-                int effectedRows = Studio.RemoveReservation(pkey);
-                MessageBox.Show(effectedRows + " riviä poistettu!");
-                RefreshReservations();
+                    int effectedRows = Studio.RemoveReservation(pkey);
+                    MessageBox.Show(effectedRows + " varaus poistettu!");
+                    RefreshReservations();
+                }                    
             }
             catch (Exception ex)
             {
@@ -609,8 +629,7 @@ namespace Scheduler_studio
         {
             try
             {
-                MessageBox.Show("Eventti ampuu.");
-                if (false)
+                if (txtCustomerFilter.Text == "")
                 {
                     dvReservations.RowFilter = null;
                 }
@@ -669,12 +688,20 @@ namespace Scheduler_studio
         {
             try
             {
-                dvWorkers.Delete(dgWorkerList.SelectedIndex);
+                if(dgWorkerList.SelectedIndex == -1)
+                {
+                    MessageBox.Show("Valitse työntekijä ensin.");
+                    return;
+                }
+                if (MessageBox.Show("Haluatko varmasti poistaa valitun työntekijän?", "Varmistus", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                {
+                    dvWorkers.Delete(dgWorkerList.SelectedIndex);
 
-                int result = DBStudio.UpdateWorker(dtWorkers);
-                MessageBox.Show(result + " tietue poistettu.");
-                RefreshWorkers();
-                RefreshReservations();
+                    int result = DBStudio.UpdateWorker(dtWorkers);
+                    MessageBox.Show(result + " työntekijä poistettu.");
+                    RefreshWorkers();
+                    RefreshReservations();
+                }
             }
             catch (Exception ex)
             {
@@ -703,32 +730,36 @@ namespace Scheduler_studio
                 if (txtFname.Text == "" || txtLname.Text == "" || txtAddress.Text == "" || txtPhone.Text == "")
                 {
                     MessageBox.Show("Tarpeellisia tietoja jätetty pois!");
+                    return;
                 }
-                else
-                {
-                    if (MessageBox.Show("Haluatko varmasti lisätä tämän käyttäjän?\n" + "Nimi: " + txtFname.Text + " " + txtLname.Text + "\n" + "Osoite: " + txtAddress.Text + "\n" + "Puhelinnumero: " + txtPhone.Text + "\n" + "Muu tieto: " + txtOther.Text, "Varmistus", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
-                    {
-                        dr = dtWorkers.NewRow();
-                        dr["fname"] = txtFname.Text;
-                        dr["lname"] = txtLname.Text;
-                        dr["addr"] = txtAddress.Text;
-                        dr["phone"] = txtPhone.Text;
-                        dr["regdate"] = DateTime.Now.Day + "." + DateTime.Now.Month + "." + DateTime.Now.Year;
-                        dr["other"] = txtOther.Text;
-                        dtWorkers.Rows.Add(dr);
-                        spAddWorker.Visibility = Visibility.Collapsed;
-                        btnShowWorkerSavePanel.IsEnabled = true;
-                        txtFname.Text = "";
-                        txtLname.Text = "";
-                        txtAddress.Text = "";
-                        txtPhone.Text = "";
-                        txtOther.Text = "";
 
-                        DBStudio.UpdateWorker(dtWorkers);
-                        RefreshWorkers();
-                    }
+                if(!Studio.IsValidPhone(txtPhone.Text))
+                {
+                    MessageBox.Show("Puhelinnumeron formaatti väärä.\nOikeat formaatit ovat\n0401234567\ntai\n+358401234567");
+                    return;
                 }
-    
+
+                if (MessageBox.Show("Haluatko varmasti lisätä tämän käyttäjän?\n" + "Nimi: " + txtFname.Text + " " + txtLname.Text + "\n" + "Osoite: " + txtAddress.Text + "\n" + "Puhelinnumero: " + txtPhone.Text + "\n" + "Muu tieto: " + txtOther.Text, "Varmistus", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                {
+                    dr = dtWorkers.NewRow();
+                    dr["fname"] = txtFname.Text;
+                    dr["lname"] = txtLname.Text;
+                    dr["addr"] = txtAddress.Text;
+                    dr["phone"] = txtPhone.Text;
+                    dr["regdate"] = DateTime.Now.Day + "." + DateTime.Now.Month + "." + DateTime.Now.Year;
+                    dr["other"] = txtOther.Text;
+                    dtWorkers.Rows.Add(dr);
+                    spAddWorker.Visibility = Visibility.Collapsed;
+                    btnShowWorkerSavePanel.IsEnabled = true;
+                    txtFname.Text = "";
+                    txtLname.Text = "";
+                    txtAddress.Text = "";
+                    txtPhone.Text = "";
+                    txtOther.Text = "";
+
+                    DBStudio.UpdateWorker(dtWorkers);
+                    RefreshWorkers();
+                }
             }
             catch (Exception ex)
             {
@@ -737,5 +768,25 @@ namespace Scheduler_studio
         }
 
         #endregion
+
+        private void txtCustomerViewCustomerFilter_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                if(txtCustomerViewCustomerFilter.Text == "")
+                {
+                    dvCustomers.RowFilter = null;
+                }
+                else
+                {
+                    dvCustomers.RowFilter = "Fname like '%" + txtCustomerViewCustomerFilter.Text + "%'" + " OR Lname like '%"+txtCustomerViewCustomerFilter.Text+"%'";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
     }
 }

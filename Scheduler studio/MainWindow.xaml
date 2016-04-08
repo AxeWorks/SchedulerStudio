@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Scheduler_studio"
         mc:Ignorable="d"
-        Title="Scheduler Studio" Height="585.5" Width="1450.584" ResizeMode="NoResize">
+        Title="Scheduler Studio" Height="611.914" Width="1450.584" ResizeMode="NoResize">
     <Window.Resources>
         <ResourceDictionary>
             <DataTemplate x:Key="dgcTimeTemplate">
@@ -21,20 +21,21 @@
                 <Button Background="WhiteSmoke" x:Name="btnCustomers" FontSize="20" Margin="5,5,5,5" Content="Asiakkaat" Width="140" Click="btnCustomers_Click" />
                 <Button Background="WhiteSmoke" x:Name="btnReservations" FontSize="20" Margin="5,5,5,0" Content="Varaukset" Click="btnReservations_Click" Width="140" Height="39" VerticalAlignment="Top"/>
             </StackPanel>
-            <StackPanel x:Name="spNoteView" Visibility="Collapsed" Orientation="Vertical" Height="492">
-                <WrapPanel x:Name="wpSubmittedNotes" Orientation="Vertical" Height="390">
+            <StackPanel x:Name="spNoteView" Visibility="Collapsed" Orientation="Vertical" Height="523">
+                <WrapPanel x:Name="wpSubmittedNotes" Orientation="Vertical" Height="427">
                 </WrapPanel>
                 <StackPanel Orientation="Vertical" Height="98">
                     <StackPanel x:Name="spNoteForm" Orientation="Horizontal" Height="84">
-                        <TextBox Margin="5,5,5,5" x:Name="txtNote" Width="1310" TextWrapping="Wrap" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True"/>
+                        <TextBox Margin="5,5,5,5" x:Name="txtNote" Width="1310" Text="Kirjoita viesti" TextWrapping="Wrap" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True"/>
                         <StackPanel Margin="0,5,5,5" Orientation="Vertical">
                             <Button Margin="5,5,5,5" x:Name="btnSaveNote" Content="Tallenna viesti" Click="btnSaveNote_Click"/>
+                            <TextBlock Text="Lähettäjä"/>
                             <ComboBox Margin="5,5,5,5" DisplayMemberPath="FullName" SelectedValuePath="PKey" x:Name="cbNotesEmployeeSelector" Width="100"/>
                         </StackPanel>
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
-            <StackPanel x:Name="spWorkerView" Visibility="Collapsed" Orientation="Vertical" Height="491">
+            <StackPanel x:Name="spWorkerView" Visibility="Collapsed" Orientation="Vertical" Height="520">
                 <DataGrid Background="White" x:Name="dgWorkerList" ColumnWidth="100" ItemsSource="{Binding}" ScrollViewer.VerticalScrollBarVisibility="Auto" CanUserAddRows="False" Height="383" AutoGenerateColumns="False">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Etunimi" Binding="{Binding Fname}" Width="100"/>
@@ -66,8 +67,12 @@
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
-            <StackPanel x:Name="spCustomerView" Visibility="Visible" Height="499" Orientation="Vertical">
-                <DataGrid x:Name="dgCustomerList" ColumnWidth="100" ItemsSource="{Binding}" ScrollViewer.VerticalScrollBarVisibility="Auto" CanUserAddRows="False" Height="383" AutoGenerateColumns="False">
+            <StackPanel x:Name="spCustomerView" Visibility="Collapsed" Height="524" Orientation="Vertical">
+                <StackPanel Orientation="Horizontal" Margin="5,5,5,5" HorizontalAlignment="Center">
+                    <TextBlock Text="Haku asiakkaan nimellä:" Margin="5,5,5,5"/>
+                    <TextBox x:Name="txtCustomerViewCustomerFilter" Margin="5,5,5,5" Width="200" TextChanged="txtCustomerViewCustomerFilter_TextChanged"/>
+                </StackPanel>
+                <DataGrid x:Name="dgCustomerList" Background="White" ColumnWidth="100" ItemsSource="{Binding}" ScrollViewer.VerticalScrollBarVisibility="Auto" CanUserAddRows="False" Height="383" AutoGenerateColumns="False">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Etunimi" Binding="{Binding Fname}" Width="150"/>
                         <DataGridTextColumn Header="Sukunimi" Binding="{Binding Lname}" Width="150"/>
@@ -98,15 +103,14 @@
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
-            <StackPanel x:Name="spReservationView" Visibility="Collapsed" Height="494" Orientation="Vertical">
+            <StackPanel x:Name="spReservationView" Visibility="Visible" Height="525" Orientation="Vertical">
                 <StackPanel Orientation="Horizontal" Margin="5,5,5,5" HorizontalAlignment="Center">
-                    <TextBlock  Margin="5,5,5,5" Text="FILTTERIT"/>
-                    <TextBlock  Margin="5,5,5,5" Text="Työntekijä"/>
-                    <ComboBox x:Name="cbWorkerFilter" DisplayMemberPath="FullName" SelectedValuePath="PKey" Margin="10,0,0,0" Width="120" SelectionChanged="cbWorkerFilter_SelectionChanged"/>
-                    <TextBlock  Margin="5,5,5,5" Text="Asiakas"/>
-                    <TextBox x:Name="txtCustomerFilter" Margin="10,0,0,0" Width="155"/>
-                    <TextBlock  Margin="5,5,5,5" Text="Päivämäärä"/>
-                    <DatePicker x:Name="dpDateFilter" Margin="10,0,0,0" SelectedDateChanged="dpDateFilter_SelectedDateChanged" Width="110"/>
+                    <TextBlock  Margin="15,5,5,5" Text=" Hae työntekijää:"/>
+                    <ComboBox x:Name="cbWorkerFilter" DisplayMemberPath="FullName" SelectedValuePath="PKey"  Width="120" SelectionChanged="cbWorkerFilter_SelectionChanged"/>
+                    <TextBlock  Margin="15,5,5,5" Text="Hae asiakasta:"/>
+                    <TextBox x:Name="txtCustomerFilter"  Width="155"/>
+                    <TextBlock  Margin="15,5,5,5" Text="Hae päivästä eteenpäin:"/>
+                    <DatePicker x:Name="dpDateFilter"  SelectedDateChanged="dpDateFilter_SelectedDateChanged" Width="110"/>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" Height="361">
                     <DataGrid x:Name="dgReservations" Background="White" ColumnWidth="100" ItemsSource="{Binding}" ScrollViewer.VerticalScrollBarVisibility="Auto" CanUserAddRows="False" Height="350" AutoGenerateColumns="False">
