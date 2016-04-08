@@ -60,8 +60,8 @@
                         <Button Background="WhiteSmoke" Margin="5,0,5,0" Height="25" Width="100" x:Name="btnSaveWorker" Content="Tallenna" Click="btnSaveWorker_Click"/>
                     </StackPanel>
                     <StackPanel Margin="5,5,5,5" HorizontalAlignment="Center" Orientation="Horizontal">
-                        <Button Background="WhiteSmoke" Margin="5,5,5,5" x:Name="btnSaveChanges" Content="Tallenna muutokset" Click="btnSaveChanges_Click" Height="29" Width="130"/>
-                        <Button Background="WhiteSmoke" Margin="5,5,5,5" x:Name="btnShowSavePanel" Content="Lisää työntekijä" Click="btnShowSavePanel_Click" Height="29" Width="130" />
+                        <Button Background="WhiteSmoke" Margin="5,5,5,5" x:Name="btnSaveChanges" Content="Tallenna muutokset" Click="btnSaveWorkerChanges_Click" Height="29" Width="130"/>
+                        <Button Background="WhiteSmoke" Margin="5,5,5,5" x:Name="btnShowWorkerSavePanel" Content="Lisää työntekijä" Click="btnShowWorkerSavePanel_Click" Height="29" Width="130" />
                         <Button Background="WhiteSmoke" Margin="5,5,5,5" x:Name="btnRemoveWorker" Content="Poista työntekijä" Height="29" Width="130" Click="btnRemoveWorker_Click"/>
                     </StackPanel>
                 </StackPanel>
@@ -88,13 +88,13 @@
                         <TextBlock Margin="5,5,5,5" Text="Etuus:"/>
                         <TextBox x:Name="txtCPrivilege" Width="100" />
                         <TextBlock Margin="5,5,5,5" Text="Syntymäaika:"/>
-                        <DatePicker x:Name="txtCBD" Width="100" />
+                        <DatePicker x:Name="dpCustomerBD" Width="110" />
                         <Button Margin="5,0,5,0" Width="130" Height="25" Background="WhiteSmoke" x:Name="btnSaveCustomer" Content="Tallenna" Click="btnSaveCustomer_Click"/>
                     </StackPanel>
                     <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Bottom" Margin="5,5,5,5">
-                        <Button Background="WhiteSmoke" Margin="5,5,5,5" x:Name="btnCSaveChanges" Content="Tallenna muutokset" VerticalAlignment="Bottom" Height="29" Width="127" Click="btnCSaveChanges_Click"/>
-                        <Button Background="WhiteSmoke" Margin="5,5,5,5" x:Name="btnCShowSavePanel" Content="Lisää asiakas" VerticalAlignment="Bottom" Height="29" Width="100" Click="btnCShowSavePanel_Click" />
-                        <Button Background="WhiteSmoke" Margin="5,5,5,5" x:Name="btnCDeleteCustomer" Content="Poista asiakas" VerticalAlignment="Bottom" Height="29" Width="127" Click="btnCDeleteCustomer_Click"/>
+                        <Button Background="WhiteSmoke" Width="130" Height="29" Margin="5,5,5,5" x:Name="btnSaveCustomerChanges" Content="Tallenna muutokset" VerticalAlignment="Bottom" Click="btnSaveCustomerChanges_Click"/>
+                        <Button Background="WhiteSmoke" Width="130" Height="29" Margin="5,5,5,5" x:Name="btnCShowSavePanel" Content="Lisää asiakas" VerticalAlignment="Bottom" Click="btnCShowSavePanel_Click" />
+                        <Button Background="WhiteSmoke" Width="130" Height="29" Margin="5,5,5,5" x:Name="btnCDeleteCustomer" Content="Poista asiakas" VerticalAlignment="Bottom" Click="btnCDeleteCustomer_Click"/>
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
@@ -104,9 +104,9 @@
                     <TextBlock  Margin="5,5,5,5" Text="Työntekijä"/>
                     <ComboBox x:Name="cbWorkerFilter" DisplayMemberPath="FullName" SelectedValuePath="PKey" Margin="10,0,0,0" Width="120" SelectionChanged="cbWorkerFilter_SelectionChanged"/>
                     <TextBlock  Margin="5,5,5,5" Text="Asiakas"/>
-                    <TextBox x:Name="cbCustomerFilter" Margin="10,0,0,0" Width="155"/>
+                    <TextBox x:Name="txtCustomerFilter" Margin="10,0,0,0" Width="155"/>
                     <TextBlock  Margin="5,5,5,5" Text="Päivämäärä"/>
-                    <DatePicker x:Name="dpDateFilter" Margin="10,0,0,0" SelectedDateChanged="dpDateFilter_SelectedDateChanged"/>
+                    <DatePicker x:Name="dpDateFilter" Margin="10,0,0,0" SelectedDateChanged="dpDateFilter_SelectedDateChanged" Width="110"/>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" Height="361">
                     <DataGrid x:Name="dgReservations" Background="White" ColumnWidth="100" ItemsSource="{Binding}" ScrollViewer.VerticalScrollBarVisibility="Auto" CanUserAddRows="False" Height="350" AutoGenerateColumns="False">
@@ -129,7 +129,7 @@
                         <TextBlock Margin="5,5,5,5"  Text="Palvelu:"/>
                         <TextBox x:Name="txtReservationService" Width="200" />
                         <TextBlock Margin="5,5,5,5" Text="Pvm:"/>
-                        <DatePicker x:Name="dpReservationDate" Width="100" />
+                        <DatePicker x:Name="dpReservationDate" Width="110" />
                         <TextBlock Margin="5,5,5,5"  Text="Aika:"/>
                         <TextBox x:Name="txtReservationTime" Width="150" />
                         <TextBlock Margin="5,5,5,5" Text="Työntekijä"/>
