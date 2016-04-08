@@ -373,6 +373,7 @@ namespace Scheduler_studio
 
             if (txtCFname.Text == "" || txtCLname.Text == "" || txtCFname.Text == "" || txtCPhone.Text == "" || txtCPrivilege.Text == "" || dpCustomerBD.SelectedDate == null) {
                 MessageBox.Show("Kaikkien kenttien täytyy olla täytetty.");
+                return;
             }
             try
             {
