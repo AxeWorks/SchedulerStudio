@@ -12,6 +12,105 @@ namespace Scheduler_studio
 {
      public static class DBStudio
     {
+        #region WORKER
+        public static DataTable GetAllWorkersData()
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                using (SQLiteConnection conn = new SQLiteConnection(Scheduler_studio.Properties.Settings.Default.ConnectionString))
+                {
+                    conn.Open();
+                    string sqlString = "SELECT * FROM worker";
+                    //  SQLiteCommand command = new SQLiteCommand(sqlString, conn);
+                    SQLiteDataAdapter da = new SQLiteDataAdapter(sqlString, conn);
+
+                    da.Fill(dt);
+                    conn.Close();
+                }
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public static int UpdateWorker(DataTable dt)
+        {
+            try
+            {
+                int rowcount;
+                using (SQLiteConnection conn = new SQLiteConnection(Scheduler_studio.Properties.Settings.Default.ConnectionString))
+                {
+                    conn.Open();
+                    SQLiteDataAdapter da = new SQLiteDataAdapter();
+                    da.InsertCommand = new SQLiteCommand("INSERT INTO worker (Fname, Lname, Addr, Phone, RegDate, Other) VALUES (@Fname, @Lname, @Addr, @Phone, @RegDate, @Other)", conn);
+
+                    da.InsertCommand.Parameters.Add("@Fname", DbType.String, 20, "Fname");
+                    da.InsertCommand.Parameters.Add("@Lname", DbType.String, 30, "Lname");
+                    da.InsertCommand.Parameters.Add("@Addr", DbType.String, 80, "Addr");
+                    da.InsertCommand.Parameters.Add("@Phone", DbType.String, 20, "Phone");
+                    da.InsertCommand.Parameters.Add("@RegDate", DbType.String, 10, "RegDate");
+                    da.InsertCommand.Parameters.Add("@Other", DbType.String, 100, "Other");
+
+                    da.UpdateCommand = new SQLiteCommand("UPDATE worker SET Fname = @newFname, Lname = @newLname, Addr = @newAddr, Phone = @newPhone, Other = @newOther " +
+                        "WHERE PKey = @PKey", conn);
+
+                    SQLiteParameter paramA = da.UpdateCommand.Parameters.Add("@newFname", DbType.String, 20, "Fname");
+                    paramA.SourceVersion = DataRowVersion.Current;
+                    SQLiteParameter paramB = da.UpdateCommand.Parameters.Add("@newLname", DbType.String, 30, "Lname");
+                    paramB.SourceVersion = DataRowVersion.Current;
+                    SQLiteParameter paramD = da.UpdateCommand.Parameters.Add("@newAddr", DbType.String, 80, "Addr");
+                    paramD.SourceVersion = DataRowVersion.Current;
+                    SQLiteParameter paramE = da.UpdateCommand.Parameters.Add("@newPhone", DbType.String, 20, "Phone");
+                    paramE.SourceVersion = DataRowVersion.Current;
+                    SQLiteParameter paramF = da.UpdateCommand.Parameters.Add("@newOther", DbType.String, 100, "Other");
+                    paramF.SourceVersion = DataRowVersion.Current;
+                    SQLiteParameter paramG = da.UpdateCommand.Parameters.Add("@PKey", DbType.Int32, 100000, "PKey");
+
+                    da.DeleteCommand = new SQLiteCommand("DELETE FROM worker WHERE PKey = @PKey", conn);
+
+                    da.DeleteCommand.Parameters.Add("@PKey", DbType.Int32, 100000, "PKey");
+
+                    rowcount = da.Update(dt);
+                    conn.Close();
+
+                }
+                return rowcount;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+        #region RESERVATION
+        public static DataTable GetReservations()
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                using (SQLiteConnection conn = new SQLiteConnection(Scheduler_studio.Properties.Settings.Default.ConnectionString))
+                {
+                    conn.Open();
+                    // string sqlString = "SELECT r.Service, r.Employee, r.ReservationTime, r.ReservationDate, r.RegCustomer, r.UnregCustomer, r.PKey FROM reservation as r JOIN worker as w ON r.Employee = w.PKey JOIN customer as c ON r.RegCustomer = c.PKey";
+                    string sqlString = "SELECT * FROM reservation";
+
+                    SQLiteDataAdapter da = new SQLiteDataAdapter(sqlString, conn);
+
+                    da.Fill(dt);
+                    conn.Close();
+                }
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public static int UpdateReservations(List<Reservation> reservations)
         {
             try
@@ -54,180 +153,6 @@ namespace Scheduler_studio
                 }
                 return count;
 
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        public static DataTable GetNotes()
-        {
-            try
-            {
-                DataTable dt = new DataTable();
-                using (SQLiteConnection conn = new SQLiteConnection(Scheduler_studio.Properties.Settings.Default.ConnectionString))
-                {
-                    conn.Open();
-                    string sqlString = "SELECT notebook.Note, notebook.Employee, worker.Fname, worker.Lname FROM notebook JOIN worker ON notebook.Employee = worker.PKey";
-                   // SQLiteCommand command = new SQLiteCommand(sqlString, conn);
-                    SQLiteDataAdapter da = new SQLiteDataAdapter(sqlString, conn);
-
-                    da.Fill(dt);
-                    conn.Close();
-                }
-                return dt;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        public static int SaveNote(string msg, int FKey)
-        {
-            try
-            {
-                int count;
-                using (SQLiteConnection conn = new SQLiteConnection(Scheduler_studio.Properties.Settings.Default.ConnectionString))
-                {
-                    conn.Open();
-                    string sqlString = string.Format("INSERT INTO notebook (Note, Employee) VALUES (@Note, {0})", FKey);
-
-                    SQLiteCommand command = new SQLiteCommand(sqlString, conn);
-                    SQLiteParameter param = new SQLiteParameter("Note", DbType.String);
-                    param.Value = msg;
-                    command.Parameters.Add(param);
-
-                    // Tutki kannattaako käyttää .executenonqueryasync
-                    count = command.ExecuteNonQuery();
-                    conn.Close();
-                }
-                return count;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        public static int DeleteNote(string msg, int FKey)
-        {
-            try
-            {
-                int count;
-                using (SQLiteConnection conn = new SQLiteConnection(Scheduler_studio.Properties.Settings.Default.ConnectionString))
-                {
-                    conn.Open();
-                    string sqlString = string.Format("DELETE FROM notebook WHERE (Note = @Note) AND (Employee = {0})", FKey);
-
-                    SQLiteCommand command = new SQLiteCommand(sqlString, conn);
-                    SQLiteParameter param = new SQLiteParameter("Note", DbType.String);
-                    param.Value = msg;
-                    command.Parameters.Add(param);
-
-                    // Tutki kannattaako käyttää .executenonqueryasync
-                    count = command.ExecuteNonQuery();
-                    conn.Close();
-                }
-                return count;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        public static DataTable GetAllWorkersData()
-        {
-            try
-            {
-                DataTable dt = new DataTable();
-                using (SQLiteConnection conn = new SQLiteConnection(Scheduler_studio.Properties.Settings.Default.ConnectionString))
-                {
-                    conn.Open();
-                    string sqlString = "SELECT * FROM worker";
-                  //  SQLiteCommand command = new SQLiteCommand(sqlString, conn);
-                    SQLiteDataAdapter da = new SQLiteDataAdapter(sqlString, conn);
-                    
-                    da.Fill(dt);
-                    conn.Close();
-                }                
-                return dt;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        
-        public static int UpdateWorker(DataTable dt)
-        {
-            try
-            {
-                int rowcount;       
-                using (SQLiteConnection conn = new SQLiteConnection(Scheduler_studio.Properties.Settings.Default.ConnectionString))
-                {
-                    conn.Open();
-                    SQLiteDataAdapter da = new SQLiteDataAdapter();
-                    da.InsertCommand = new SQLiteCommand("INSERT INTO worker (Fname, Lname, Addr, Phone, RegDate, Other) VALUES (@Fname, @Lname, @Addr, @Phone, @RegDate, @Other)", conn);
-
-                    da.InsertCommand.Parameters.Add("@Fname", DbType.String, 20, "Fname");
-                    da.InsertCommand.Parameters.Add("@Lname", DbType.String, 30, "Lname");
-                    da.InsertCommand.Parameters.Add("@Addr", DbType.String, 80, "Addr");
-                    da.InsertCommand.Parameters.Add("@Phone", DbType.String, 20, "Phone");
-                    da.InsertCommand.Parameters.Add("@RegDate", DbType.String, 10, "RegDate");
-                    da.InsertCommand.Parameters.Add("@Other", DbType.String, 100, "Other");
-
-                    da.UpdateCommand = new SQLiteCommand("UPDATE worker SET Fname = @newFname, Lname = @newLname, Addr = @newAddr, Phone = @newPhone, Other = @newOther " +
-                        "WHERE PKey = @PKey", conn);
-
-                    SQLiteParameter paramA = da.UpdateCommand.Parameters.Add("@newFname", DbType.String, 20, "Fname");
-                    paramA.SourceVersion = DataRowVersion.Current;
-                    SQLiteParameter paramB = da.UpdateCommand.Parameters.Add("@newLname", DbType.String, 30, "Lname");
-                    paramB.SourceVersion = DataRowVersion.Current;
-                    SQLiteParameter paramD = da.UpdateCommand.Parameters.Add("@newAddr", DbType.String, 80, "Addr");
-                    paramD.SourceVersion = DataRowVersion.Current;
-                    SQLiteParameter paramE = da.UpdateCommand.Parameters.Add("@newPhone", DbType.String, 20, "Phone");
-                    paramE.SourceVersion = DataRowVersion.Current;
-                    SQLiteParameter paramF = da.UpdateCommand.Parameters.Add("@newOther", DbType.String, 100, "Other");
-                    paramF.SourceVersion = DataRowVersion.Current;
-                    SQLiteParameter paramG = da.UpdateCommand.Parameters.Add("@PKey", DbType.Int32, 100000, "PKey");
-
-                    da.DeleteCommand = new SQLiteCommand("DELETE FROM worker WHERE PKey = @PKey", conn);
-
-                    da.DeleteCommand.Parameters.Add("@PKey", DbType.Int32, 100000, "PKey");
-
-                    rowcount = da.Update(dt);
-                    conn.Close();
-                    
-                }
-                return rowcount;
-
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        public static DataTable GetReservations()
-        {
-            try
-            {
-                DataTable dt = new DataTable();
-                using (SQLiteConnection conn = new SQLiteConnection(Scheduler_studio.Properties.Settings.Default.ConnectionString))
-                {
-                    conn.Open();
-                    // string sqlString = "SELECT r.Service, r.Employee, r.ReservationTime, r.ReservationDate, r.RegCustomer, r.UnregCustomer, r.PKey FROM reservation as r JOIN worker as w ON r.Employee = w.PKey JOIN customer as c ON r.RegCustomer = c.PKey";
-                    string sqlString = "SELECT * FROM reservation";
-
-                    SQLiteDataAdapter da = new SQLiteDataAdapter(sqlString, conn);
-
-                    da.Fill(dt);
-                    conn.Close();
-                }
-                return dt;
             }
             catch (Exception ex)
             {
@@ -302,7 +227,8 @@ namespace Scheduler_studio
                 throw ex;
             }
         }
-
+        #endregion
+        #region CUSTOMER
         public static DataTable GetCustomers()
         {
             try
@@ -324,6 +250,86 @@ namespace Scheduler_studio
             {
                 throw ex;
             }
-        }       
+        }
+        #endregion
+        #region NOTE
+        public static DataTable GetNotes()
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                using (SQLiteConnection conn = new SQLiteConnection(Scheduler_studio.Properties.Settings.Default.ConnectionString))
+                {
+                    conn.Open();
+                    string sqlString = "SELECT notebook.Note, notebook.Employee, worker.Fname, worker.Lname FROM notebook JOIN worker ON notebook.Employee = worker.PKey";
+                    // SQLiteCommand command = new SQLiteCommand(sqlString, conn);
+                    SQLiteDataAdapter da = new SQLiteDataAdapter(sqlString, conn);
+
+                    da.Fill(dt);
+                    conn.Close();
+                }
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public static int SaveNote(string msg, int FKey)
+        {
+            try
+            {
+                int count;
+                using (SQLiteConnection conn = new SQLiteConnection(Scheduler_studio.Properties.Settings.Default.ConnectionString))
+                {
+                    conn.Open();
+                    string sqlString = string.Format("INSERT INTO notebook (Note, Employee) VALUES (@Note, {0})", FKey);
+
+                    SQLiteCommand command = new SQLiteCommand(sqlString, conn);
+                    SQLiteParameter param = new SQLiteParameter("Note", DbType.String);
+                    param.Value = msg;
+                    command.Parameters.Add(param);
+
+                    // Tutki kannattaako käyttää .executenonqueryasync
+                    count = command.ExecuteNonQuery();
+                    conn.Close();
+                }
+                return count;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public static int DeleteNote(string msg, int FKey)
+        {
+            try
+            {
+                int count;
+                using (SQLiteConnection conn = new SQLiteConnection(Scheduler_studio.Properties.Settings.Default.ConnectionString))
+                {
+                    conn.Open();
+                    string sqlString = string.Format("DELETE FROM notebook WHERE (Note = @Note) AND (Employee = {0})", FKey);
+
+                    SQLiteCommand command = new SQLiteCommand(sqlString, conn);
+                    SQLiteParameter param = new SQLiteParameter("Note", DbType.String);
+                    param.Value = msg;
+                    command.Parameters.Add(param);
+
+                    // Tutki kannattaako käyttää .executenonqueryasync
+                    count = command.ExecuteNonQuery();
+                    conn.Close();
+                }
+                return count;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        #endregion
     }
 }

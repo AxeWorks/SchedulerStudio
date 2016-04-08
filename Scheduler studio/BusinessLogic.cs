@@ -12,8 +12,7 @@ using System.Text.RegularExpressions;
 
 
 namespace Scheduler_studio
-{
-    
+{    
     class Worker : INotifyPropertyChanged
     {
         #region PROPERTIES
@@ -134,7 +133,6 @@ namespace Scheduler_studio
         }
 
         #endregion
-
         #region CONSTRUCTORS
 
         public Note(string msg, string user, int primarykey)
@@ -238,7 +236,6 @@ namespace Scheduler_studio
         }
 
         #endregion
-
         #region METHODS
 
         #endregion
@@ -307,7 +304,6 @@ namespace Scheduler_studio
 
 
         #endregion
-
         #region CONSTRUCTORS
         public Customer()
         {
@@ -334,25 +330,34 @@ namespace Scheduler_studio
         }
 
         #endregion
-
         #region METHODS
         #endregion
     }
 
     static class Studio
     {
-        public static int RemoveReservation(int pkey)
+        #region RESERVATION
+        public static DataTable GetReservations()
         {
             try
             {
-                int effectedRows = DBStudio.DeleteReservation(pkey);
-                return effectedRows;
+                DataTable dt = new DataTable();
+                dt = DBStudio.GetReservations();
+
+                return dt;
             }
             catch (Exception ex)
             {
-                
                 throw ex;
             }
+        }
+
+        public static int SaveReservation(Reservation reservation)
+        {
+            int rowcount;
+            rowcount = DBStudio.InsertReservation(reservation.Service, reservation.Time.ToString(), reservation.Date.Day + "." + reservation.Date.Month + "." + reservation.Date.Year, reservation.UnregCustomer, reservation.RegCustomer, reservation.Employee);
+
+            return rowcount;
         }
 
         public static int UpdateReservations(DataTable dtReservations)
@@ -364,9 +369,9 @@ namespace Scheduler_studio
                 Nullable<int> regcustomer;
                 int tempVal;
                 string unregcustomer;
-                foreach(DataRow row in dtReservations.Rows)
+                foreach (DataRow row in dtReservations.Rows)
                 {
-                    if(row.RowState == DataRowState.Modified)
+                    if (row.RowState == DataRowState.Modified)
                     {
                         date = Convert.ToDateTime(row["ReservationDate"].ToString());
 
@@ -382,7 +387,7 @@ namespace Scheduler_studio
                         }
                         reservations.Add(new Reservation(Convert.ToInt32(row["PKey"].ToString()), Convert.ToInt32(row["Employee"].ToString()), regcustomer, row["Service"].ToString(), unregcustomer, date, row["ReservationTime"].ToString()));
                     }
-                    
+
                 }
 
                 int count = DBStudio.UpdateReservations(reservations);
@@ -390,10 +395,64 @@ namespace Scheduler_studio
             }
             catch (Exception ex)
             {
-                
+
                 throw ex;
             }
         }
+
+        public static int RemoveReservation(int pkey)
+        {
+            try
+            {
+                int effectedRows = DBStudio.DeleteReservation(pkey);
+                return effectedRows;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        #endregion
+        #region WORKER
+
+        public static DataTable GetWorkersTable()
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                dt = DBStudio.GetAllWorkersData();
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public static List<Worker> GetWorkersList(DataTable dt)
+        {
+            try
+            {
+                List<Worker> workers = new List<Worker>();
+
+                foreach (DataRow row in dt.Rows)
+                {
+                    workers.Add(new Worker(Convert.ToInt64(row["PKey"].ToString()), row["Fname"].ToString(), row["Lname"].ToString(), row["Addr"].ToString(), row["Phone"].ToString(), Convert.ToDateTime(row["RegDate"].ToString()), row["Other"].ToString()));
+                }
+
+                return workers;
+            }
+            catch (Exception ex)
+            {
+
+
+                throw ex;
+            }
+        }
+
+        #endregion
+        #region NOTE
 
         public static void SaveNote(Note note)
         {
@@ -440,6 +499,8 @@ namespace Scheduler_studio
             }
         }
 
+        #endregion
+        #region CUSTOMER
         public static List<Customer> GetCustomersList()
         {
             try
@@ -471,28 +532,8 @@ namespace Scheduler_studio
             }
         }
 
-        public static DataTable GetReservations()
-        {
-            try
-            {
-                DataTable dt = new DataTable();
-                dt = DBStudio.GetReservations();
-
-                return dt;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        public static int SaveReservation(Reservation reservation)
-        {
-            int rowcount;
-            rowcount = DBStudio.InsertReservation(reservation.Service, reservation.Time.ToString(), reservation.Date.Day + "." + reservation.Date.Month + "." + reservation.Date.Year, reservation.UnregCustomer, reservation.RegCustomer, reservation.Employee);
-
-            return rowcount;
-        }
+        #endregion
+        
         public static bool IsValidTime(string time)
         {
             Regex check = new Regex(@"^(?:0?[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$");
@@ -507,43 +548,6 @@ namespace Scheduler_studio
             return check.IsMatch(phone);
         }
 
-        #region WORKER
-
-        public static DataTable GetWorkersTable()
-        {
-            try
-            {
-                DataTable dt = new DataTable();
-                dt = DBStudio.GetAllWorkersData();
-                return dt;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        
-        public static List<Worker> GetWorkersList(DataTable dt)
-        {
-            try
-            {
-                List<Worker> workers = new List<Worker>();
-
-                foreach(DataRow row in dt.Rows)
-                {
-                    workers.Add(new Worker(Convert.ToInt64(row["PKey"].ToString()), row["Fname"].ToString(), row["Lname"].ToString(), row["Addr"].ToString(), row["Phone"].ToString(), Convert.ToDateTime(row["RegDate"].ToString()), row["Other"].ToString()));
-                }
-
-                return workers;
-            }
-            catch (Exception ex)
-            {
-
-
-                throw ex;
-            }
-        }
-
-        #endregion
+      
     }
 }
