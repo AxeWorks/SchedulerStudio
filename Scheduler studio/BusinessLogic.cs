@@ -13,7 +13,7 @@ using System.Text.RegularExpressions;
 
 namespace Scheduler_studio
 {    
-    class Worker
+    public class Worker
     {
         #region PROPERTIES
 
@@ -90,9 +90,6 @@ namespace Scheduler_studio
             regdate = rdate;
             otherInfo = other;
         }
-        #endregion
-        #region METHODS
-
         #endregion
     }
 
@@ -228,9 +225,6 @@ namespace Scheduler_studio
         }
 
         #endregion
-        #region METHODS
-
-        #endregion
     }
 
     public class Customer
@@ -321,8 +315,6 @@ namespace Scheduler_studio
             this.regdate = rdate;
         }
 
-        #endregion
-        #region METHODS
         #endregion
     }
 
