@@ -251,6 +251,79 @@ namespace Scheduler_studio
                 throw ex;
             }
         }
+        public static DataTable getCustomerNames()
+        {
+
+            try
+            {
+                DataTable dt = new DataTable();
+                using (SQLiteConnection conn = new SQLiteConnection(Scheduler_studio.Properties.Settings.Default.ConnectionString))
+                {
+                    conn.Open();
+                    string sqlString = "SELECT PKey, Fname, Lname FROM customer";
+                    // SQLiteCommand command = new SQLiteCommand(sqlString, conn);
+                    SQLiteDataAdapter da = new SQLiteDataAdapter(sqlString, conn);
+
+                    da.Fill(dt);
+                    conn.Close();
+                }
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public static int UpdateCustomer(DataTable dt)
+        {
+            try
+            {
+                int rowcount;
+                using (SQLiteConnection conn = new SQLiteConnection(Scheduler_studio.Properties.Settings.Default.ConnectionString))
+                {
+                    conn.Open();
+                    SQLiteDataAdapter da = new SQLiteDataAdapter();
+                    da.InsertCommand = new SQLiteCommand("INSERT INTO customer (Fname, Lname, Phone, Birthdate, Privilege, RegDate) VALUES (@Fname, @Lname, @Phone, @BirthDate, @Privilege, @RegDate)", conn);
+
+                    da.InsertCommand.Parameters.Add("@Fname", DbType.String, 20, "Fname");
+                    da.InsertCommand.Parameters.Add("@Lname", DbType.String, 30, "Lname");
+                    da.InsertCommand.Parameters.Add("@Phone", DbType.String, 20, "Phone");
+                    da.InsertCommand.Parameters.Add("@Birthdate", DbType.String, 80, "Birthdate");
+                    da.InsertCommand.Parameters.Add("@Privilege", DbType.String, 80, "Privilege");
+                    da.InsertCommand.Parameters.Add("@RegDate", DbType.String, 10, "RegDate");
+
+                    da.UpdateCommand = new SQLiteCommand("UPDATE customer SET Fname = @newFname, Lname = @newLname, Phone = @newPhone, Birthdate = @newBirthdate, Privilege = @newPrivilege " +
+                        "WHERE PKey = @PKey", conn);
+
+                    SQLiteParameter paramA = da.UpdateCommand.Parameters.Add("@newFname", DbType.String, 20, "Fname");
+                    paramA.SourceVersion = DataRowVersion.Current;
+                    SQLiteParameter paramB = da.UpdateCommand.Parameters.Add("@newLname", DbType.String, 30, "Lname");
+                    paramB.SourceVersion = DataRowVersion.Current;
+                    SQLiteParameter paramD = da.UpdateCommand.Parameters.Add("@newPhone", DbType.String, 80, "Phone");
+                    paramD.SourceVersion = DataRowVersion.Current;
+                    SQLiteParameter paramE = da.UpdateCommand.Parameters.Add("@newBirthdate", DbType.String, 20, "Birthdate");
+                    paramE.SourceVersion = DataRowVersion.Current;
+                    SQLiteParameter paramF = da.UpdateCommand.Parameters.Add("@newPrivilege", DbType.String, 100, "Privilege");
+                    paramF.SourceVersion = DataRowVersion.Current;
+                    SQLiteParameter paramG = da.UpdateCommand.Parameters.Add("@PKey", DbType.Int32, 100000, "PKey");
+
+                    da.DeleteCommand = new SQLiteCommand("DELETE FROM customer WHERE PKey = @PKey", conn);
+
+                    da.DeleteCommand.Parameters.Add("@PKey", DbType.Int32, 100000, "PKey");
+
+                    rowcount = da.Update(dt);
+                    conn.Close();
+
+                }
+                return rowcount;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         #endregion
         #region NOTE
         public static DataTable GetNotes()
