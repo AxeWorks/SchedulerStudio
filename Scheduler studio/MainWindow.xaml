@@ -88,14 +88,14 @@
                         <TextBlock Text="Sukunimi:"/>
                         <TextBox x:Name="txtCLname" Width="100" />
                         <TextBlock Text="Puhelin:"/>
-                        <TextBox x:Name="txtCPhone" Width="200" />
+                        <TextBox x:Name="txtCPhone" Width="200" TextChanged="txtCPhone_TextChanged" />
                         <TextBlock Text="Etuus:"/>
                         <TextBox x:Name="txtCPrivilege" Width="100" />
                         <TextBlock Text="Syntymäaika:"/>
                         <DatePicker x:Name="txtCBD" Width="100" />
                         <TextBlock Text="Rekisteröitynyt:"/>
                         <TextBox x:Name="txtCRD" Width="100" IsReadOnly="True"/>
-                        <Button x:Name="btnSaveCustomer" Content="Tallenna" Click="btnSaveCustomer_Click"/>
+                        <Button x:Name="btnSaveCustomer" Content="Tallenna" Click="btnSaveCustomer_Click" Height="27" VerticalAlignment="Top"/>
                     </StackPanel>
                     <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Bottom">
                         <Button x:Name="btnCSaveChanges" Content="Tallenna muutokset" VerticalAlignment="Bottom" Height="29" Width="127" Click="btnCSaveChanges_Click"/>
