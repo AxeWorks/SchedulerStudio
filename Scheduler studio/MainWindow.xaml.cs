@@ -516,7 +516,7 @@ namespace Scheduler_studio
         {
             try
             {
-                if (txtReservationUnregCustomer.Text == "" && cbReservationRegCustomer.SelectedIndex == -1 || cbReservationEmployee.SelectedIndex == -1 || txtReservationService.Text == "" || txtReservationTime.Text == "" || !dpReservationDate.SelectedDate.HasValue)
+                if (txtReservationUnregCustomer.Text == "" && cbReservationRegCustomer.SelectedIndex == -1 || txtReservationUnregCustomer.Text == "" && cbReservationRegCustomer.SelectedIndex == 0 || cbReservationEmployee.SelectedIndex == -1 || txtReservationService.Text == "" || txtReservationTime.Text == "" || !dpReservationDate.SelectedDate.HasValue)
                 {
 
                     MessageBox.Show("Tarpeellisia tietoja jätetty pois!");
@@ -531,15 +531,15 @@ namespace Scheduler_studio
                             string unregcustomer = null;
                             Nullable<int> regcustomer = null;
 
-                            if (txtReservationUnregCustomer.Text == "" && cbReservationRegCustomer.SelectedIndex != -1)
+                            if (txtReservationUnregCustomer.Text == "" && cbReservationRegCustomer.SelectedIndex != -1 && cbReservationRegCustomer.SelectedIndex != 0)
                             {
                                 regcustomer = Convert.ToInt32(cbReservationRegCustomer.SelectedValue);
                             }
 
-                            if (txtReservationUnregCustomer.Text != "" && cbReservationRegCustomer.SelectedIndex == -1)
+                            else if (txtReservationUnregCustomer.Text != "" && cbReservationRegCustomer.SelectedIndex == -1 || txtReservationUnregCustomer.Text != "" && cbReservationRegCustomer.SelectedIndex == 0)
                             {
                                 unregcustomer = txtReservationUnregCustomer.Text;
-                            }
+                            }                            
 
                             Reservation reservation = new Reservation(Convert.ToInt32(cbReservationEmployee.SelectedValue), regcustomer, txtReservationService.Text, unregcustomer, dpReservationDate.SelectedDate.Value.Date, txtReservationTime.Text);
                             txtReservationService.Text = "";
@@ -571,8 +571,33 @@ namespace Scheduler_studio
         {
             try
             {
-                int rows = Studio.UpdateReservations(dtReservations);
-                MessageBox.Show(rows + " riviä päivitetty");
+                // int rows = Studio.UpdateReservations(dtReservations);
+                int rows = Studio.UpdateRess(dtReservations);
+                if(rows == -100)
+                {
+                    MessageBox.Show("Varauksessa ei merkittyjä asiakkaita. Toisessa kentässä oltava dataa.");
+                }
+                else if (rows == -101)
+                {
+                    MessageBox.Show("Molemmissa asiakaskentissä dataa. Vain toisessa kentässä saa olla dataa.");
+                }
+                else if (rows == -200)
+                {
+                    MessageBox.Show("Liikaa merkkejä palvelukentässä. Merkkejä korkeintaan 100.");
+                }
+                else if(rows == -300)
+                {
+                    MessageBox.Show("Varauksessa virheellinen aika. Oikea formaatti on HH:MM.");                    
+                }
+                else if (rows == -301)
+                {
+                    MessageBox.Show("Varauksessa virheellinen päivä. Oikea formaatti on pp.kk.vvvv.");
+                }
+
+                else
+                {
+                    MessageBox.Show(rows + " riviä päivitetty");
+                }
                 RefreshReservations();
             }
             catch (Exception ex)

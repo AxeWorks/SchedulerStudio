@@ -344,6 +344,54 @@ namespace Scheduler_studio
             return rowcount;
         }
 
+        public static int UpdateRess(DataTable dtReservations)
+        {
+            try
+            {
+                foreach (DataRow row in dtReservations.Rows)
+                {
+                    if (row.RowState == DataRowState.Modified)
+                    {
+                        if(String.IsNullOrEmpty(row["RegCustomer"].ToString()) && row["UnregCustomer"].ToString() == "")
+                        {
+                            // ei kummassakaan asiakaskentässä dataa
+                            return -100;
+                        }
+                        if(!String.IsNullOrEmpty(row["RegCustomer"].ToString()) && row["UnregCustomer"].ToString() != "")
+                        {
+                            // molemmissa asiakaskentissä dataa
+                            return -101;
+                        }
+                        if(row["Service"].ToString().Length > 100)
+                        {
+                            // liikaa merkkejä palvelussa
+                            return -200;
+                        }
+                        if (!IsValidTime(row["ReservationTime"].ToString()))
+                        {
+                            //väärä aikaformaatti
+                            return -300;
+                        }
+                        if(!IsValidDate(row["ReservationDate"].ToString()))
+                        {
+                            // väärä päiväformaatti
+                            return -301;
+                        }
+                    }
+                }
+
+                int count;
+                count = DBStudio.UpdateRes(dtReservations);
+                return count;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+
         public static int UpdateReservations(DataTable dtReservations)
         {
             try
@@ -371,7 +419,6 @@ namespace Scheduler_studio
                         }
                         reservations.Add(new Reservation(Convert.ToInt32(row["PKey"].ToString()), Convert.ToInt32(row["Employee"].ToString()), regcustomer, row["Service"].ToString(), unregcustomer, date, row["ReservationTime"].ToString()));
                     }
-
                 }
 
                 int count = DBStudio.UpdateReservations(reservations);
@@ -546,6 +593,13 @@ namespace Scheduler_studio
             return check.IsMatch(phone);
         }
 
-      
+        public static bool IsValidDate(string date)
+        {
+            Regex check = new Regex(@"^([0-3]?[0-9].[0-3]?[0-9].[0-9]{4})$");
+
+            return check.IsMatch(date);
+        }
+
+
     }
 }

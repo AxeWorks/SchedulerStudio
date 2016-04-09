@@ -5,16 +5,40 @@ VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scheduler studio", "Scheduler studio\Scheduler studio.csproj", "{2C57D39C-1979-44B6-99E9-37B416AE82E9}"
 EndProject
+Project("{6141683F-8A12-4E36-9623-2EB02B2C2303}") = "Setup", "Setup\Setup.isproj", "{3B8BD22F-332D-413C-9C18-4FA73AA52932}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2C57D39C-1979-44B6-99E9-37B416AE82E9} = {2C57D39C-1979-44B6-99E9-37B416AE82E9}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		CD_ROM|Any CPU = CD_ROM|Any CPU
 		Debug|Any CPU = Debug|Any CPU
+		DVD-5|Any CPU = DVD-5|Any CPU
 		Release|Any CPU = Release|Any CPU
+		SingleImage|Any CPU = SingleImage|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2C57D39C-1979-44B6-99E9-37B416AE82E9}.CD_ROM|Any CPU.ActiveCfg = Release|Any CPU
+		{2C57D39C-1979-44B6-99E9-37B416AE82E9}.CD_ROM|Any CPU.Build.0 = Release|Any CPU
 		{2C57D39C-1979-44B6-99E9-37B416AE82E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2C57D39C-1979-44B6-99E9-37B416AE82E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C57D39C-1979-44B6-99E9-37B416AE82E9}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C57D39C-1979-44B6-99E9-37B416AE82E9}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
 		{2C57D39C-1979-44B6-99E9-37B416AE82E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2C57D39C-1979-44B6-99E9-37B416AE82E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C57D39C-1979-44B6-99E9-37B416AE82E9}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
+		{2C57D39C-1979-44B6-99E9-37B416AE82E9}.SingleImage|Any CPU.Build.0 = Release|Any CPU
+		{3B8BD22F-332D-413C-9C18-4FA73AA52932}.CD_ROM|Any CPU.ActiveCfg = CD_ROM
+		{3B8BD22F-332D-413C-9C18-4FA73AA52932}.CD_ROM|Any CPU.Build.0 = CD_ROM
+		{3B8BD22F-332D-413C-9C18-4FA73AA52932}.Debug|Any CPU.ActiveCfg = DVD-5
+		{3B8BD22F-332D-413C-9C18-4FA73AA52932}.Debug|Any CPU.Build.0 = DVD-5
+		{3B8BD22F-332D-413C-9C18-4FA73AA52932}.DVD-5|Any CPU.ActiveCfg = DVD-5
+		{3B8BD22F-332D-413C-9C18-4FA73AA52932}.DVD-5|Any CPU.Build.0 = DVD-5
+		{3B8BD22F-332D-413C-9C18-4FA73AA52932}.Release|Any CPU.ActiveCfg = SingleImage
+		{3B8BD22F-332D-413C-9C18-4FA73AA52932}.Release|Any CPU.Build.0 = SingleImage
+		{3B8BD22F-332D-413C-9C18-4FA73AA52932}.SingleImage|Any CPU.ActiveCfg = SingleImage
+		{3B8BD22F-332D-413C-9C18-4FA73AA52932}.SingleImage|Any CPU.Build.0 = SingleImage
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

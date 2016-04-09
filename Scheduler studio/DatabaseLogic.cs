@@ -13,6 +13,7 @@ namespace Scheduler_studio
      public static class DBStudio
     {
         #region WORKER
+        //Janne
         public static DataTable GetAllWorkersData()
         {
             try
@@ -35,6 +36,7 @@ namespace Scheduler_studio
             }
         }
 
+        //Janne
         public static int UpdateWorker(DataTable dt)
         {
             try
@@ -86,6 +88,7 @@ namespace Scheduler_studio
         }
         #endregion
         #region RESERVATION
+        //Janne
         public static DataTable GetReservations()
         {
             try
@@ -109,7 +112,50 @@ namespace Scheduler_studio
                 throw ex;
             }
         }
+        //Janne
+        public static int UpdateRes(DataTable table)
+        {
+            try
+            {
+                int count = 0;
+                using (SQLiteConnection conn = new SQLiteConnection(Scheduler_studio.Properties.Settings.Default.ConnectionString))
+                {
+                    conn.Open();
 
+                    SQLiteDataAdapter da = new SQLiteDataAdapter();
+                    da.UpdateCommand = new SQLiteCommand("UPDATE reservation SET Service = @Service, UnregCustomer = @UnregCustomer, ReservationTime = @ReservationTime, ReservationDate = @ReservationDate, RegCustomer = @RegCustomer, Employee = @Employee WHERE PKey = @PKey", conn);
+                    da.DeleteCommand = new SQLiteCommand("DELETE FROM reservation WHERE PKey = @PKey", conn);
+
+                    SQLiteParameter paramA = da.UpdateCommand.Parameters.Add("@Service", DbType.String, 100, "Service");
+                    paramA.SourceVersion = DataRowVersion.Current;
+                    SQLiteParameter paramB = da.UpdateCommand.Parameters.Add("@UnregCustomer", DbType.String, 50, "UnregCustomer");
+                    paramB.SourceVersion = DataRowVersion.Current;
+                    SQLiteParameter paramD = da.UpdateCommand.Parameters.Add("@ReservationTime", DbType.String, 13, "ReservationTime");
+                    paramD.SourceVersion = DataRowVersion.Current;
+                    SQLiteParameter paramE = da.UpdateCommand.Parameters.Add("@ReservationDate", DbType.String, 13, "ReservationDate");
+                    paramE.SourceVersion = DataRowVersion.Current;
+                    SQLiteParameter paramF = da.UpdateCommand.Parameters.Add("@RegCustomer", DbType.Int32, 100000, "RegCustomer");
+                    paramF.SourceVersion = DataRowVersion.Current;
+                    SQLiteParameter paramG = da.UpdateCommand.Parameters.Add("@Employee", DbType.Int32, 100000, "Employee");
+                    paramF.SourceVersion = DataRowVersion.Current;
+                    SQLiteParameter paramH = da.UpdateCommand.Parameters.Add("@PKey", DbType.Int32, 100000, "PKey");
+
+                    da.DeleteCommand = new SQLiteCommand("DELETE FROM reservation WHERE PKey = @PKey", conn);
+
+                    da.DeleteCommand.Parameters.Add("@PKey", DbType.Int32, 100000, "PKey");
+
+                    count = da.Update(table);
+                    conn.Close();
+                }
+                return count;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        //Janne
         public static int UpdateReservations(List<Reservation> reservations)
         {
             try
@@ -158,7 +204,7 @@ namespace Scheduler_studio
                 throw ex;
             }
         }
-
+        //Janne
         public static int DeleteReservation(int pkey)
         {
             try
@@ -180,7 +226,7 @@ namespace Scheduler_studio
                 throw ex;
             }
         }
-
+        //Janne
         public static int InsertReservation(string operation, string ResTime, string ResDate, string unregcustomer, Nullable<int> regcustomer, int employee)
         {
             try
@@ -227,6 +273,7 @@ namespace Scheduler_studio
         }
         #endregion
         #region CUSTOMER
+        //Aleksi
         public static DataTable GetCustomers()
         {
             try
@@ -248,6 +295,7 @@ namespace Scheduler_studio
                 throw ex;
             }
         }
+        // Aleksi
         public static DataTable getCustomerNames()
         {
 
@@ -271,6 +319,7 @@ namespace Scheduler_studio
             }
         }
 
+        //Aleksi
         public static int UpdateCustomer(DataTable dt)
         {
             try
@@ -322,6 +371,7 @@ namespace Scheduler_studio
         }
         #endregion
         #region NOTE
+        //Janne
         public static DataTable GetNotes()
         {
             try
@@ -343,7 +393,7 @@ namespace Scheduler_studio
                 throw ex;
             }
         }
-
+        //Janne
         public static int SaveNote(string msg, int FKey)
         {
             try
@@ -369,7 +419,7 @@ namespace Scheduler_studio
                 throw ex;
             }
         }
-
+        //Janne
         public static int DeleteNote(string msg, int FKey)
         {
             try
