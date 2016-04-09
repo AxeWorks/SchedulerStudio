@@ -344,7 +344,7 @@ namespace Scheduler_studio
             return rowcount;
         }
 
-        public static int UpdateRess(DataTable dtReservations)
+        public static int UpdateReservations(DataTable dtReservations)
         {
             try
             {
@@ -362,7 +362,12 @@ namespace Scheduler_studio
                             // molemmissa asiakaskentissä dataa
                             return -101;
                         }
-                        if(row["Service"].ToString().Length > 100)
+                        if (!String.IsNullOrEmpty(row["RegCustomer"].ToString()) && row["UnregCustomer"].ToString() == "")
+                        {
+                            // varmistetaan ettei check-constraint kosahda kannassa
+                            row["UnregCustomer"] = null;
+                        }
+                        if (row["Service"].ToString().Length > 100)
                         {
                             // liikaa merkkejä palvelussa
                             return -200;
@@ -377,11 +382,12 @@ namespace Scheduler_studio
                             // väärä päiväformaatti
                             return -301;
                         }
+
                     }
                 }
 
                 int count;
-                count = DBStudio.UpdateRes(dtReservations);
+                count = DBStudio.UpdateReservations(dtReservations);
                 return count;
             }
             catch (Exception ex)
@@ -392,7 +398,7 @@ namespace Scheduler_studio
         }
 
 
-        public static int UpdateReservations(DataTable dtReservations)
+      /*  public static int UpdateReservations(DataTable dtReservations)
         {
             try
             {
@@ -429,7 +435,7 @@ namespace Scheduler_studio
 
                 throw ex;
             }
-        }
+        }*/
 
         public static int RemoveReservation(int pkey)
         {
@@ -478,6 +484,51 @@ namespace Scheduler_studio
             {
 
 
+                throw ex;
+            }
+        }
+
+        public static int UpdateWorkers(DataTable dtWorkers)
+        {
+            try
+            {
+                foreach (DataRow row in dtWorkers.Rows)
+                {
+                    if (row.RowState == DataRowState.Modified)
+                    {
+
+                        if (!IsValidPhone(row["Phone"].ToString()))
+                        {
+                            // väärä puhelinformaatti
+                            return -101;
+                        }
+                        if (row["Fname"].ToString().Length == 0 || row["Fname"].ToString().Length > 20)
+                        {
+                            // Liikaa tai liian vähän merkkejä etunimessä
+                            return -200;
+                        }
+                        if (row["Lname"].ToString().Length == 0 || row["Lname"].ToString().Length > 30)
+                        {
+                            // Liikaa tai liian vähän merkkejä sukunimessä
+                            return -201;
+                        }
+                        if (row["Addr"].ToString().Length == 0 || row["Addr"].ToString().Length > 50)
+                        {
+                            // Liikaa tai liian vähän merkkejä Osoitteessa
+                            return -300;
+                        }
+                        if (row["Other"].ToString().Length > 100)
+                        {
+                            // liikaa merkkejä otherissa
+                            return -400;
+                        }
+                    }
+                }
+
+                return DBStudio.UpdateWorker(dtWorkers);
+            }
+            catch (Exception ex)
+            {
                 throw ex;
             }
         }

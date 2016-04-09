@@ -113,7 +113,7 @@ namespace Scheduler_studio
             }
         }
         //Janne
-        public static int UpdateRes(DataTable table)
+        public static int UpdateReservations(DataTable table)
         {
             try
             {
@@ -155,7 +155,8 @@ namespace Scheduler_studio
                 throw ex;
             }
         }
-        //Janne
+        //Janne 
+        /*
         public static int UpdateReservations(List<Reservation> reservations)
         {
             try
@@ -203,7 +204,7 @@ namespace Scheduler_studio
             {
                 throw ex;
             }
-        }
+        }*/
         //Janne
         public static int DeleteReservation(int pkey)
         {

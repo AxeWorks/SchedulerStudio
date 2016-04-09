@@ -572,7 +572,7 @@ namespace Scheduler_studio
             try
             {
                 // int rows = Studio.UpdateReservations(dtReservations);
-                int rows = Studio.UpdateRess(dtReservations);
+                int rows = Studio.UpdateReservations(dtReservations);
                 if(rows == -100)
                 {
                     MessageBox.Show("Varauksessa ei merkittyjä asiakkaita. Toisessa kentässä oltava dataa.");
@@ -738,8 +738,39 @@ namespace Scheduler_studio
         {
             try
             {
-                int rowcount = DBStudio.UpdateWorker(dtWorkers);
-                MessageBox.Show(rowcount + " riviä muokattu.");
+                //int rowcount = DBStudio.UpdateWorker(dtWorkers);
+                int rowcount = Studio.UpdateWorkers(dtWorkers);
+
+                if (rowcount == -101)
+                {
+                    // väärä puhelinformaatti
+                    MessageBox.Show("Puhelinnumeron formaatti väärä.\nOikeat formaatit ovat\n0401234567\ntai\n+358401234567");
+                }
+                else if (rowcount == -200)
+                {
+                    // väärä puhelinformaatti
+                    MessageBox.Show("Liikaa tai liian vähän merkkejä etunimessä. Minimi 1, maksimi 20.");
+                }
+                else if (rowcount == -201)
+                {
+                    // väärä puhelinformaatti
+                    MessageBox.Show("Liikaa tai liian vähän merkkejä sukunimessä. Minimi 1, maksimi 30.");
+                }
+                else if (rowcount == -300)
+                {
+                    // väärä puhelinformaatti
+                    MessageBox.Show("Liikaa tai liian vähän merkkejä osoitteessa. Minimi 1, maksimi 50.");
+                }
+                else if (rowcount == -400)
+                {
+                    // väärä puhelinformaatti
+                    MessageBox.Show("Liikaa tai liian vähän merkkejä muuta tietoa -kentässä. Minimi 1, maksimi 100.");
+                }
+                else
+                {
+                    MessageBox.Show(rowcount + " riviä muokattu.");
+                }
+
                 RefreshWorkers();
             }
             catch (Exception ex)
