@@ -74,8 +74,7 @@ namespace Scheduler_studio
                 dtReservations = Studio.GetReservations();
                 dvReservations = dtReservations.DefaultView;
                 dgReservations.DataContext = null;
-                dgReservations.DataContext = dvReservations;
-                
+                dgReservations.DataContext = dvReservations;                
             }
             catch (Exception ex)
             {
@@ -136,7 +135,6 @@ namespace Scheduler_studio
                 cbNotesEmployeeSelector.ItemsSource = workers;
                 cbReservationEmployee.ItemsSource = workers;
                 dgcReservationRegEmployee.ItemsSource = workers;
-                RefreshReservations();
             }
             catch (Exception ex)
             {
@@ -379,6 +377,7 @@ namespace Scheduler_studio
                     DBStudio.UpdateCustomer(dtCustomers);
                     btnCShowSavePanel.IsEnabled = true;
                     RefreshCustomers();
+                    RefreshReservations();
                 }
             }
             catch (Exception ex)
@@ -412,6 +411,7 @@ namespace Scheduler_studio
                 int rowcount = DBStudio.UpdateCustomer(dtCustomers);
                 MessageBox.Show(rowcount + " riviä muokattu.");
                 RefreshCustomers();
+                RefreshReservations();
             }
             catch (Exception ex)
             {
@@ -536,7 +536,7 @@ namespace Scheduler_studio
                                 regcustomer = Convert.ToInt32(cbReservationRegCustomer.SelectedValue);
                             }
 
-                            if (txtReservationUnregCustomer.Text != "" && cbReservationRegCustomer.SelectedIndex == -1)
+                            if (txtReservationUnregCustomer.Text != "" && cbReservationRegCustomer.SelectedIndex == -1 || txtReservationUnregCustomer.Text != "" && cbReservationRegCustomer.SelectedIndex == -0)
                             {
                                 unregcustomer = txtReservationUnregCustomer.Text;
                             }
@@ -716,6 +716,7 @@ namespace Scheduler_studio
                 int rowcount = DBStudio.UpdateWorker(dtWorkers);
                 MessageBox.Show(rowcount + " riviä muokattu.");
                 RefreshWorkers();
+                RefreshReservations();
             }
             catch (Exception ex)
             {
@@ -759,6 +760,7 @@ namespace Scheduler_studio
 
                     DBStudio.UpdateWorker(dtWorkers);
                     RefreshWorkers();
+                    RefreshReservations();
                 }
             }
             catch (Exception ex)
