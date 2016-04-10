@@ -402,46 +402,6 @@ namespace Scheduler_studio
             }
         }
 
-
-      /*  public static int UpdateReservations(DataTable dtReservations)
-        {
-            try
-            {
-                List<Reservation> reservations = new List<Reservation>();
-                DateTime date;
-                Nullable<int> regcustomer;
-                int tempVal;
-                string unregcustomer;
-                foreach (DataRow row in dtReservations.Rows)
-                {
-                    if (row.RowState == DataRowState.Modified)
-                    {
-                        date = Convert.ToDateTime(row["ReservationDate"].ToString());
-
-                        regcustomer = Int32.TryParse(row["RegCustomer"].ToString(), out tempVal) ? tempVal : (int?)null;
-
-                        if (row["UnregCustomer"].ToString() == "")
-                        {
-                            unregcustomer = null;
-                        }
-                        else
-                        {
-                            unregcustomer = row["UnregCustomer"].ToString();
-                        }
-                        reservations.Add(new Reservation(Convert.ToInt32(row["PKey"].ToString()), Convert.ToInt32(row["Employee"].ToString()), regcustomer, row["Service"].ToString(), unregcustomer, date, row["ReservationTime"].ToString()));
-                    }
-                }
-
-                int count = DBStudio.UpdateReservations(reservations);
-                return count;
-            }
-            catch (Exception ex)
-            {
-
-                throw ex;
-            }
-        }*/
-
         public static int RemoveReservation(int pkey)
         {
             try

@@ -96,7 +96,6 @@ namespace Scheduler_studio
                 {
                     cbReservationRegCustomer.Items.Add(customer);
                 }
-                //cbRegCustomer.ItemsSource = customers;
 
                 dgcReservationRegCustomer.ItemsSource = customers;
 
@@ -678,8 +677,8 @@ namespace Scheduler_studio
                 {
                     dvReservations.RowFilter = null;
                 }
-                else {
-
+                else
+                {
                     DataTable dtCustomers = Scheduler_studio.DBStudio.getCustomerNames();
                     DataTable dtReservations = Scheduler_studio.DBStudio.GetReservations();
                     //dvReservations.RowFilter = null;
@@ -701,12 +700,10 @@ namespace Scheduler_studio
                             Trace.WriteLine("PKeys Count: " + PKeys.Count);
                             //dvReservations.RowFilter = "RegCustomer =" + row[0] + "OR UnregCustomer = " + row[2];
                             //dvReservations.RowFilter = "RegCustomer =" + "'" + row[0] + "'"; 
-
                         }
                     }
                     for (int iterator = 0; iterator < PKeys.Count; iterator++)
                     {
-
                         dvReservations.RowFilter.Insert(iterator, "RegCustomer =" + "'" + PKeys[iterator] + "'");
                         Trace.WriteLine("RowFilterin indeksissä[" + iterator + "] on = " + dvReservations.RowFilter[iterator] + ". RowFilterin koko = " + dvReservations.RowFilter.Length + ". Iteraattori: " + iterator + ". PKeys Count: " + PKeys.Count + ". Pkeys[Iterator] = " + PKeys[iterator]);
                     }
@@ -714,7 +711,7 @@ namespace Scheduler_studio
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -758,7 +755,6 @@ namespace Scheduler_studio
         {
             try
             {
-                //int rowcount = DBStudio.UpdateWorker(dtWorkers);
                 int rowcount = Studio.UpdateWorkers(dtWorkers);
 
                 if (rowcount == -101)
