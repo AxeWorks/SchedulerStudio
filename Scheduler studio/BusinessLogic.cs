@@ -13,6 +13,7 @@ using System.Text.RegularExpressions;
 
 namespace Scheduler_studio
 {    
+    //Janne
     public class Worker
     {
         #region PROPERTIES
@@ -92,7 +93,7 @@ namespace Scheduler_studio
         }
         #endregion
     }
-
+    //Janne
     public class Note
     {
         #region PROPERTIES
@@ -138,7 +139,7 @@ namespace Scheduler_studio
         }
         #endregion
     }
-
+    //Janne
     public class Reservation
     {
         #region PROPERTIES
@@ -226,7 +227,7 @@ namespace Scheduler_studio
 
         #endregion
     }
-
+    //Janne
     public class Customer
     {
         #region PROPERTIES
@@ -326,6 +327,7 @@ namespace Scheduler_studio
     static class Studio
     {
         #region RESERVATION
+        //Janne
         public static DataTable GetReservations()
         {
             try
@@ -340,7 +342,7 @@ namespace Scheduler_studio
                 throw ex;
             }
         }
-
+        //Janne
         public static int SaveReservation(Reservation reservation)
         {
             int rowcount;
@@ -348,7 +350,7 @@ namespace Scheduler_studio
 
             return rowcount;
         }
-
+        //Janne
         public static int UpdateReservations(DataTable dtReservations)
         {
             try
@@ -401,7 +403,7 @@ namespace Scheduler_studio
                 throw ex;
             }
         }
-
+        //Janne
         public static int RemoveReservation(int pkey)
         {
             try
@@ -417,7 +419,7 @@ namespace Scheduler_studio
         }
         #endregion
         #region WORKER
-
+        //Janne
         public static DataTable GetWorkersTable()
         {
             try
@@ -431,7 +433,7 @@ namespace Scheduler_studio
                 throw ex;
             }
         }
-
+        //Janne
         public static List<Worker> GetWorkersList(DataTable dt)
         {
             try
@@ -452,7 +454,7 @@ namespace Scheduler_studio
                 throw ex;
             }
         }
-
+        //Janne
         public static int UpdateWorkers(DataTable dtWorkers)
         {
             try
@@ -500,7 +502,7 @@ namespace Scheduler_studio
 
         #endregion
         #region NOTE
-
+        //Janne
         public static void SaveNote(Note note)
         {
             try
@@ -512,7 +514,7 @@ namespace Scheduler_studio
                 throw ex;
             }
         }
-
+        //Janne
         public static void DeleteNote(Note note)
         {
             try
@@ -524,7 +526,7 @@ namespace Scheduler_studio
                 throw ex;
             }
         }
-
+        //Janne
         public static List<Note> GetNotesList()
         {
             try
@@ -548,6 +550,7 @@ namespace Scheduler_studio
 
         #endregion
         #region CUSTOMER
+        //Aleksi
         public static List<Customer> GetCustomersList()
         {
             try
@@ -578,6 +581,7 @@ namespace Scheduler_studio
                 throw ex;
             }
         }
+        //Aleksi
         public static DataTable GetCustomersTable()
         {
             try
@@ -594,28 +598,27 @@ namespace Scheduler_studio
 
 
         #endregion
-
+        //Janne
         public static bool IsValidTime(string time)
         {
             Regex check = new Regex(@"^(?:0?[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$");
 
             return check.IsMatch(time);
         }
-
+        //Janne
         public static bool IsValidPhone(string phone)
         {
             Regex check = new Regex(@"^(\+([0-9]{3})?|^[0-9])([0-9]{2})(\\s)?(([0-9]{3})(\\s)?){2}([0-9])$");
 
             return check.IsMatch(phone);
         }
-
+        //Janne
         public static bool IsValidDate(string date)
         {
             Regex check = new Regex(@"^([0-3]?[0-9].[0-3]?[0-9].[0-9]{4})$");
 
             return check.IsMatch(date);
         }
-
-
+        
     }
 }

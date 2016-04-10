@@ -67,6 +67,7 @@ namespace Scheduler_studio
             }
         }
 
+        //Janne
         private void RefreshReservations()
         {
             try
@@ -81,7 +82,7 @@ namespace Scheduler_studio
                 MessageBox.Show(ex.Message);
             }
         }
-
+        //Aleksi
         private void RefreshCustomers()
         {
             try
@@ -108,7 +109,7 @@ namespace Scheduler_studio
                 MessageBox.Show(ex.Message);
             }
         }
-
+        //Janne
         private void RefreshWorkers()
         {
             try
@@ -141,10 +142,10 @@ namespace Scheduler_studio
             }
         }
 
- 
+
 
         #region PANELS
-
+        //Janne
         private void btnOpenReservationAddingSP_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -157,7 +158,7 @@ namespace Scheduler_studio
                 MessageBox.Show(ex.Message);
             }
         }
-
+        //Janne
         private void btnStaff_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -169,7 +170,7 @@ namespace Scheduler_studio
                 MessageBox.Show(ex.Message);
             }            
         }        
-
+         //Janne
         private void btnNotes_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -181,7 +182,7 @@ namespace Scheduler_studio
                 MessageBox.Show(ex.Message);
             }
         }
-
+        //Janne
         private void btnReservations_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -194,7 +195,7 @@ namespace Scheduler_studio
                 MessageBox.Show(ex.Message);
             }
         }
-
+        //Janne
         private void btnCustomers_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -206,7 +207,7 @@ namespace Scheduler_studio
                 MessageBox.Show(ex.Message);
             }
         }
-
+        //Janne
         private void btnShowWorkerSavePanel_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -220,7 +221,7 @@ namespace Scheduler_studio
                 MessageBox.Show(ex.Message);
             }
         }
-
+        //Aleksi
         private void btnCShowSavePanel_Click(object sender, RoutedEventArgs e)
         { //asiakkaan tallennuspaneelin näyttäminen
             try
@@ -233,7 +234,7 @@ namespace Scheduler_studio
                 MessageBox.Show(ex.Message);
             }
         }
-
+        //Janne
         private void SetVisibile(string panel)
         {
             try
@@ -290,6 +291,7 @@ namespace Scheduler_studio
 
         #endregion
         #region CUSTOMER
+        //Aleksi
         private void btnSaveCustomer_Click(object sender, RoutedEventArgs e)
         {
 
@@ -384,7 +386,7 @@ namespace Scheduler_studio
                 MessageBox.Show(ex.ToString());
             }
         }
-
+        //Aleksi
         private void btnCDeleteCustomer_Click(object sender, RoutedEventArgs e)
         {
             if (dgCustomerList.SelectedIndex == -1)
@@ -402,7 +404,7 @@ namespace Scheduler_studio
                 MessageBox.Show(rows + " asiakas poistettu.");
             }
         }
-
+        //Aleksi
         private void btnSaveCustomerChanges_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -417,7 +419,7 @@ namespace Scheduler_studio
                 MessageBox.Show(ex.ToString());
             }
         }
-
+        //Janne
         private void txtCustomerViewCustomerFilter_TextChanged(object sender, TextChangedEventArgs e)
         {
             try
@@ -439,6 +441,7 @@ namespace Scheduler_studio
         }
         #endregion
         #region NOTE
+        //Janne
         private void btnSaveNote_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -461,7 +464,7 @@ namespace Scheduler_studio
                 MessageBox.Show(ex.Message);
             }
         }
-
+        //Janne
         private void DeleteNote(object sender, RoutedEventArgs e)
         {
             try
@@ -474,7 +477,7 @@ namespace Scheduler_studio
                 MessageBox.Show(ex.Message);
             }
         }
-
+        //Janne
         private void AppendMessage(Note note)
         {
             try
@@ -531,6 +534,7 @@ namespace Scheduler_studio
         }
         #endregion
         #region RESERVATION
+        //Janne
         private void btnSaveReservation_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -585,7 +589,7 @@ namespace Scheduler_studio
                 MessageBox.Show(ex.Message);
             }
         }
-
+        //Janne
         private void btnUpdateReservations_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -624,7 +628,7 @@ namespace Scheduler_studio
                 MessageBox.Show(ex.Message);
             }
         }
-
+        //Janne
         private void btnDeleteReservation_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -648,7 +652,7 @@ namespace Scheduler_studio
                 MessageBox.Show(ex.Message);
             }
         }
-
+        //Aleksi
         private void cbWorkerFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
@@ -668,7 +672,7 @@ namespace Scheduler_studio
                 MessageBox.Show(ex.Message);
             }
         }
-
+        //Aleksi
         private void cbCustomerFilter_TextChanged(object sender, TextChangedEventArgs e)
         {
             try
@@ -714,7 +718,7 @@ namespace Scheduler_studio
                 MessageBox.Show(ex.Message);
             }
         }
-
+        //Aleksi
         private void dpDateFilter_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
 
@@ -725,7 +729,7 @@ namespace Scheduler_studio
         }
         #endregion
         #region WORKER
-
+        //Janne
         private void btnRemoveWorker_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -750,7 +754,7 @@ namespace Scheduler_studio
                 MessageBox.Show(ex.Message);
             }
         }
-
+        //Janne
         private void btnSaveWorkerChanges_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -795,7 +799,7 @@ namespace Scheduler_studio
                 MessageBox.Show(ex.Message);
             }
         }
-
+        //Janne
         private void btnSaveWorker_Click(object sender, RoutedEventArgs e)
         {
             try
