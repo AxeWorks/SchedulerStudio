@@ -242,6 +242,11 @@ namespace Scheduler_studio
             get { return fname + " " + lname; }
         }
 
+        public string Identifier
+        {
+            get { return fname + " " + lname + " " + phone; }
+        }
+
         private string fname;
 
         public string Fname

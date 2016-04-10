@@ -74,8 +74,7 @@ namespace Scheduler_studio
                 dtReservations = Studio.GetReservations();
                 dvReservations = dtReservations.DefaultView;
                 dgReservations.DataContext = null;
-                dgReservations.DataContext = dvReservations;
-                
+                dgReservations.DataContext = dvReservations;                
             }
             catch (Exception ex)
             {
@@ -136,7 +135,6 @@ namespace Scheduler_studio
                 cbNotesEmployeeSelector.ItemsSource = workers;
                 cbReservationEmployee.ItemsSource = workers;
                 dgcReservationRegEmployee.ItemsSource = workers;
-                RefreshReservations();
             }
             catch (Exception ex)
             {
@@ -379,6 +377,7 @@ namespace Scheduler_studio
                     DBStudio.UpdateCustomer(dtCustomers);
                     btnCShowSavePanel.IsEnabled = true;
                     RefreshCustomers();
+                    RefreshReservations();
                 }
             }
             catch (Exception ex)
@@ -412,10 +411,31 @@ namespace Scheduler_studio
                 int rowcount = DBStudio.UpdateCustomer(dtCustomers);
                 MessageBox.Show(rowcount + " riviä muokattu.");
                 RefreshCustomers();
+                RefreshReservations();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void txtCustomerViewCustomerFilter_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                if (txtCustomerViewCustomerFilter.Text == "")
+                {
+                    dvCustomers.RowFilter = null;
+                }
+                else
+                {
+                    dvCustomers.RowFilter = "Fname like '%" + txtCustomerViewCustomerFilter.Text + "%'" + " OR Lname like '%" + txtCustomerViewCustomerFilter.Text + "%'";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
         #endregion
@@ -772,6 +792,7 @@ namespace Scheduler_studio
                 }
 
                 RefreshWorkers();
+                RefreshReservations();
             }
             catch (Exception ex)
             {
@@ -815,6 +836,7 @@ namespace Scheduler_studio
 
                     DBStudio.UpdateWorker(dtWorkers);
                     RefreshWorkers();
+                    RefreshReservations();
                 }
             }
             catch (Exception ex)
@@ -825,24 +847,6 @@ namespace Scheduler_studio
 
         #endregion
 
-        private void txtCustomerViewCustomerFilter_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            try
-            {
-                if(txtCustomerViewCustomerFilter.Text == "")
-                {
-                    dvCustomers.RowFilter = null;
-                }
-                else
-                {
-                    dvCustomers.RowFilter = "Fname like '%" + txtCustomerViewCustomerFilter.Text + "%'" + " OR Lname like '%"+txtCustomerViewCustomerFilter.Text+"%'";
-                }
 
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
     }
 }

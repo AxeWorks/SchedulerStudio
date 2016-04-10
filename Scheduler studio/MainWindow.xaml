@@ -105,12 +105,12 @@
             </StackPanel>
             <StackPanel x:Name="spReservationView" Visibility="Visible" Height="525" Orientation="Vertical">
                 <StackPanel Orientation="Horizontal" Margin="5,5,5,5" HorizontalAlignment="Center">
-                    <TextBlock  Margin="15,5,5,5" Text=" Hae työntekijää:"/>
+                    <TextBlock  Margin="15,5,5,5" Text=" Hae työntekijällä:"/>
                     <ComboBox x:Name="cbWorkerFilter" DisplayMemberPath="FullName" SelectedValuePath="PKey"  Width="120" SelectionChanged="cbWorkerFilter_SelectionChanged"/>
-                    <TextBlock  Margin="15,5,5,5" Text="Hae asiakasta:"/>
+                    <TextBlock  Margin="15,5,5,5" Text="Hae asiakkaalla:"/>
                     <TextBox x:Name="txtCustomerFilter"  Width="155"/>
                     <TextBlock  Margin="15,5,5,5" Text="Hae päivästä eteenpäin:"/>
-                    <DatePicker x:Name="dpDateFilter"  SelectedDateChanged="dpDateFilter_SelectedDateChanged" Width="110"/>
+                    <DatePicker x:Name="dpDateFilter" SelectedDateChanged="dpDateFilter_SelectedDateChanged" Width="110"/>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" Height="361">
                     <DataGrid x:Name="dgReservations" Background="White" ColumnWidth="100" ItemsSource="{Binding}" ScrollViewer.VerticalScrollBarVisibility="Auto" CanUserAddRows="False" Height="350" AutoGenerateColumns="False">
@@ -127,7 +127,7 @@
                 <StackPanel Orientation="Vertical" Height="109">
                     <StackPanel Margin="5,5,5,5" x:Name="spAddReservation" Visibility="Collapsed" Orientation="Horizontal" Height="27" HorizontalAlignment="Center">
                         <TextBlock Margin="5,5,5,5"  Text="Rekisteröity asiakas:"/>
-                        <ComboBox x:Name="cbReservationRegCustomer" Width="100" DisplayMemberPath="FullName" SelectedValuePath="PKey"/>
+                        <ComboBox x:Name="cbReservationRegCustomer" Width="100" DisplayMemberPath="Identifier" SelectedValuePath="PKey"/>
                         <TextBlock Margin="5,5,5,5"  Text="Rekisteröimätön asiakas:"/>
                         <TextBox x:Name="txtReservationUnregCustomer" Width="100" />
                         <TextBlock Margin="5,5,5,5"  Text="Palvelu:"/>
