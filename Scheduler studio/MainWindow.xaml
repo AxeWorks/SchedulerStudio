@@ -119,6 +119,7 @@
                             <DataGridComboBoxColumn x:Name="dgcReservationRegEmployee" DisplayMemberPath="FullName" SelectedValuePath="PKey" SelectedValueBinding="{Binding Employee}" Header="Työntekijä" Width="200"/>
                             <DataGridComboBoxColumn x:Name="dgcReservationRegCustomer" DisplayMemberPath="FullName" SelectedValuePath="PKey" SelectedValueBinding="{Binding RegCustomer}" Header="Asiakas (reg)" Width="200"/>
                             <DataGridTextColumn Header="Asiakas (unreg)" Binding="{Binding UnregCustomer}" Width="200"/>
+                            <DataGridTextColumn Header="Asiakkaan etu" Binding="{Binding Privilege}"/>
                             <DataGridTextColumn Header="Aika" Binding="{Binding ReservationTime}" Width="200" />
                             <DataGridTextColumn Header="Pvm" Binding="{Binding ReservationDate}" Width="100"/>
                         </DataGrid.Columns>

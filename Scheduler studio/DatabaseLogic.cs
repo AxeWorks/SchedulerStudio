@@ -97,8 +97,7 @@ namespace Scheduler_studio
                 using (SQLiteConnection conn = new SQLiteConnection(Scheduler_studio.Properties.Settings.Default.ConnectionString))
                 {
                     conn.Open();
-                    // string sqlString = "SELECT r.Service, r.Employee, r.ReservationTime, r.ReservationDate, r.RegCustomer, r.UnregCustomer, r.PKey FROM reservation as r JOIN worker as w ON r.Employee = w.PKey JOIN customer as c ON r.RegCustomer = c.PKey";
-                    string sqlString = "SELECT * FROM reservation";
+                    string sqlString = "SELECT reservation.*, customer.Privilege FROM reservation LEFT OUTER JOIN customer ON customer.PKey = reservation.RegCustomer";
 
                     SQLiteDataAdapter da = new SQLiteDataAdapter(sqlString, conn);
 
