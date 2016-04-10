@@ -154,56 +154,6 @@ namespace Scheduler_studio
                 throw ex;
             }
         }
-        //Janne 
-        /*
-        public static int UpdateReservations(List<Reservation> reservations)
-        {
-            try
-            {
-                int count = 0;
-                using (SQLiteConnection conn = new SQLiteConnection(Scheduler_studio.Properties.Settings.Default.ConnectionString))
-                {
-                    conn.Open();
-                    string sqlString;
-                    SQLiteCommand command;
-                    SQLiteParameter param;
-                    foreach (Reservation reservation in reservations)
-                    {
-                        sqlString = string.Format("UPDATE reservation SET Service = @Service, UnregCustomer = @UnregCustomer, ReservationTime = @ReservationTime, ReservationDate = @ReservationDate, RegCustomer = @RegCustomer, Employee = {0} WHERE PKey = {1}", reservation.Employee, reservation.PKey);
-                        command = new SQLiteCommand(sqlString, conn);
-
-                        param = new SQLiteParameter("@Service", DbType.String, 100, "Service");
-                        param.Value = reservation.Service;
-                        command.Parameters.Add(param);
-
-                        param = new SQLiteParameter("@UnregCustomer", DbType.String, 50, "UnregCustomer");
-                        param.Value = reservation.UnregCustomer;
-                        command.Parameters.Add(param);
-
-                        param = new SQLiteParameter("@RegCustomer", DbType.Int32, "RegCustomer");
-                        param.Value = reservation.RegCustomer;
-                        command.Parameters.Add(param);
-
-                        param = new SQLiteParameter("@ReservationTime", DbType.String, 10, "ReservationTime");
-                        param.Value = reservation.Time;
-                        command.Parameters.Add(param);
-
-                        param = new SQLiteParameter("@ReservationDate", DbType.String, 10, "ReservationDate");
-                        param.Value = reservation.Date;
-                        command.Parameters.Add(param);
-
-                        count += command.ExecuteNonQuery();
-                    }
-                    conn.Close();
-                }
-                return count;
-
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }*/
         //Janne
         public static int DeleteReservation(int pkey)
         {

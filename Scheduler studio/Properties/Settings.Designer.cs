@@ -26,7 +26,7 @@ namespace Scheduler_studio.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data source=../../sqlite/mydb;foreign keys=true;")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data source=Database/mydb;foreign keys=true;")]
         public string ConnectionString {
             get {
                 return ((string)(this["ConnectionString"]));
