@@ -88,6 +88,9 @@ namespace Scheduler_studio
             }
         }
         //Aleksi
+        //kutsuu tietokantakerrosta ja päivittää datatablen. Päivitetyn datatablen DefaultView kiinnitetään customers datagridiinm
+        //eli tehdään customers näkymän datagridin päivitys kannan kautta.
+        //ohimennen päivittää myös reservation-näkymän datacolumnin.
         private void RefreshCustomers()
         {
             try
@@ -241,8 +244,9 @@ namespace Scheduler_studio
             }
         }
         //Aleksi
+        //asiakkaan tallennuspaneelin näyttäminen
         private void btnCShowSavePanel_Click(object sender, RoutedEventArgs e)
-        { //asiakkaan tallennuspaneelin näyttäminen
+        { 
             try
             {
                 spAddCustomer.Visibility = Visibility.Visible;
@@ -254,6 +258,7 @@ namespace Scheduler_studio
             }
         }
         //Janne
+        //muokkaukset by Aleksi
         // asettaa yhden paneelin näkyväksi saadun parametrin perusteella ja disabloi/enabloi nappeja joita käyttäjä voi painaa
         private void SetVisibile(string panel)
         {
@@ -314,6 +319,9 @@ namespace Scheduler_studio
         #endregion
         #region CUSTOMER
         //Aleksi
+        //tehdään asiakkaan tallennus tietokantaan, ensin tarkistaen syötteet(pituus, tyhjyys, tyyppi)
+        //parsitaan päiväformaatti datepicker-elementistä tietokannalle sopivaksi
+        //tehdään tallennnus kantaan, tyhjätään kentät, virkistetään näkymät
         private void btnSaveCustomer_Click(object sender, RoutedEventArgs e)
         {
 
@@ -409,6 +417,7 @@ namespace Scheduler_studio
             }
         }
         //Aleksi
+        //Asiakkaan poisto. Tarkistetaan onko asiakas valittu, jos ei, promptataan. Kysytään varmennus, kutsutaan tietokantakerrosta poistolla ja kutsutaan datagridien virkistystä.
         private void btnCDeleteCustomer_Click(object sender, RoutedEventArgs e)
         {
             if (dgCustomerList.SelectedIndex == -1)
@@ -427,6 +436,7 @@ namespace Scheduler_studio
             }
         }
         //Aleksi
+        //kutsutaan updateCustomer funktiota ja virkistetään customers ja reservations näkymät
         private void btnSaveCustomerChanges_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -699,6 +709,7 @@ namespace Scheduler_studio
             }
         }
         //Aleksi
+        //filtteröinti reservations näkymässä asiakkaan perusteella
         private void cbWorkerFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
@@ -719,6 +730,13 @@ namespace Scheduler_studio
             }
         }
         //Aleksi
+        //filtteröinti reservations näkymässä asiakkaan nimen perusteella
+        //rikki toistaiseksi
+        //hakee hakuriville kirjoitettua stringiä registered customer sarakkeesta, fname ja lname kentistä
+        //haku tehtävä mutkien kautta tietokannasta, koska käyttöliittymässä asiakkaat ovat combobokseissa datagridissä, joissa niiden value arvot ovat nimiin kuuluvia primary key arvoja
+        //kaikkien nimien, joihin alusta luettuna sisältyy hakuriville kirjoitettu teksti, primary key laitetaan listaan.
+        //tästä listasta on tarkoitus tehdä dynaaminen RowFilter, joka näyttäisi datagridissä vain ne rivit joiden primarykey on listassa, eli ne nimet joissa on kirjoitettu string
+        //Ongelma on siinä, etten keksinyt miten saisi aikaiseksi RowFilterin jossa on X määrää ehtoja. 
         private void cbCustomerFilter_TextChanged(object sender, TextChangedEventArgs e)
         {
             try
@@ -765,6 +783,7 @@ namespace Scheduler_studio
             }
         }
         //Aleksi
+        //Reservations näkymän lajittelu valitun päivän mukaan datepicker elemenenttiä hyväksi käyttäen
         private void dpDateFilter_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
 

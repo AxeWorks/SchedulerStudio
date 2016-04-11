@@ -265,6 +265,7 @@ namespace Scheduler_studio
         #endregion
         #region CUSTOMER
         //Aleksi
+        //Hakee kannasta kaikki asiakkaat ja täyttää datatablen, jonka se palauttaa kutsujalle
         public static DataTable GetCustomers()
         {
             try
@@ -287,6 +288,7 @@ namespace Scheduler_studio
             }
         }
         // Aleksi
+        //Hakee tietokannasta vain asiakkaiden PKeyn, etunimen ja sukunimen filtteröintiä varten UI-kerroksessa
         public static DataTable getCustomerNames()
         {
 
@@ -311,6 +313,8 @@ namespace Scheduler_studio
         }
 
         //Aleksi
+        //Funktio joka hallinnoi asiakkaan insertit, updatet ja deletet kaikki kerralla, perustuen asiakasnäkymän datagridiin sidotun datatablen datarowien tilaan
+        //tila voi olla muokattu, poistettu tai lisätty
         public static int UpdateCustomer(DataTable dt)
         {
             try
@@ -457,7 +461,7 @@ namespace Scheduler_studio
         }
 
         #endregion
-
+        //Aleksi
         #region pois_jätetty_modulaarinen_SQL-funktio
         /*        
         Käyttö ja poisjättämisen syy dokumentaatiossa. Lyhyesti: Piti olla modulaarinen tapa hoitaa update, insert ja delete yhdessä funktiossa, riippumatta muokattavata taulusta tai kutsuvasta kohteesta. 

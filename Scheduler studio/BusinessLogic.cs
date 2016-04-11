@@ -564,6 +564,8 @@ namespace Scheduler_studio
         #endregion
         #region CUSTOMER
         //Aleksi
+        //Alustaa uuden listan, kutsuu tietokantakerroksesta asiakkaiden hakua. Täyttää listan asiakkaiden tiedoilla datatablesta.
+        //Palauttaa täytetyn listan kutsujalle.
         public static List<Customer> GetCustomersList()
         {
             try
@@ -595,6 +597,8 @@ namespace Scheduler_studio
             }
         }
         //Aleksi
+        //Linkkifunktio käyttöliittymäkerroksen ja tietokantakerroksen välillä
+        //ainoa toiminto välittää SQL kutsu Business-logiikan läpi
         public static DataTable GetCustomersTable()
         {
             try
