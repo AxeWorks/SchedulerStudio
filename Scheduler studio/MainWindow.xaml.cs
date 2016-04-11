@@ -42,6 +42,7 @@ namespace Scheduler_studio
             InitMyStuff();        
         }
 
+        // Huolehditaan alustuksista ja tietojen näyttämisestä käynnistyksen yhteydessä
         private void InitMyStuff()
         {
             try
@@ -68,12 +69,16 @@ namespace Scheduler_studio
         }
 
         //Janne
+        //Päivitetään varaukset ruudulle kannasta
         private void RefreshReservations()
         {
             try
             {
+                //Haetaan datatable
                 dtReservations = Studio.GetReservations();
+                // asetetaan datatablen perusnäkymä dataviewiin
                 dvReservations = dtReservations.DefaultView;
+                //varmistetaan että datagridissä ei ole kontekstia ja asetetaan sitten dataview siihen
                 dgReservations.DataContext = null;
                 dgReservations.DataContext = dvReservations;                
             }
@@ -110,14 +115,20 @@ namespace Scheduler_studio
             }
         }
         //Janne
+        // Päivitetään ruudulle työntekijöiden tiedot kannasta
         private void RefreshWorkers()
         {
             try
             {
+                // haetaan datatable
                 dtWorkers = Studio.GetWorkersTable();
+                // asetetaan datatablen defaultview dataviewiin
                 dvWorkers = dtWorkers.DefaultView;
+                //varmistetaan ettei datagridillä ole ennestään datakontekstia ja asetetaan siihen uusi dataview
+                dgWorkerList.DataContext = null;
                 dgWorkerList.DataContext = dvWorkers;
 
+                // tyhjennetään comboboksit
                 cbNotesEmployeeSelector.ItemsSource = null;
                 cbWorkerFilter.ItemsSource = null;
                 cbReservationEmployee.ItemsSource = null;
@@ -125,9 +136,12 @@ namespace Scheduler_studio
                 cbWorkerFilter.Items.Clear();
                 cbReservationEmployee.Items.Clear();
                 workers.Clear();
+                // haetaan uusin lista työntekijöitä
                 workers = Studio.GetWorkersList(dtWorkers);
+                //Asetetaan työntekijät combobokseihin
 
-                cbWorkerFilter.Items.Add(new Worker());
+                // täytyy jättää yksi tyhjä valintamahdollisuus filtteriin joten lisätään tyhjä olio ensimmäiseksi
+                cbWorkerFilter.Items.Add(new Worker());                
                 foreach (Worker worker in workers)
                 {
                     cbWorkerFilter.Items.Add(worker);
@@ -146,6 +160,7 @@ namespace Scheduler_studio
 
         #region PANELS
         //Janne
+        // Avaa paneelin varauksen lisäämistä varten
         private void btnOpenReservationAddingSP_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -159,6 +174,7 @@ namespace Scheduler_studio
             }
         }
         //Janne
+        // Asettaa työntekijänäkymän
         private void btnStaff_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -169,8 +185,9 @@ namespace Scheduler_studio
             {
                 MessageBox.Show(ex.Message);
             }            
-        }        
-         //Janne
+        }
+        //Janne
+        // Asettaa muistionäkymän
         private void btnNotes_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -183,6 +200,7 @@ namespace Scheduler_studio
             }
         }
         //Janne
+        // Asettaa varausnäkymän
         private void btnReservations_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -196,6 +214,7 @@ namespace Scheduler_studio
             }
         }
         //Janne
+        // Asettaa asiakasnäkymän
         private void btnCustomers_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -208,11 +227,11 @@ namespace Scheduler_studio
             }
         }
         //Janne
+        // Asettaa työntekijänäkymän päälimmäiseksi
         private void btnShowWorkerSavePanel_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-
                 spAddWorker.Visibility = Visibility.Visible;
                 btnShowWorkerSavePanel.IsEnabled = false;
             }
@@ -235,6 +254,7 @@ namespace Scheduler_studio
             }
         }
         //Janne
+        // asettaa yhden paneelin näkyväksi saadun parametrin perusteella ja disabloi/enabloi nappeja joita käyttäjä voi painaa
         private void SetVisibile(string panel)
         {
             try
@@ -280,6 +300,8 @@ namespace Scheduler_studio
                         btnReservations.IsEnabled = true;
                         btnNotes.IsEnabled = true;
                         btnCustomers.IsEnabled = false;
+                        break;
+                    default:
                         break;
                 }
             }
@@ -420,6 +442,7 @@ namespace Scheduler_studio
             }
         }
         //Janne
+        // Filtteroi asiakasnäkymässä asiakkaita annetun nimen perusteella.
         private void txtCustomerViewCustomerFilter_TextChanged(object sender, TextChangedEventArgs e)
         {
             try
@@ -442,6 +465,7 @@ namespace Scheduler_studio
         #endregion
         #region NOTE
         //Janne
+        //Tutkii onko kaikki tarpeelliset tiedot syötetty; jos on niin tallentaa muistion kantaan ja asettaa sen näkyväksi ruudulle
         private void btnSaveNote_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -454,7 +478,9 @@ namespace Scheduler_studio
                 {
                     Note note = new Note(txtNote.Text, cbNotesEmployeeSelector.Text, Convert.ToInt32(cbNotesEmployeeSelector.SelectedValue));
                     notes.Add(note);
+                    // tallentaa muistion kantaan
                     Studio.SaveNote(note);
+                    // asettaa muistion ruudulle
                     AppendMessage(note);
                 }
 
@@ -465,6 +491,7 @@ namespace Scheduler_studio
             }
         }
         //Janne
+        // poistaa muistion kannasta ja asettaa ruudulla olevan muistion näkymättömäksi
         private void DeleteNote(object sender, RoutedEventArgs e)
         {
             try
@@ -478,10 +505,12 @@ namespace Scheduler_studio
             }
         }
         //Janne
+        //Asettaa saamansa muistion näkyviin ruudulle
         private void AppendMessage(Note note)
         {
             try
             {
+                //luodaan tarvittavat WPF-elementit
                 TextBlock txtWorker = new TextBlock();
                 TextBlock txtNote = new TextBlock();
                 ScrollViewer scrollview = new ScrollViewer();
@@ -491,6 +520,7 @@ namespace Scheduler_studio
                 Button btnDelNote = new Button();
                 Border border = new Border();
 
+                // asetetaan parametrejä WPF-elementeille
                 btnDelNote.Background = Brushes.WhiteSmoke;
                 txtNote.Width = 370;
                 spContainer.Width = 470;
@@ -501,24 +531,29 @@ namespace Scheduler_studio
                 txtNote.TextWrapping = TextWrapping.Wrap;
                 spContainer.Orientation = Orientation.Horizontal;
                 spHeader.Orientation = Orientation.Vertical;
+                txtWorker.Width = 100;
+                txtWorker.TextWrapping = TextWrapping.Wrap;
 
                 btnDelNote.Content = "Delete";
+                //asetetaan nappiin onclick funktio
                 btnDelNote.Click += DeleteNote;
+
+                //asetetaan paksuuksia ja värejä
                 spHeader.Margin = new Thickness(5, 5, 5, 5);
                 border.BorderBrush = Brushes.Black;
                 border.BorderThickness = new Thickness(1, 1, 1, 1);
                 border.Background = Brushes.LightYellow;
                 border.CornerRadius = new CornerRadius(5);
                 border.Margin = new Thickness(2, 2, 2, 2);
+                txtNote.Padding = new Thickness(2, 2, 2, 2);
 
+                // asetetaan sisällöt
                 txtWorker.Text = "Kirjoittaja:\n" + note.NoteAuthor;
-                txtWorker.Width = 100;
-                txtWorker.TextWrapping = TextWrapping.Wrap;
                 txtNote.Text = note.Message;
 
+                // asetetaan elementit sisäkkäin
                 spContainer.DataContext = note;
-                scrollview.Content = txtNote;
-                txtNote.Padding = new Thickness(2, 2, 2, 2);
+                scrollview.Content = txtNote;                
                 spMessage.Children.Add(scrollview);
                 spHeader.Children.Add(txtWorker);
                 spHeader.Children.Add(btnDelNote);
@@ -535,20 +570,23 @@ namespace Scheduler_studio
         #endregion
         #region RESERVATION
         //Janne
+        // Tutkitaan onko syötteet ok ja suoritetaan tallennus jos on. Jos ei, annetaan virheilmoitus.
         private void btnSaveReservation_Click(object sender, RoutedEventArgs e)
         {
             try
             {
+                // onko kentät täytetty
                 if (txtReservationUnregCustomer.Text == "" && cbReservationRegCustomer.SelectedIndex == -1 || txtReservationUnregCustomer.Text == "" && cbReservationRegCustomer.SelectedIndex == 0 || cbReservationEmployee.SelectedIndex == -1 || txtReservationService.Text == "" || txtReservationTime.Text == "" || !dpReservationDate.SelectedDate.HasValue)
                 {
-
                     MessageBox.Show("Tarpeellisia tietoja jätetty pois!");
                 }
 
                 else
                 {
+                    // onko aika oikeassa formaatissa
                     if (Studio.IsValidTime(txtReservationTime.Text))
                     {
+                        // varmistetaan halutaanko varaus näillä tiedoilla lisätä
                         if (MessageBox.Show("Haluatko varmasti lisätä tämän varauksen?\n" + "Palvelu: " + txtReservationService.Text + "\n" + "Rekisteröity käyttäjä: " + cbReservationRegCustomer.Text + "\n" + "Rekisteröimätön käyttäjä: " + txtReservationUnregCustomer.Text + "\n" + "Pvm: " + dpReservationDate.SelectedDate.Value.Day + "." + dpReservationDate.SelectedDate.Value.Month + "." + dpReservationDate.SelectedDate.Value.Year + "\n" + "Aika: " + txtReservationTime.Text + "\n" + "Työntekijä: " + cbReservationEmployee.Text, "Varmistus", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                         {
                             string unregcustomer = null;
@@ -563,8 +601,9 @@ namespace Scheduler_studio
                             {
                                 unregcustomer = txtReservationUnregCustomer.Text;
                             }                            
-
+                            // luodaan varausolio
                             Reservation reservation = new Reservation(Convert.ToInt32(cbReservationEmployee.SelectedValue), regcustomer, txtReservationService.Text, unregcustomer, dpReservationDate.SelectedDate.Value.Date, txtReservationTime.Text);
+                            // tyhjennetään syötekentät ja suljetaan paneeli
                             txtReservationService.Text = "";
                             cbReservationRegCustomer.SelectedIndex = -1;
                             txtReservationUnregCustomer.Text = "";
@@ -573,7 +612,9 @@ namespace Scheduler_studio
                             spAddReservation.Visibility = Visibility.Collapsed;
                             btnOpenReservationAddingSP.IsEnabled = true;
 
+                            //annetaan varausolio tallennusfunktiolle
                             Studio.SaveReservation(reservation);
+                            //päivitetään tiedot näkymässä
                             RefreshReservations();
                         }
                     }
@@ -594,7 +635,7 @@ namespace Scheduler_studio
         {
             try
             {
-                // int rows = Studio.UpdateReservations(dtReservations);
+                // annetaan datatable funktiolle joka tutkii syötteet ja palauttaa negatiivisen luvun jos syöte ei ole kunnossa. Muuten palautuu muutettujen rivien lukumäärä.
                 int rows = Studio.UpdateReservations(dtReservations);
                 if(rows == -100)
                 {
@@ -616,11 +657,11 @@ namespace Scheduler_studio
                 {
                     MessageBox.Show("Varauksessa virheellinen päivä. Oikea formaatti on pp.kk.vvvv.");
                 }
-
                 else
                 {
                     MessageBox.Show(rows + " riviä päivitetty");
                 }
+                // päivitetään tiedot ruudulla
                 RefreshReservations();
             }
             catch (Exception ex)
@@ -629,21 +670,26 @@ namespace Scheduler_studio
             }
         }
         //Janne
+        //Varmistaa että poistettava tietue on valittu ja kysyy haluaako käyttäjä varmasti poistaa sen ennen kuin kutsuu poistavaa funktiota
         private void btnDeleteReservation_Click(object sender, RoutedEventArgs e)
         {
             try
             {
+                //onko tietue valittu
                 if (dgReservations.SelectedIndex == -1)
                 {
                     MessageBox.Show("Valitse varaus ensin.");
                     return;
                 }
+                // varmistus käyttäjältä
                 if (MessageBox.Show("Haluatko varmasti poistaa valitun varauksen?", "Varmistus", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
+                    
                     int pkey = Convert.ToInt32((dgReservations.SelectedItem as DataRowView)["PKey"].ToString());
-
+                    // poistofunktion kutsu
                     int effectedRows = Studio.RemoveReservation(pkey);
                     MessageBox.Show(effectedRows + " varaus poistettu!");
+                    // tietojen päivitys ruudulla
                     RefreshReservations();
                 }                    
             }
@@ -730,6 +776,7 @@ namespace Scheduler_studio
         #endregion
         #region WORKER
         //Janne
+        //Varmistaa että poistettava tietue on valittu ja kysyy haluaako käyttäjä varmasti poistaa sen ennen kuin kutsuu poistavaa funktiota
         private void btnRemoveWorker_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -741,10 +788,12 @@ namespace Scheduler_studio
                 }
                 if (MessageBox.Show("Haluatko varmasti poistaa valitun työntekijän?", "Varmistus", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
+                    // poistetaan datatablesta
                     dvWorkers.Delete(dgWorkerList.SelectedIndex);
-
+                    // kutsutaan poistavaa funktiota jolle annetaan muokattu datatable
                     int result = DBStudio.UpdateWorker(dtWorkers);
                     MessageBox.Show(result + " työntekijä poistettu.");
+                    // päivittää näkymät
                     RefreshWorkers();
                     RefreshReservations();
                 }
@@ -755,6 +804,7 @@ namespace Scheduler_studio
             }
         }
         //Janne
+        //Kutsuu alemman kerroksen funktiota tallentamaan muutokset kantaan, jolle annetaan käyttäjän muokkaama datatable.
         private void btnSaveWorkerChanges_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -790,7 +840,7 @@ namespace Scheduler_studio
                 {
                     MessageBox.Show(rowcount + " riviä muokattu.");
                 }
-
+                // näkymien päivitys
                 RefreshWorkers();
                 RefreshReservations();
             }
@@ -800,6 +850,7 @@ namespace Scheduler_studio
             }
         }
         //Janne
+        // Tutkii syötteet ja kutsuu alemman kerroksen työntekijäntallennusfunktiota jos syötteet kunnossa.
         private void btnSaveWorker_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -816,8 +867,10 @@ namespace Scheduler_studio
                     return;
                 }
 
+                //varmistus käyttäjältä
                 if (MessageBox.Show("Haluatko varmasti lisätä tämän käyttäjän?\n" + "Nimi: " + txtFname.Text + " " + txtLname.Text + "\n" + "Osoite: " + txtAddress.Text + "\n" + "Puhelinnumero: " + txtPhone.Text + "\n" + "Muu tieto: " + txtOther.Text, "Varmistus", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
+                    // lisätään datarow datatableen ja syötetään siihen uudet tiedot
                     dr = dtWorkers.NewRow();
                     dr["fname"] = txtFname.Text;
                     dr["lname"] = txtLname.Text;
@@ -834,7 +887,9 @@ namespace Scheduler_studio
                     txtPhone.Text = "";
                     txtOther.Text = "";
 
+                    //annetaan datatable päivittävälle funktiolle
                     DBStudio.UpdateWorker(dtWorkers);
+                    //päivitetään näkymät
                     RefreshWorkers();
                     RefreshReservations();
                 }

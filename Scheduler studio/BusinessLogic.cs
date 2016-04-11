@@ -328,6 +328,7 @@ namespace Scheduler_studio
     {
         #region RESERVATION
         //Janne
+        // Hakee reservationista kaiken tiedon
         public static DataTable GetReservations()
         {
             try
@@ -343,6 +344,7 @@ namespace Scheduler_studio
             }
         }
         //Janne
+        // Tallentaa varauksen
         public static int SaveReservation(Reservation reservation)
         {
             int rowcount;
@@ -351,6 +353,7 @@ namespace Scheduler_studio
             return rowcount;
         }
         //Janne
+        //Tutkii onko syöte kunnossa ja päivittää varaukset jos on
         public static int UpdateReservations(DataTable dtReservations)
         {
             try
@@ -394,6 +397,7 @@ namespace Scheduler_studio
                 }
 
                 int count;
+                // jos mikään if ei lauennut, tehdään tallennus
                 count = DBStudio.UpdateReservations(dtReservations);
                 return count;
             }
@@ -404,6 +408,7 @@ namespace Scheduler_studio
             }
         }
         //Janne
+        // poistaa varauksen ja palauttaa poistettujen rivien määrän
         public static int RemoveReservation(int pkey)
         {
             try
@@ -420,6 +425,7 @@ namespace Scheduler_studio
         #endregion
         #region WORKER
         //Janne
+        //Hakee työntekijät datatablena
         public static DataTable GetWorkersTable()
         {
             try
@@ -434,12 +440,14 @@ namespace Scheduler_studio
             }
         }
         //Janne
+        //Hakee työntekijät listana combobokseja varten
         public static List<Worker> GetWorkersList(DataTable dt)
         {
             try
             {
                 List<Worker> workers = new List<Worker>();
 
+                // iteroidaan työntekijät listaan
                 foreach (DataRow row in dt.Rows)
                 {
                     workers.Add(new Worker(Convert.ToInt64(row["PKey"].ToString()), row["Fname"].ToString(), row["Lname"].ToString(), row["Addr"].ToString(), row["Phone"].ToString(), Convert.ToDateTime(row["RegDate"].ToString()), row["Other"].ToString()));
@@ -455,6 +463,7 @@ namespace Scheduler_studio
             }
         }
         //Janne
+        // Tutkii syötteet ja tallentaa muutokset jos syötteet kunnossa
         public static int UpdateWorkers(DataTable dtWorkers)
         {
             try
@@ -492,6 +501,7 @@ namespace Scheduler_studio
                     }
                 }
 
+                // tekee tallennukset ja palauttaa muutettujen rivien määrän
                 return DBStudio.UpdateWorker(dtWorkers);
             }
             catch (Exception ex)
@@ -503,6 +513,7 @@ namespace Scheduler_studio
         #endregion
         #region NOTE
         //Janne
+        // Antaa muistion tiedot eteenpäin tallennettavaksi databasekerrokselle
         public static void SaveNote(Note note)
         {
             try
@@ -515,6 +526,7 @@ namespace Scheduler_studio
             }
         }
         //Janne
+        //Antaa poistettavan muistion tiedot eteenpäin databasekerrokselle
         public static void DeleteNote(Note note)
         {
             try
@@ -527,6 +539,7 @@ namespace Scheduler_studio
             }
         }
         //Janne
+        //Hakee datatablen muistiorivejä, muuttaa sen listaksi ja palauttaa sen
         public static List<Note> GetNotesList()
         {
             try
@@ -599,6 +612,7 @@ namespace Scheduler_studio
 
         #endregion
         //Janne
+        //Tutkii regular expressionilla vastaako merkkijono vaatimuksia
         public static bool IsValidTime(string time)
         {
             Regex check = new Regex(@"^(?:0?[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$");
@@ -606,6 +620,7 @@ namespace Scheduler_studio
             return check.IsMatch(time);
         }
         //Janne
+        //Tutkii regular expressionilla vastaako merkkijono vaatimuksia
         public static bool IsValidPhone(string phone)
         {
             Regex check = new Regex(@"^(\+([0-9]{3})?|^[0-9])([0-9]{2})(\\s)?(([0-9]{3})(\\s)?){2}([0-9])$");
@@ -613,6 +628,7 @@ namespace Scheduler_studio
             return check.IsMatch(phone);
         }
         //Janne
+        //Tutkii regular expressionilla vastaako merkkijono vaatimuksia
         public static bool IsValidDate(string date)
         {
             Regex check = new Regex(@"^([0-3]?[0-9].[0-3]?[0-9].[0-9]{4})$");
