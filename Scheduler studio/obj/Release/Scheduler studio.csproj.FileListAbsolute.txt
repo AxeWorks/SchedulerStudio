@@ -1,1 +1,21 @@
 Z:\Repos\SchedulerStudio\Scheduler studio\bin\Release\Scheduler studio.exe.config
+C:\Users\Prometheus\Documents\GitHub\SchedulerStudio\Scheduler studio\bin\Release\Scheduler studio.exe.config
+C:\Users\Prometheus\Documents\GitHub\SchedulerStudio\Scheduler studio\bin\Release\Scheduler studio.exe.manifest
+C:\Users\Prometheus\Documents\GitHub\SchedulerStudio\Scheduler studio\bin\Release\Scheduler studio.application
+C:\Users\Prometheus\Documents\GitHub\SchedulerStudio\Scheduler studio\bin\Release\Scheduler studio.exe
+C:\Users\Prometheus\Documents\GitHub\SchedulerStudio\Scheduler studio\bin\Release\Scheduler studio.pdb
+C:\Users\Prometheus\Documents\GitHub\SchedulerStudio\Scheduler studio\bin\Release\System.Data.SQLite.dll
+C:\Users\Prometheus\Documents\GitHub\SchedulerStudio\Scheduler studio\bin\Release\System.Data.SQLite.xml
+C:\Users\Prometheus\Documents\GitHub\SchedulerStudio\Scheduler studio\obj\Release\Scheduler studio.csprojResolveAssemblyReference.cache
+C:\Users\Prometheus\Documents\GitHub\SchedulerStudio\Scheduler studio\obj\Release\MainWindow.g.cs
+C:\Users\Prometheus\Documents\GitHub\SchedulerStudio\Scheduler studio\obj\Release\App.g.cs
+C:\Users\Prometheus\Documents\GitHub\SchedulerStudio\Scheduler studio\obj\Release\Scheduler studio_MarkupCompile.cache
+C:\Users\Prometheus\Documents\GitHub\SchedulerStudio\Scheduler studio\obj\Release\Scheduler studio_MarkupCompile.lref
+C:\Users\Prometheus\Documents\GitHub\SchedulerStudio\Scheduler studio\obj\Release\MainWindow.baml
+C:\Users\Prometheus\Documents\GitHub\SchedulerStudio\Scheduler studio\obj\Release\Scheduler studio.g.resources
+C:\Users\Prometheus\Documents\GitHub\SchedulerStudio\Scheduler studio\obj\Release\Scheduler_studio.Properties.Resources.resources
+C:\Users\Prometheus\Documents\GitHub\SchedulerStudio\Scheduler studio\obj\Release\Scheduler studio.csproj.GenerateResource.Cache
+C:\Users\Prometheus\Documents\GitHub\SchedulerStudio\Scheduler studio\obj\Release\Scheduler studio.exe.manifest
+C:\Users\Prometheus\Documents\GitHub\SchedulerStudio\Scheduler studio\obj\Release\Scheduler studio.application
+C:\Users\Prometheus\Documents\GitHub\SchedulerStudio\Scheduler studio\obj\Release\Scheduler studio.exe
+C:\Users\Prometheus\Documents\GitHub\SchedulerStudio\Scheduler studio\obj\Release\Scheduler studio.pdb
