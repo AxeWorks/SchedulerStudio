@@ -17,3 +17,4 @@ C:\Users\Prometheus\Documents\GitHub\SchedulerStudio\Scheduler studio\obj\Debug\
 C:\Users\Prometheus\Documents\GitHub\SchedulerStudio\Scheduler studio\obj\Debug\Scheduler studio.application
 C:\Users\Prometheus\Documents\GitHub\SchedulerStudio\Scheduler studio\obj\Debug\Scheduler studio.exe
 C:\Users\Prometheus\Documents\GitHub\SchedulerStudio\Scheduler studio\obj\Debug\Scheduler studio.pdb
+C:\Users\Prometheus\Documents\GitHub\SchedulerStudio\Scheduler studio\bin\Debug\System.Data.SQLite.dll
