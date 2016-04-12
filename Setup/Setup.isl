@@ -3435,6 +3435,7 @@
 		<row><td>IDS_SHORTCUT_DISPLAY_NAME2</td><td>1033</td><td>LAUNCH~1.EXE|Launch sqldiff.exe</td><td>0</td><td/><td>1243915891</td></row>
 		<row><td>IDS_SHORTCUT_DISPLAY_NAME3</td><td>1033</td><td>LAUNCH~1.EXE|Launch sqlite3.exe</td><td>0</td><td/><td>1243915891</td></row>
 		<row><td>IDS_SHORTCUT_DISPLAY_NAME4</td><td>1033</td><td>LAUNCH~1.EXE|Launch sqlite3_analyzer.exe</td><td>0</td><td/><td>1243915891</td></row>
+		<row><td>IDS_SHORTCUT_DISPLAY_NAME5</td><td>1033</td><td>SchedulerStudio</td><td>0</td><td/><td>1646554709</td></row>
 		<row><td>IDS_SQLBROWSE_INTRO</td><td>1033</td><td>From the list of servers below, select the database server you would like to target.</td><td>0</td><td/><td>1243913203</td></row>
 		<row><td>IDS_SQLBROWSE_INTRO_DB</td><td>1033</td><td>From the list of catalog names below, select the database catalog you would like to target.</td><td>0</td><td/><td>1243913203</td></row>
 		<row><td>IDS_SQLBROWSE_INTRO_TEMPLATE</td><td>1033</td><td>[IS_SQLBROWSE_INTRO]</td><td>0</td><td/><td>1243913203</td></row>
@@ -3727,6 +3728,7 @@
 		<row><td>ID_STRING2</td><td>1033</td><td>http://www.AxeWorks.com</td><td>0</td><td/><td>1378128940</td></row>
 		<row><td>ID_STRING3</td><td>1033</td><td>AxeWorks</td><td>0</td><td/><td>1378128940</td></row>
 		<row><td>ID_STRING4</td><td>1033</td><td>SchedulerStudio</td><td>0</td><td/><td>1243893107</td></row>
+		<row><td>ID_STRING5</td><td>1033</td><td>Launch |Built</td><td>0</td><td/><td>1646534229</td></row>
 		<row><td>IIDS_UITEXT_FeatureUninstalled</td><td>1033</td><td>This feature will remain uninstalled.</td><td>0</td><td/><td>1243913203</td></row>
 	</table>
 
@@ -3976,7 +3978,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>ISTheme</td><td>InstallShield Blue.theme</td></row>
 		<row><td>ISUSLock</td><td>{6207C333-5D2B-480D-BE37-DAF358F8044E}</td></row>
 		<row><td>ISUSSignature</td><td>{1DD4EC8D-CE14-4A3F-82CC-E50B10008D3E}</td></row>
-		<row><td>ISVisitedViews</td><td>viewAssistant,viewProject,viewISToday,viewAppFiles,viewObjects,viewRelease</td></row>
+		<row><td>ISVisitedViews</td><td>viewAssistant,viewProject,viewISToday,viewAppFiles,viewObjects,viewRelease,viewShortcuts</td></row>
 		<row><td>Limited</td><td>1</td></row>
 		<row><td>LockPermissionMode</td><td>1</td></row>
 		<row><td>MsiExecCmdLineOptions</td><td/></row>
